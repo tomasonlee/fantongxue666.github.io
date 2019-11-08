@@ -6,20 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>访问量统计 | 樊同学的博客</title>
+  <title>Tag: springcloud | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个项目中所有的资源被访问都要对访问量进行累加！创建一个int类型的变量，用来保存访问量，然后把它保存到ServletContext的域中，这样可以保存所有的Servlet都可以访问到！最初时，ServletContext中没有保存访问量相关的属性；当本站第一次被访问时，创建一个变量，设置值为1，保存到ServletContext中；当以后的访问时，就可以从ServletContext中获取这个变">
-<meta name="keywords" content="访问量统计">
-<meta property="og:type" content="article">
-<meta property="og:title" content="访问量统计">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1&#x2F;index.html">
+  <meta name="description" content="每天进步一点点！">
+<meta property="og:type" content="website">
+<meta property="og:title" content="樊同学的博客">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;tags&#x2F;springcloud&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="一个项目中所有的资源被访问都要对访问量进行累加！创建一个int类型的变量，用来保存访问量，然后把它保存到ServletContext的域中，这样可以保存所有的Servlet都可以访问到！最初时，ServletContext中没有保存访问量相关的属性；当本站第一次被访问时，创建一个变量，设置值为1，保存到ServletContext中；当以后的访问时，就可以从ServletContext中获取这个变">
+<meta property="og:description" content="每天进步一点点！">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190617110701517.png">
-<meta property="og:updated_time" content="2019-11-08T09:01:00.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190617110701517.png">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
   
@@ -155,179 +151,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-访问量统计" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      访问量统计
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/11/08/%E6%B7%B1%E5%85%A5SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="archive-article-date">
+  	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/11/08/%E6%B7%B1%E5%85%A5SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1/">深入springCloud微服务</a>
     </h1>
   
 
-        
-        <a href="/2019/11/08/%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2019-11-08T09:00:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一个项目中所有的资源被访问都要对访问量进行累加！<br>创建一个<code>int</code>类型的变量，用来保存访问量，然后把它保存到<code>ServletContext</code>的域中，这样可以保存所有的<code>Servlet</code>都可以访问到！<br>最初时，<code>ServletContext</code>中没有保存访问量相关的属性；<br>当本站第一次被访问时，创建一个变量，设置值为1，保存到<code>ServletContext</code>中；<br>当以后的访问时，就可以从ServletContext中获取这个变量，然后在基础之上加1.</p>
-<p>获取<code>ServletContext</code>对象，查看是否存在名为<code>count</code>的属性，如果存在，说明不是第一次访问，如果不存在，说明是第一次访问。<br>        第一次访问：调用<code>ServletContext</code>的<code>setAttribute()</code>传递一个属性，名为<code>count</code>，值为1；<br>        第2~n次访问：调用<code>ServletContext</code>的<code>getAttribute()</code>方法获取原来的访问量，给访问量加1，再调用<code>ServletContext</code>的<code>setAttribute()</code>方法完成设置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aservlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request,  HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">                <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">           <span class="comment">//获取ServletContext对象</span></span><br><span class="line">           <span class="comment">//从对象中获取名为count的属性</span></span><br><span class="line">           <span class="comment">//如果存在，给访问量+1，然后再保存回去</span></span><br><span class="line">           <span class="comment">//如果不存在，说明时第一次访问，向ServletContext中保存count的属性，值为1</span></span><br><span class="line">           ServletContext app=<span class="keyword">this</span>.getServletContext();</span><br><span class="line">           Integer count=(Integer) app.getAttribute(<span class="string">"count"</span>);</span><br><span class="line">           <span class="keyword">if</span>(count==<span class="keyword">null</span>)&#123;</span><br><span class="line">                app.setAttribute(<span class="string">"count"</span>, <span class="number">1</span>);</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                app.setAttribute(<span class="string">"count"</span>, count+<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">/**</span></span><br><span class="line"><span class="comment">            * 向浏览器输出,需要使用响应对象</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">           PrintWriter pw=response.getWriter();</span><br><span class="line">           pw.print(count);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后在浏览器访问该servlet，每访问一次会加一。<br><img src="https://img-blog.csdnimg.cn/20190617110701517.png" alt="在这里插入图片描述"></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢兄弟萌的支持<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">访问量统计</a>
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color2">springcloud</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" target="_blank" rel="noopener" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" target="_blank" rel="noopener" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/08/%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/11/08/springboot-%E6%95%B4%E5%90%88druid%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%BF%9E%E6%8E%A5oracle%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B4%E5%90%88mybatis-%E6%95%B4%E5%90%88thymeleaf-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          springboot---整合druid连接池---连接oracle数据库---整合mybatis---整合thymeleaf---日志配置
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/11/08/javaWeb%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"> javaWeb文件上传和下载</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -350,9 +227,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
