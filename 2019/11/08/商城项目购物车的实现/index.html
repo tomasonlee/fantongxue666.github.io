@@ -9,6 +9,7 @@
   <title>商城项目购物车的实现 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="首先是springboot和thymeleaf整合的demo项目，然后使用session实现购物车 一，新建购物车的实体类Cart1234public class Cart implements java.io.Serializable&amp;#123;    private Shangpin shangpin;&#x2F;&#x2F;存放商品实体类的    private Integer number;&#x2F;&#x2F;商品数量">
+<meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="商城项目购物车的实现">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%9A%84%E5%AE%9E%E7%8E%B0&#x2F;index.html">
@@ -16,7 +17,7 @@
 <meta property="og:description" content="首先是springboot和thymeleaf整合的demo项目，然后使用session实现购物车 一，新建购物车的实体类Cart1234public class Cart implements java.io.Serializable&amp;#123;    private Shangpin shangpin;&#x2F;&#x2F;存放商品实体类的    private Integer number;&#x2F;&#x2F;商品数量">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190624171525588.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-07T07:28:56.280Z">
+<meta property="og:updated_time" content="2019-11-08T09:26:13.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190624171525588.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -167,14 +168,14 @@
 
         
         <a href="/2019/11/08/%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2019-11-08T07:15:40.372Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+  	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>首先是springboot和thymeleaf整合的demo项目，然后使用session实现购物车</strong></p>
+        <p>首先是springboot和thymeleaf整合的demo项目，然后使用session实现购物车</p>
 <h1 id="一，新建购物车的实体类Cart"><a href="#一，新建购物车的实体类Cart" class="headerlink" title="一，新建购物车的实体类Cart"></a>一，新建购物车的实体类Cart</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cart</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Shangpin shangpin;<span class="comment">//存放商品实体类的</span></span><br><span class="line">    <span class="keyword">private</span> Integer number;<span class="comment">//商品数量</span></span><br><span class="line">    <span class="comment">//setter和getter方法省略</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="二，在选择商品类型页面进行页面跳转"><a href="#二，在选择商品类型页面进行页面跳转" class="headerlink" title="二，在选择商品类型页面进行页面跳转"></a>二，在选择商品类型页面进行页面跳转</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//购物车，把id参数传到后台controller</span></span><br><span class="line">     <span class="function">function <span class="title">shoppingCar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">var</span> id=$(<span class="string">"#baga"</span>).val();</span><br><span class="line">         <span class="keyword">var</span> color=$(<span class="string">"#hiddenColor"</span>).val();</span><br><span class="line">         <span class="keyword">var</span> size=$(<span class="string">"#hiddenSize"</span>).val();</span><br><span class="line">          location.href=<span class="string">"/demo/shoppingCart?id="</span>+id+<span class="string">"&amp;color="</span>+color+<span class="string">"&amp;size="</span>+size;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
@@ -194,9 +195,7 @@
 <p>效果如图</p>
 <p><img src="https://img-blog.csdnimg.cn/20190624171525588.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <div class="name ep3" th:text="${list.value.shangpin.name}"></div>
-
-<p>上面是购物车的基本操作。</p>
-
+上面是购物车的基本操作。
       
 
       
@@ -225,6 +224,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -289,18 +299,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/08/springboot%E6%8D%95%E8%8E%B7%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%92%8C%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/08/%E5%B0%81%E8%A3%85%E5%88%86%E9%A1%B5/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          springboot捕获全局异常和配置多数据源
+          封装分页
         
       </div>
     </a>
   
   
-    <a href="/2019/11/08/POI%E5%AF%BC%E5%87%BAExcel%E8%A1%A8%E6%A0%BC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">POI导出Excel表格</div>
+    <a href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">POI解析Excel表格</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -427,6 +437,42 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">分页</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">java爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">权限</a>
               </li>
             
             <div class="clearfix"></div>

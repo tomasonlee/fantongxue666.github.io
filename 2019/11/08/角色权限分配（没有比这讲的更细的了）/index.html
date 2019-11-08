@@ -6,16 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>角色权限分配（没有比这讲的更细的了） | 樊同学的博客</title>
+  <title>角色权限分配 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="第一大块 数据库表设计最基本的实现权限树分配的话是需要三张表就可以了，企业级项目的实现权限树需要设计五张六张的也有，那种逻辑关系也就相当复杂了，可是要实现的话，三张足矣！  emp表 tb_dept_power部门权限关联表 tb_power权限表  查询权限的关键sql，表示查询登录的员工在权限表中所对应的权限信息 1select id,name,parentid,state,iconcls,u">
+<meta name="keywords" content="权限">
 <meta property="og:type" content="article">
-<meta property="og:title" content="角色权限分配（没有比这讲的更细的了）">
+<meta property="og:title" content="角色权限分配">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E5%88%86%E9%85%8D%EF%BC%88%E6%B2%A1%E6%9C%89%E6%AF%94%E8%BF%99%E8%AE%B2%E7%9A%84%E6%9B%B4%E7%BB%86%E7%9A%84%E4%BA%86%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
 <meta property="og:description" content="第一大块 数据库表设计最基本的实现权限树分配的话是需要三张表就可以了，企业级项目的实现权限树需要设计五张六张的也有，那种逻辑关系也就相当复杂了，可是要实现的话，三张足矣！  emp表 tb_dept_power部门权限关联表 tb_power权限表  查询权限的关键sql，表示查询登录的员工在权限表中所对应的权限信息 1select id,name,parentid,state,iconcls,u">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-07T05:40:56.660Z">
+<meta property="og:updated_time" content="2019-11-08T09:24:10.108Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
@@ -159,13 +160,13 @@
         
   
     <h1 class="article-title" itemprop="name">
-      角色权限分配（没有比这讲的更细的了）
+      角色权限分配
     </h1>
   
 
         
         <a href="/2019/11/08/%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E5%88%86%E9%85%8D%EF%BC%88%E6%B2%A1%E6%9C%89%E6%AF%94%E8%BF%99%E8%AE%B2%E7%9A%84%E6%9B%B4%E7%BB%86%E7%9A%84%E4%BA%86%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2019-11-08T07:16:02.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+  	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
 </a>
         
       </header>
@@ -296,6 +297,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">权限</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -360,18 +372,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/08/Shiro%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%8B%A6%E6%88%AA/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Shiro权限认证拦截
+          FastDFS文件服务器的准备以及springboot上传文件到服务器
         
       </div>
     </a>
   
   
-    <a href="/2019/11/08/%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E4%BC%81%E4%B8%9A%E7%BA%A7%E7%9A%84%E6%9D%83%E9%99%90%E5%88%86%E9%85%8Ddemo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">动手实现一个企业级的权限分配demo</div>
+    <a href="/2019/11/08/POI%E5%AF%BC%E5%87%BAExcel%E8%A1%A8%E6%A0%BC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">POI导出Excel表格</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -498,6 +510,42 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">分页</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">java爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">权限</a>
               </li>
             
             <div class="clearfix"></div>
