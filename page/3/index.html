@@ -153,6 +153,680 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-oracle函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/oracle%E5%87%BD%E6%95%B0/">oracle函数</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/oracle%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2019-11-08T08:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1，case-when用法"><a href="#1，case-when用法" class="headerlink" title="1，case when用法"></a>1，case when用法</h1><p>从表中根据时间点不同查询出活动的状态。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.*,(<span class="keyword">case</span> <span class="keyword">when</span> (t.start_date &lt;= <span class="keyword">sysdate</span> <span class="keyword">and</span> t.end_date &gt;= <span class="keyword">sysdate</span>)<span class="keyword">then</span> <span class="string">'报名中'</span></span><br><span class="line">          <span class="keyword">when</span>  t.fw_date_z &lt; <span class="keyword">sysdate</span> <span class="keyword">then</span> <span class="string">'已结束'</span></span><br><span class="line">          <span class="keyword">when</span> (t.fw_date &lt;= <span class="keyword">sysdate</span> <span class="keyword">and</span> t.fw_date_z &gt;= <span class="keyword">sysdate</span>)<span class="keyword">then</span> <span class="string">'进行中'</span></span><br><span class="line">          <span class="keyword">when</span> (t.fw_date_z <span class="keyword">is</span> <span class="literal">null</span> <span class="keyword">and</span> t.fw_date &lt; <span class="keyword">sysdate</span>) <span class="keyword">then</span> <span class="string">'已结束'</span></span><br><span class="line">          <span class="keyword">else</span> <span class="string">'进行中'</span> <span class="keyword">end</span>)<span class="keyword">as</span> hdzt,</span><br><span class="line">        (<span class="keyword">select</span> b.fczs_id <span class="keyword">from</span> zyfw_fczs b <span class="keyword">where</span> b.zyfw_id = t.zyfw_id <span class="keyword">and</span> <span class="keyword">rownum</span>=<span class="number">1</span>) <span class="keyword">as</span> fczs_id</span><br><span class="line">        <span class="keyword">from</span> zyfw_main t,zyfw_zyz a</span><br><span class="line">          <span class="keyword">where</span> t.zyfw_id=a.zyfw_id  <span class="keyword">and</span> t.status=<span class="string">'2'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="2，trunc函数的用法"><a href="#2，trunc函数的用法" class="headerlink" title="2，trunc函数的用法"></a>2，trunc函数的用法</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span><span class="number">-1</span>) <span class="keyword">from</span> dual t;<span class="comment">--昨天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>+<span class="number">1</span>) <span class="keyword">from</span> dual t;<span class="comment">--明天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'yy'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'year'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'yyyy'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'q'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间所在的季度的第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'mm'</span>) <span class="keyword">from</span> dual;<span class="comment">--当月第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'month'</span>) <span class="keyword">from</span> dual;<span class="comment">--当月第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'d'</span>) <span class="keyword">from</span> dual;<span class="comment">--返回本周的第一天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>,<span class="string">'day'</span>) <span class="keyword">from</span> dual;<span class="comment">--返回本周的第一天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'iw'</span>) <span class="keyword">from</span> dual;<span class="comment">--本周第二天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'hh'</span>) <span class="keyword">from</span> dual; <span class="comment">--当前时间，精确到小时</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'hh24'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间。精确到小时</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'mi'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间。精确到分钟 没有精确到秒的精度</span></span><br></pre></td></tr></table></figure>
+<h1 id="3，substr函数"><a href="#3，substr函数" class="headerlink" title="3，substr函数"></a>3，substr函数</h1><p>substr函数格式   (俗称：字符截取函数)<br>　　格式1： substr(string string, int a, int b);<br>　　格式2：substr(string string, int a) ;<br>解释：<br>    格式1：<br>        1、string 需要截取的字符串<br>        2、a 截取字符串的开始位置（注：当a等于0或1时，都是从第一位开始截取）<br>        3、b 要截取的字符串的长度<br>    格式2：<br>        1、string 需要截取的字符串<br>        2、a 可以理解为从第a个字符开始截取后面所有的字符串。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(<span class="keyword">sysdate</span>,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">from</span> dual;	//截取当前日期（格式为2019-08-06）</span><br></pre></td></tr></table></figure>
+
+<h1 id="4，extract函数"><a href="#4，extract函数" class="headerlink" title="4，extract函数"></a>4，extract函数</h1><p>要从表格myTable中选取time字段中年份为2018年的所有数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> title,play,<span class="built_in">time</span> <span class="keyword">from</span> myTable <span class="keyword">where</span> <span class="keyword">extract</span>(<span class="keyword">year</span> <span class="keyword">from</span> <span class="built_in">time</span>) = <span class="number">2018</span>;</span><br><span class="line"><span class="keyword">select</span> title,play,to_char(<span class="built_in">time</span>, <span class="string">'YYYY-MM-DD'</span>) <span class="keyword">as</span> <span class="built_in">time</span> <span class="keyword">from</span> myTable <span class="keyword">where</span> <span class="keyword">extract</span>(<span class="keyword">year</span> <span class="keyword">from</span> <span class="built_in">time</span>) = <span class="number">2018</span>;</span><br></pre></td></tr></table></figure>
+<p>要从表格myTable中选取time中月份为5的所有数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> title,play,<span class="built_in">time</span> <span class="keyword">from</span> myTable <span class="keyword">extract</span>(<span class="keyword">month</span> <span class="keyword">from</span> <span class="built_in">time</span>) = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> title,play,to_char(<span class="built_in">time</span>, <span class="string">'YYYY-MM-DD'</span>) <span class="keyword">as</span> <span class="built_in">time</span> <span class="keyword">from</span> myTable <span class="keyword">where</span> <span class="keyword">extract</span>(<span class="keyword">month</span> <span class="keyword">from</span> <span class="built_in">time</span>) = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<p>从表格myTable中选取time中日期为6的所有数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> title,play,<span class="built_in">time</span> <span class="keyword">from</span> myTable <span class="keyword">extract</span>(<span class="keyword">day</span> <span class="keyword">from</span> <span class="built_in">time</span>) = <span class="number">6</span>;</span><br><span class="line">slect title,play,to_char(time, 'YYYY-MM-DD') as time from myTable where extract(day from time) = 6;</span><br></pre></td></tr></table></figure>
+
+<p><font color="red"><strong>语法如下：extract(year|month|day|hour|minute|second from column_name) = value</strong></font></p>
+<h2 id="5，NVL-函数"><a href="#5，NVL-函数" class="headerlink" title="5，NVL()函数"></a>5，NVL()函数</h2><h3 id="（1）NVL-X-VALUE"><a href="#（1）NVL-X-VALUE" class="headerlink" title="（1）NVL(X,VALUE)"></a>（1）NVL(X,VALUE)</h3><p>如果X为空，返回value，否则返回X</p>
+<p>该函数的目的是把一个空值（null）转换成一个实际的值。其表达式的值可以是数字型、字符型和日期型。但是表达式1和表达式2的数据类型必须为同一个类型。</p>
+<p>例如：对工资是2000元以下的员工，如果没发奖金，每人奖金100元</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME,JOB,SAL,NVL(COMM,<span class="number">100</span>) <span class="keyword">FROM</span> EMP <span class="keyword">WHERE</span> SAL&lt;<span class="number">2000</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）NVL2-x-value1-value2"><a href="#（2）NVL2-x-value1-value2" class="headerlink" title="（2）NVL2(x,value1,value2)"></a>（2）NVL2(x,value1,value2)</h3><p>如果x非空，返回value1，否则返回value2。</p>
+<p>例如：对EMP表中工资为2000元以下的员工，如果没有奖金，则奖金为200元，如果有奖金，则在原来的奖金基础上加100元</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME,JOB,SAL,NVL2(COMM,comm+<span class="number">100</span>,<span class="number">200</span>) <span class="string">"comm"</span> <span class="keyword">FROM</span> EMP <span class="keyword">WHERE</span> SAL&lt;<span class="number">2000</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6，with-as-用法"><a href="#6，with-as-用法" class="headerlink" title="6，with as 用法"></a>6，with as 用法</h2><p>相当于建了个e临时表。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> e <span class="keyword">as</span> (<span class="keyword">select</span> * <span class="keyword">from</span> scott.emp e <span class="keyword">where</span> e.empno=<span class="number">7499</span>)</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> e;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7，批量插入"><a href="#7，批量插入" class="headerlink" title="7，批量插入"></a>7，批量插入</h2><p>Mapper接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insterZqyjList</span><span class="params">(List&lt;YzsylgkZqyj&gt; zqyjList)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>Mapper.xml文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insterZqyjList"</span> <span class="attr">parameterType</span>=<span class="string">"List"</span>&gt;</span></span><br><span class="line">  insert into YZSYLGK_ZQYJ (YJ_ID, ID, YJ_NR,</span><br><span class="line">  TCR_NAME, TCRDW, CREATEDATE,</span><br><span class="line">  MODIFYDATE, USER_ID, ORG_ID</span><br><span class="line">  ) select a.* from(</span><br><span class="line">  <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"list"</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">separator</span>=<span class="string">"union"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</span></span><br><span class="line">    select #&#123;item.yjId,jdbcType=VARCHAR&#125;, #&#123;item.id,jdbcType=VARCHAR&#125;, #&#123;item.yjNr,jdbcType=VARCHAR&#125;,</span><br><span class="line">    #&#123;item.tcrName,jdbcType=VARCHAR&#125;, #&#123;item.tcrdw,jdbcType=VARCHAR&#125;, #&#123;item.createdate,jdbcType=TIMESTAMP&#125;,</span><br><span class="line">    #&#123;item.modifydate,jdbcType=TIMESTAMP&#125;, #&#123;item.userId,jdbcType=VARCHAR&#125;, #&#123;item.orgId,jdbcType=VARCHAR&#125; from dual</span><br><span class="line">  <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">  )a</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（1）-批量更新"><a href="#（1）-批量更新" class="headerlink" title="（1） 批量更新"></a>（1） 批量更新</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateBatch"</span>  <span class="attr">parameterType</span>=<span class="string">"java.util.List"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"list"</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">open</span>=<span class="string">"begin"</span> <span class="attr">close</span>=<span class="string">";end;"</span> <span class="attr">separator</span>=<span class="string">";"</span>&gt;</span></span><br><span class="line">        update T_CITY_INDEX t</span><br><span class="line">        set</span><br><span class="line">        t.city_name= #&#123;item.cityName,jdbcType=VARCHAR&#125; ,</span><br><span class="line">        t.district_name= #&#123;item.districtName,jdbcType=VARCHAR&#125; ,</span><br><span class="line">        where t.id = #&#123;item.id,jdbcType=NUMERIC&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="8，字符函数"><a href="#8，字符函数" class="headerlink" title="8，字符函数"></a>8，字符函数</h2><p>字符函数接受字符参数，这些参数可以是表中的列，也可以是一个字符串表达式。</p>
+<p>常用的字符函数有：</p>
+<table><thead><th>函数</th><th>说明</th></thead>
+    <tbody>
+    <tr>
+        <td>concat(x,y)</td>
+        <td>连接字符串x和y</td>
+    </tr>
+        <tr>
+        <td>length(x)</td>
+        <td>返回x的长度</td>
+    </tr>
+        <tr>
+        <td>lower(X)</td>
+        <td>把X变成小写</td>
+    </tr>
+        <tr>
+        <td>upper(x)</td>
+        <td>把x变成大写</td>
+    </tr>
+        <tr>
+        <td>REPLACE(X,old,new)</td>
+        <td>在X中查找old，并替换成new</td>
+    </tr>
+        <tr>
+        <td>concat(x,y)</td>
+        <td>连接字符串x和y</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3 id="（1）-trim（）、ltrim（）、rtrim（）的用法"><a href="#（1）-trim（）、ltrim（）、rtrim（）的用法" class="headerlink" title="（1）  trim（）、ltrim（）、rtrim（）的用法"></a>（1）  trim（）、ltrim（）、rtrim（）的用法</h3><p><strong>trim（string）</strong>：去除指定字符串string的左右空格，当然，string中间有空格的时候是不会被去除。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">trim</span>(<span class="string">'    aaa  bbb  ccc     '</span>)  <span class="keyword">trim</span> <span class="keyword">FROM</span> dual;</span><br><span class="line">aaa  bbb  ccc</span><br></pre></td></tr></table></figure>
+
+<p><strong>ltrim（string）、rtrim（string）</strong>：分别去除指定字符串string左侧和右侧的空格。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">ltrim</span>(<span class="string">'    aaa  bbb  ccc     '</span>) <span class="keyword">ltrim</span> <span class="keyword">FROM</span> dual;</span><br><span class="line">aaa  bbb  ccc     <span class="comment">--（注意，此时返回的字符串右侧是有空格的）</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">rtrim</span>(<span class="string">'    aaa  bbb  ccc     '</span>) <span class="keyword">rtrim</span> <span class="keyword">FROM</span> dual;</span><br><span class="line">   aaa  bbb  ccc  <span class="comment">--（显然此时返回的字符串左侧是有空格的）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>trim( leading | trailing | both string1 FROM string2)</strong>：从string2中去除左侧 | 右侧 | 左侧两侧（默认是both，即左右侧都去掉）的string1字符，<font color="red"><strong>注意，string1只能是单个字符。</strong></font></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">trim</span>(<span class="keyword">leading</span>  <span class="string">'  '</span>  <span class="keyword">from</span>  <span class="string">'    aaa  bbb  ccc   '</span>) leadingtrim <span class="keyword">FROM</span> dual;</span><br><span class="line">aaa  bbb  ccc   <span class="comment">--（注意，此时返回的字符串右侧是有空格的）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">trim</span>(trailing  <span class="string">'  '</span>  <span class="keyword">from</span>  <span class="string">'    aaa  bbb  ccc   '</span>) trailingtrim <span class="keyword">FROM</span> dual;</span><br><span class="line">    aaa  bbb  ccc  <span class="comment">--（显然，此时返回的字符串左侧是有空格的）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">trim</span>(<span class="keyword">both</span> <span class="string">'  '</span>  <span class="keyword">from</span>  <span class="string">'    aaa  bbb  ccc   '</span>) bothtrim <span class="keyword">FROM</span> dual; </span><br><span class="line">aaa  bbb  ccc  <span class="comment">--（返回的字符串两侧的空格都被去掉）</span></span><br></pre></td></tr></table></figure>
+
+<p>ltrim(string1,string2)，rtrim(string1,string2)：从字符串string1左侧（右侧）开始去除与string2字符集合中单个字符匹配的字符，直到在string1中遇上某个字符，该字符不在string2字符集合中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">ltrim</span>(<span class="string">'abcxcba'</span>,<span class="string">'abc'</span>) <span class="keyword">ltrim</span> <span class="keyword">FROM</span> dual;</span><br><span class="line">xcba  <span class="comment">--（结果并不是只剩一个“x”，而是包括stirng1中“x”以及右侧的字符）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">rtrim</span>(<span class="string">'abcxcba'</span>,<span class="string">'abc'</span>) <span class="keyword">rtrim</span> <span class="keyword">FROM</span> dual;</span><br><span class="line">abcx  <span class="comment">--（结果并不是只剩一个“x”，而是包括stirng1中“x”以及左侧的字符）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="9，ROUND-X-Y-和-TRUNC-x-y-的用法"><a href="#9，ROUND-X-Y-和-TRUNC-x-y-的用法" class="headerlink" title="9，ROUND(X[,Y])和 TRUNC(x[,y])的用法"></a>9，ROUND(X[,Y])和 TRUNC(x[,y])的用法</h2><ul>
+<li><p>ROUND(X[,Y])，四舍五入。</p>
+<ul>
+<li><p>在缺省 y 时，默认 y=0；比如：ROUND(3.56)=4。</p>
+</li>
+<li><p>y 是正整数，就是四舍五入到小数点后 y 位。ROUND(5.654,2)=5.65。</p>
+</li>
+<li><p>y 是负整数，四舍五入到小数点左边|y|位。ROUND(351.654,-2)=400。</p>
+</li>
+</ul>
+</li>
+<li><p>TRUNC(x[,y])，直接截取，不四舍五入。</p>
+<ul>
+<li><p>在缺省 y 时，默认 y=0；比如：TRUNC (3.56)=3。</p>
+</li>
+<li><p>Y是正整数，就是四舍五入到小数点后 y 位。TRUNC (5.654,2)=5.65。</p>
+</li>
+<li><p>y 是负整数，四舍五入到小数点左边|y|位。TRUNC (351.654,-2)=300。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="10，日期函数"><a href="#10，日期函数" class="headerlink" title="10，日期函数"></a>10，日期函数</h2><h3 id="（1）-ADD-MONTHS-d-n"><a href="#（1）-ADD-MONTHS-d-n" class="headerlink" title="（1） ADD_MONTHS(d,n)"></a>（1） ADD_MONTHS(d,n)</h3><p>在某一个日期 d 上，加上指定的月数 n，返回计算后的新日期。</p>
+<p>d 表示日期，n 表示要加的月数。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">SYSDATE</span>,add_months(<span class="keyword">SYSDATE</span>,<span class="number">5</span>) <span class="keyword">FROM</span> dual;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）-LAST-DAY-d"><a href="#（2）-LAST-DAY-d" class="headerlink" title="（2） LAST_DAY(d)"></a>（2） LAST_DAY(d)</h3><p>返回指定日期当月的最后一天。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">SYSDATE</span>,<span class="keyword">last_day</span>(<span class="keyword">SYSDATE</span>) <span class="keyword">FROM</span> dual;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）EXTRACT-fmt-FROM-d"><a href="#（3）EXTRACT-fmt-FROM-d" class="headerlink" title="（3）EXTRACT(fmt FROM d)"></a>（3）EXTRACT(fmt FROM d)</h3><p>fmt 为：YEAR、MONTH、DAY、HOUR、SECOND。其中 YEAR、MONTH、DAY 可以为 DATA 类型匹配，也可以与 TIMESTAMP 类型匹配；但是 HOUR、MINUTE、SECOND 必须与 TIMESTAMP 类型匹配。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="keyword">sysdate</span>,<span class="string">'yyyy/mm/dd hh24:mi:ss'</span>) <span class="string">"date"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">YEAR</span> <span class="keyword">FROM</span> <span class="keyword">SYSDATE</span>) <span class="string">"year"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">MONTH</span> <span class="keyword">FROM</span> <span class="keyword">SYSDATE</span>) <span class="string">"month"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">DAY</span> <span class="keyword">FROM</span> <span class="keyword">SYSDATE</span>) <span class="string">"day"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">HOUR</span> <span class="keyword">FROM</span> SYSTIMESTAMP) <span class="string">"hour"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">MINUTE</span> <span class="keyword">FROM</span> SYSTIMESTAMP) <span class="string">"minute"</span>,  </span><br><span class="line">    <span class="keyword">extract</span>(<span class="keyword">SECOND</span> <span class="keyword">FROM</span> SYSTIMESTAMP) <span class="string">"second"</span>  </span><br><span class="line">    <span class="keyword">from</span> dual;  </span><br><span class="line">    </span><br><span class="line">date                      year   month     day    hour  minute     second  </span><br><span class="line"><span class="comment">------------------- ---------- ------- ------- ------- ------- ----------  </span></span><br><span class="line">2012/04/03 18:53:42       2012       4       3   10         53      42.79</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）ROUND-d-fmt"><a href="#（4）ROUND-d-fmt" class="headerlink" title="（4）ROUND(d[,fmt])"></a>（4）ROUND(d[,fmt])</h3><p>返回一个以fmt为格式的四舍五入日期值 。如果fmt为“YEAR”则舍入到某年的1月1日，即前半年舍去，后半年作为下 一年</p>
+<p>如果fmt为“MONTH”则舍入到某月的1日，即前月舍去，后半月作为下一 月</p>
+<p>默认为“DDD”，即月中的某一天，最靠近的天，前半天舍去，后半天作为第二天</p>
+<p>如果fmt为“DAY”则舍入到最近的周的周日，即上半周舍去，下半周作为下 一周周日</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">sysdate</span>,<span class="keyword">round</span>(<span class="keyword">sysdate</span>),<span class="keyword">round</span>(<span class="keyword">sysdate</span>,<span class="string">'ddd'</span>),</span><br><span class="line"><span class="keyword">round</span>(<span class="keyword">sysdate</span>,<span class="string">'day'</span>),<span class="keyword">round</span>(<span class="keyword">sysdate</span>,<span class="string">'month'</span>),<span class="keyword">round</span>(<span class="keyword">sysdate</span>,<span class="string">'year'</span>) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="comment">-----结果------</span></span><br><span class="line"> 2017-09-13 16:11:13 , 2017-09-14 00:00:00 , 2017-09-14 00:00:00 , </span><br><span class="line"> 2017-09-17 00:00:00 , 2017-09-01 00:00:00 , 2018-01-01 00:00:00</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="11，转换函数"><a href="#11，转换函数" class="headerlink" title="11，转换函数"></a>11，转换函数</h2><h3 id="（1）TO-CHAR-d-n-fmt"><a href="#（1）TO-CHAR-d-n-fmt" class="headerlink" title="（1）TO_CHAR(d|n[,fmt])"></a>（1）TO_CHAR(d|n[,fmt])</h3><p>to_char函数的功能是将数值型或者日期型转化为字符型。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(ENDTIME,<span class="string">'YYYY-MM-DD'</span>) ENDTIME <span class="keyword">FROM</span> tablename;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）TO-DATE-X-fmt"><a href="#（2）TO-DATE-X-fmt" class="headerlink" title="（2）TO_DATE(X,[,fmt])"></a>（2）TO_DATE(X,[,fmt])</h3><p>把一个字符串以fmt格式转换成一个日期类型。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">to_date(sysdate,'yyyy-MM-dd HH24:mi:ss') <span class="comment">--mi是分钟</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="12，聚合函数"><a href="#12，聚合函数" class="headerlink" title="12，聚合函数"></a>12，聚合函数</h2><p>聚合函数同时对一组数据进行操作，返回一行结果，比如计算一组数据的总和，平均值等。</p>
+<table><tr><th>名称</th><th>作用</th></tr>
+<tr><td>AVG</td><td>平均值</td></tr>
+    <tr><td>SUM</td><td>求和</td></tr>
+    <tr><td>MIN/MAX</td><td>最小值/最大值</td></tr>
+    <tr><td>COUNT</td><td>统计</td></tr>
+</table>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求本月所有员工的基本工资总和</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">SUM</span>(sal) <span class="keyword">FROM</span> emp;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求不同部门的平均工资</span></span><br><span class="line"><span class="keyword">SELECT</span> DEPTNO,<span class="keyword">AVG</span>(SAL) <span class="keyword">FROM</span> EMP <span class="keyword">GROUP</span> <span class="keyword">BY</span> DEPTNO;  </span><br><span class="line"><span class="comment">----结果------</span></span><br><span class="line">30    1566.66666</span><br><span class="line">20     2175</span><br><span class="line">10    2916.66666</span><br></pre></td></tr></table></figure>
+<h2 id="13，Oracle-wm-concat（）函数"><a href="#13，Oracle-wm-concat（）函数" class="headerlink" title="13，Oracle wm_concat（）函数"></a>13，Oracle wm_concat（）函数</h2><p>wm_concat()函数是oracle中独有的,mysql中有一个group_concat()函数。这两个函数的作用是相同的，它们的功能是：<font color="red">实现行转列功能</font>，即将查询出的某一列值使用逗号进行隔开拼接，成为一条数据。</p>
+<p>例如：shopping表</p>
+<p>例如：shopping表</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">u_id		goods		num</span><br><span class="line"><span class="number">1</span>			苹果			<span class="number">2</span></span><br><span class="line"><span class="number">2</span>			梨子			<span class="number">5</span></span><br><span class="line"><span class="number">1</span>			西瓜			<span class="number">4</span></span><br><span class="line"><span class="number">3</span>			葡萄			<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>想要的结果为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u_id		goodsnum</span><br><span class="line"><span class="number">1</span>			苹果，西瓜</span><br><span class="line"><span class="number">2</span>			梨子</span><br><span class="line"><span class="number">3</span>			葡萄</span><br></pre></td></tr></table></figure>
+
+
+
+<p>就是下面的sql语句</p>
+<p>select u_id, wmsys.wm_concat(goods) goods_sum   from shopping   group by u_id ;</p>
+<p>想要的结果2为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u_id					goodsnum</span><br><span class="line"><span class="number">1</span>				苹果（<span class="number">2</span>斤），西瓜（<span class="number">4</span>斤）</span><br><span class="line"><span class="number">2</span>						梨子（<span class="number">5</span>斤）</span><br><span class="line"><span class="number">3</span>						葡萄（<span class="number">1</span>斤）</span><br></pre></td></tr></table></figure>
+
+
+
+<p>则是下面的sql语句</p>
+<p>select u_id, wmsys.wm_concat(goods || ‘(‘ || num || ‘斤)’ ) goods_sum   from shopping   group by u_id;</p>
+<h2 id="14，mybatis模糊查询"><a href="#14，mybatis模糊查询" class="headerlink" title="14，mybatis模糊查询"></a>14，mybatis模糊查询</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findzzjf"</span> <span class="attr">parameterType</span>=<span class="string">"cn.com.qianlong.light.vo.zzjf.ScoreMainOrgVo"</span> <span class="attr">resultType</span>=<span class="string">"cn.com.qianlong.light.vo.zzjf.ScoreMainOrgVo"</span>&gt;</span></span><br><span class="line">    select org_id,org_name,scoreyear,score,orgplace from score_main_org</span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"orgName != null and orgName != ''"</span>&gt;</span></span><br><span class="line">            and org_name like '%'||#&#123;orgName,jdbcType=VARCHAR&#125;||'%'</span><br><span class="line">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="15，oracle复制表（把b表的数据复制到a表）"><a href="#15，oracle复制表（把b表的数据复制到a表）" class="headerlink" title="15，oracle复制表（把b表的数据复制到a表）"></a>15，oracle复制表（把b表的数据复制到a表）</h2><p>如果两表字段相同，则可以直接这样用。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table_a <span class="keyword">select</span> * <span class="keyword">from</span> table_b</span><br></pre></td></tr></table></figure>
+
+<p>如果两表字段不同，a表需要b中的某几个字段即可，则可以如下使用</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table_a(field_a1,field_a2,field_a3) <span class="keyword">select</span> field_b1,field_b2,field_b3) <span class="keyword">from</span> table_b</span><br></pre></td></tr></table></figure>
+
+<p>以上语句前提条件是每个字段对应的字段类型相同或可以自动转换。</p>
+<h2 id="16，find-in-set-函数的使用"><a href="#16，find-in-set-函数的使用" class="headerlink" title="16，find_in_set()函数的使用"></a>16，find_in_set()函数的使用</h2><p>find_in_set的语法如下<br>  FIND_IN_SET(str,strlist);<br>其中str为要查询的目标字符串, strlist为字符串的集合</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span>   tb_test   <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'name'</span>, <span class="string">'mike,allen,jack,jay'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span>   tb_test   <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">'name2'</span>, <span class="string">'jay,pojo,jay'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span>   tb_test   <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">'name3'</span>, <span class="string">'allen,mike,yago'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>使用FIND_IN_SET进行查询含有jay的list<br>  SELECT id,name,list from tb_test WHERE FIND_IN_SET(‘jay’,list); </p>
+<h2 id="17，oracle-Extract-函数"><a href="#17，oracle-Extract-函数" class="headerlink" title="17，oracle Extract 函数"></a>17，oracle Extract 函数</h2><p>oracle中extract()函数从oracle 9i中引入,用于从一个    date    或者interval类型中截取到特定的部分   </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//我们只可以从一个date类型中截取year,month,day    (    date    日期的格式为yyyy-mm-dd);   </span><br><span class="line">//我们只可以从一个timestamp <span class="keyword">with</span> <span class="built_in">time</span> zone 的数据类型中截取TIMEZONE_HOUR和<span class="keyword">TIMEZONE_MINUTE</span>;   </span><br><span class="line"><span class="keyword">select</span> <span class="keyword">extract</span>(<span class="keyword">year</span> <span class="keyword">from</span> <span class="built_in">date</span> <span class="string">'2011-05-17'</span>) <span class="keyword">year</span> <span class="keyword">from</span> dual;   </span><br><span class="line">          YEAR</span><br><span class="line"><span class="comment">----------   </span></span><br><span class="line">          2011   </span><br><span class="line"><span class="keyword">select</span> <span class="keyword">extract</span>( <span class="keyword">month</span> <span class="keyword">from</span> <span class="built_in">date</span> <span class="string">'2011-05-17'</span>) <span class="keyword">month</span> <span class="keyword">from</span> dual;   </span><br><span class="line">         MONTH</span><br><span class="line"><span class="comment">----------   </span></span><br><span class="line">             5   </span><br><span class="line"><span class="keyword">select</span> <span class="keyword">extract</span>(<span class="keyword">day</span> <span class="keyword">from</span> <span class="built_in">date</span> <span class="string">'2011-05-17'</span>) <span class="keyword">day</span> <span class="keyword">from</span> dual;   </span><br><span class="line">           DAY</span><br><span class="line"><span class="comment">----------   </span></span><br><span class="line">            17</span><br></pre></td></tr></table></figure>
+<p>获取两个日期之间的具体时间间隔，extract函数是最好的选择</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">extract</span>(<span class="keyword">day</span> <span class="keyword">from</span> dt2-dt1) <span class="keyword">day</span></span><br><span class="line">          ,<span class="keyword">extract</span>(<span class="keyword">hour</span> <span class="keyword">from</span> dt2-dt1) <span class="keyword">hour</span></span><br><span class="line">          ,<span class="keyword">extract</span>(<span class="keyword">minute</span> <span class="keyword">from</span> dt2-dt1) <span class="keyword">minute</span></span><br><span class="line">          ,<span class="keyword">extract</span>(<span class="keyword">second</span> <span class="keyword">from</span> dt2-dt1) <span class="keyword">second</span></span><br><span class="line"><span class="keyword">from</span> (<span class="keyword">select</span> to_timestamp(<span class="string">'2011-02-04 15:07:00'</span>,<span class="string">'yyyy-mm-dd hh24:mi:ss'</span>) dt1 ,to_timestamp(<span class="string">'2011-05-17 19:08:46'</span>,<span class="string">'yyyy-mm-dd hh24:mi:ss'</span>) dt2 <span class="keyword">from</span> dual) </span><br><span class="line"><span class="comment">## 18，oracle中截取字符串</span></span><br><span class="line"><span class="string">`substr('ABCDEFG',1,4)`</span>		截取字符串前四个  ABCD</span><br></pre></td></tr></table></figure>
+
+<h2 id="18，case-when和聚合函数count、sum的使用"><a href="#18，case-when和聚合函数count、sum的使用" class="headerlink" title="18，case when和聚合函数count、sum的使用"></a>18，case when和聚合函数count、sum的使用</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">t3.region_id <span class="keyword">as</span> <span class="string">'regionId'</span>,</span><br><span class="line">t3.region_name <span class="keyword">as</span> <span class="string">'regionName'</span>,</span><br><span class="line"><span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> t1.tricolor = <span class="number">1</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span> ) <span class="keyword">as</span> <span class="string">'greenTotal'</span>,</span><br><span class="line"><span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> t1.tricolor = <span class="number">2</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span> ) <span class="keyword">as</span> <span class="string">'yellowTotal'</span>,</span><br><span class="line"><span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> t1.tricolor = <span class="number">3</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span> )<span class="keyword">as</span> <span class="string">'redTotal'</span></span><br><span class="line"><span class="keyword">from</span> pa_household_member t1</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> pa_household t2 <span class="keyword">on</span> t2.household_id = t1.household_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> system_region t3 <span class="keyword">on</span> t3.region_id = t2.area </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> t2.area</span><br></pre></td></tr></table></figure>
+<h2 id="19，oracle中截取字符串"><a href="#19，oracle中截取字符串" class="headerlink" title="19，oracle中截取字符串"></a>19，oracle中截取字符串</h2><p><code>substr(&#39;ABCDEFG&#39;,1,4)</code>        截取字符串前四个  ABCD</p>
+<h2 id="20，trunc-sysdate-’iw’"><a href="#20，trunc-sysdate-’iw’" class="headerlink" title="20，trunc(sysdate,’iw’)"></a>20，trunc(sysdate,’iw’)</h2><p>trunc是截尾函数    TRUNC(SYSDATE,’iw’)返回该星期中的星期一（本周第二天）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color2">oracle</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/oracle%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-node-js基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/node-js%E5%9F%BA%E7%A1%80/">node.js基础</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/node-js%E5%9F%BA%E7%A1%80/" class="archive-article-date">
+  	<time datetime="2019-11-08T08:49:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一，Node-js是什么？"><a href="#一，Node-js是什么？" class="headerlink" title="一，Node.js是什么？"></a>一，Node.js是什么？</h2><p>node.js不是一门语言，不是库也不是框架，node.js是一个JavaScript运行时环境。简单点来讲就是node.js可以解析JavaScript代码，以前只有浏览器可以解析JavaScript代码，现在的JavaScript可以完全脱离浏览器来运行，这一切归功于node.js。</p>
+<p>node.js没有BOM，DOM，在node这个JavaScript执行环境中为JavaScript提供了一些服务器级别的操作API。</p>
+<ul>
+<li>例如文件读写</li>
+<li>网络服务的构建</li>
+<li>网络通信</li>
+<li>http服务器</li>
+<li>等处理。。。</li>
+</ul>
+<h2 id="二，-安装Node环境"><a href="#二，-安装Node环境" class="headerlink" title="二， 安装Node环境"></a>二， 安装Node环境</h2><p>下载：<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
+<p>安装：傻瓜式的一路next就可以了</p>
+<p>确认node环境是否安装成功？    </p>
+<ol>
+<li>打开命令行    输入<code>node --version</code></li>
+<li>或者 <code>node -v</code></li>
+</ol>
+<p>环境变量</p>
+<h2 id="三，helloworld"><a href="#三，helloworld" class="headerlink" title="三，helloworld"></a>三，helloworld</h2><ol>
+<li>创建编写JavaScript脚本文件</li>
+<li>打开终端，定位到脚本文件所属目录</li>
+<li>输入<code>node 文件名</code>执行对应的文件</li>
+</ol>
+<p>注意：文件名不要以<code>node.js</code>来命名，最好也不要使用中文。</p>
+<h2 id="四，写文件和错误的简单处理"><a href="#四，写文件和错误的简单处理" class="headerlink" title="四，写文件和错误的简单处理"></a>四，写文件和错误的简单处理</h2><p>浏览器中的javascript是没有文件操作的能力的，但是node中的javascript具有文件操作的能力</p>
+<p>读文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fs是file-system的简写，就是文件系统的意思，在node中如果想要进行文件操作，就必须引入fs这个核心模块</span></span><br><span class="line"><span class="comment">//在fs这个核心模块中，提供了所有的文件操作相关的API</span></span><br><span class="line"><span class="comment">//例如：fs.readFile就是用来读取文件的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用require方法加载fs核心模块</span></span><br><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="comment">//读取文件</span></span><br><span class="line"><span class="comment">//第一个参数是要读取的文件路径，第二个参数是一个回调函数</span></span><br><span class="line">fs.readFile(<span class="string">'./file/test1.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">error,data</span>)</span>&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span>(error)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"读取失败"</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>写文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="comment">//第一个参数：文件路径</span></span><br><span class="line"><span class="comment">//第二个参数：文件内容</span></span><br><span class="line"><span class="comment">//第三个参数：回调函数</span></span><br><span class="line">fs.writeFile(<span class="string">"./file/hello.txt"</span>,<span class="string">"大家好"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"文件写入成功"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="五-使用Node构建一个web服务器"><a href="#五-使用Node构建一个web服务器" class="headerlink" title="五, 使用Node构建一个web服务器"></a>五, 使用Node构建一个web服务器</h2><p>可以使用node非常轻松的构建一个web服务器，在node中专门提供了一个核心模块：http，这个模块的职责就是帮你创建编写服务器的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1，加载http核心模块</span></span><br><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="comment">//2，使用http.createServer()方法创建一个web服务器</span></span><br><span class="line"><span class="comment">//返回一个server实例</span></span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line"><span class="comment">//3，服务器要干嘛？提供对数据的服务</span></span><br><span class="line"><span class="comment">//发请求，接收请求，处理请求，给个反馈（发送响应）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当客户端请求过来，就会自动触发服务器的request请求事件，然后执行第二个参数，回调处理</span></span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"收到客户端的请求了"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//4，绑定端口号，启动服务器</span></span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"服务器启动成功了，可以通过http://127.0.0.1:3000来进行访问了"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20190807161248478.png" alt="在这里插入图片描述"></p>
+<h3 id="1，发送响应"><a href="#1，发送响应" class="headerlink" title="1，发送响应"></a>1，发送响应</h3><p>启动服务端，在浏览器输入127.0.0.1:3000进行访问，服务器发送响应。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line"><span class="comment">//request请求事件处理函数，需要接收两个参数</span></span><br><span class="line"><span class="comment">//request请求对象</span></span><br><span class="line"><span class="comment">//      请求对象可以用来获取客户端的一些请求信息，例如请求路径</span></span><br><span class="line"><span class="comment">//response响应对象</span></span><br><span class="line"><span class="comment">//      响应对象可以用来给客户端发送响应信息</span></span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">request,response</span>)</span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"收到客户端的请求了，请求是"</span>+request.url);<span class="comment">//这个url是得到端口号后面的路径</span></span><br><span class="line"><span class="comment">//response对象有一个方法，write可以用来给客户端发送响应数据，write可以使用多次，但是最后一定要使用end来结束响应，否则客户端会一直等待</span></span><br><span class="line">response.write(<span class="string">"hello"</span>);</span><br><span class="line">response.write(<span class="string">" node.js"</span>);</span><br><span class="line"><span class="comment">//告诉客户端，我的话说完了，你可以呈递给用户了</span></span><br><span class="line">response.end();</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"服务器启动成功了，可以通过http://127.0.0.1:3000来进行访问了"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2019080716133199.png" alt="在这里插入图片描述"></p>
+<p>由于现在我们的服务器的能力还非常的弱，无论是什么请求，都只能响应<code>hello node.js</code>，我希望当请求不同路径的时候响应不同的结果。</p>
+<blockquote>
+<p>例如：/login    登陆    /register    注册    </p>
+</blockquote>
+<h3 id="2，根据不同路径响应不同数据"><a href="#2，根据不同路径响应不同数据" class="headerlink" title="2，根据不同路径响应不同数据"></a>2，根据不同路径响应不同数据</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="comment">//创建server</span></span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line"><span class="comment">//监听request请求事件，设置请求处理函数</span></span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line"><span class="comment">// console.log("收到请求了，请求路径是"+req.url)</span></span><br><span class="line"><span class="comment">//响应时推荐使用更简单的方式，直接end（）的同时发出响应</span></span><br><span class="line"><span class="comment">//res.end("hello node.js")</span></span><br><span class="line"><span class="comment">//根据不同请求路径发送不同的响应结果 </span></span><br><span class="line"><span class="comment">//1，判断请求路径 </span></span><br><span class="line">    <span class="comment">//req.url获取到的是端口号之后的那一段路径</span></span><br><span class="line"><span class="comment">//2，判断路径处理响应</span></span><br><span class="line"><span class="keyword">var</span> url=req.url</span><br><span class="line"><span class="keyword">if</span>(url===<span class="string">"/"</span>)&#123;</span><br><span class="line">    res.end(<span class="string">"index Page"</span>)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(url===<span class="string">"/login"</span>)&#123;</span><br><span class="line">    res.end(<span class="string">"login Page"</span>)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(url===<span class="string">"/product"</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> product=[</span><br><span class="line">        &#123;<span class="attr">id</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">"王盼"</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">id</span>:<span class="number">2</span>,<span class="attr">name</span>:<span class="string">"张浩"</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">    <span class="comment">//响应内容只能是二进制数据或字符串，现在响应一个json数据，需要先转换为字符串</span></span><br><span class="line">    res.end(<span class="built_in">JSON</span>.stringify(product))</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    res.end(<span class="string">"404 Not Found"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//绑定端口号，启动服务</span></span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"服务器启动成功"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="六，Node中的JavaScript"><a href="#六，Node中的JavaScript" class="headerlink" title="六，Node中的JavaScript"></a>六，Node中的JavaScript</h2><ul>
+<li>EcmaScript<ul>
+<li>没有DOM，BOM</li>
+</ul>
+</li>
+<li>核心模块</li>
+<li>第三方模块</li>
+<li>用户自定义模块</li>
+</ul>
+<h3 id="1，核心模块"><a href="#1，核心模块" class="headerlink" title="1，核心模块"></a>1，核心模块</h3><p>Node为JavaScript提供了很多服务器级别的API，这些API绝大多数都被封装到了一个具名的核心模块中了，例如文件操作的<code>fs</code>核心模块，http服务构建的<code>http</code>模块，<code>path</code>路径操作模块，<code>os</code>操作系统信息模块。。</p>
+<p>想要使用核心模块，就必须<code>require</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用来获取机器信息的</span></span><br><span class="line"><span class="keyword">var</span> os=<span class="built_in">require</span>(<span class="string">"os"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用来操作路径的</span></span><br><span class="line"><span class="keyword">var</span> path=<span class="built_in">require</span>(<span class="string">"path"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取当前机器的cpu信息</span></span><br><span class="line"><span class="built_in">console</span>.log(os.cpus())</span><br><span class="line"></span><br><span class="line"><span class="comment">//memory内存</span></span><br><span class="line"><span class="built_in">console</span>.log(os.totalmem())</span><br></pre></td></tr></table></figure>
+
+<h3 id="2，模块化"><a href="#2，模块化" class="headerlink" title="2，模块化"></a>2，模块化</h3><p>比如说执行一个js文件，在这个js文件内部再引用并执行另一个js文件</p>
+<p>a.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//require是一个方法，他的作用就是用来加载模块的</span></span><br><span class="line"><span class="comment">//在node中，模块有三种</span></span><br><span class="line"><span class="comment">//  1，具名的核心模块，例如fs，http</span></span><br><span class="line"><span class="comment">//  2，用户自己编写的文件模块</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"a.start"</span>)</span><br><span class="line"><span class="comment">//require引入其他js，执行这个js，然后再继续向下执行</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">"./b.js"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"a.end"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>b.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"b.start"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"b.end"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在终端运行<code>a.js</code>文件</p>
+<p><img src="https://img-blog.csdnimg.cn/20190807161359703.png" alt="在这里插入图片描述"></p>
+<h3 id="3，模块作用域"><a href="#3，模块作用域" class="headerlink" title="3，模块作用域"></a>3，模块作用域</h3><p>在node中，没有全局作用域，只有模块作用域，意思是说只是在一个js中的作用域，如果引用并执行其他js文件并不能对作用域的变量修改。例如：</p>
+<p>a.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">"aaa"</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"a.start"</span>)</span><br><span class="line"><span class="comment">//require引入其他js，执行这个js，然后再继续向下执行</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">"./b.js"</span>)	<span class="comment">//可以省略后缀名</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"a.end"</span>)</span><br><span class="line"><span class="comment">//在node中，没有全局作用域，只有模块作用域</span></span><br><span class="line"><span class="comment">//外部访问不到内部，内部也访问不到外部</span></span><br><span class="line"><span class="built_in">console</span>.log(str)</span><br></pre></td></tr></table></figure>
+
+<p>b.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"b.start"</span>)</span><br><span class="line"><span class="keyword">var</span> str=<span class="string">"bbb"</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"b.end"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>b.js</code>的str并不会把<code>a.js</code>的str值覆盖，因为不是同一个作用域，运行结果</p>
+<p><img src="https://img-blog.csdnimg.cn/20190807161421347.png" alt="在这里插入图片描述"></p>
+<p><font color="red"><strong>既然是模块作用域，那如何让模块与模块之间进行通信？</strong></font></p>
+<p>有时候，我们加载文件模块的目的不是为了简简单单的执行里面的代码，更重要是为了使用里面的某个成员。</p>
+<p>a.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*require有两个作用</span></span><br><span class="line"><span class="comment">    1，加载文件模块并执行里面的代码</span></span><br><span class="line"><span class="comment">    2，拿到被加载文件模块导出的接口对象</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    在每个文件模块中都提供了一个对象：exports</span></span><br><span class="line"><span class="comment">    exports默认是一个空对象</span></span><br><span class="line"><span class="comment">    要做的就是把所有需要被外部访问的成员挂载到这个exports对象中</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> bExports=<span class="built_in">require</span>(<span class="string">"./b.js"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(bExports.foo)</span><br><span class="line"><span class="comment">//调用b.js文件导出的add方法</span></span><br><span class="line"><span class="built_in">console</span>.log(bExports.add(<span class="number">10</span>,<span class="number">20</span>))</span><br></pre></td></tr></table></figure>
+
+<p>b.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导出b.js文件的foo变量</span></span><br><span class="line">exports.foo=<span class="string">"hello"</span></span><br><span class="line"><span class="comment">//导出b.js文件的add方法</span></span><br><span class="line">exports.add=<span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样运行<code>a.js</code>文件就能得到<code>b.js</code>文件中的<code>foo</code>变量了。</p>
+<h2 id="七，IP地址和端口号"><a href="#七，IP地址和端口号" class="headerlink" title="七，IP地址和端口号"></a>七，IP地址和端口号</h2><p>IP定位一个服务器（计算机），端口号定位服务器上不同的软件或服务（具体的应用程序）。所有需要联网通信的应用程序都会占用一个端口号。</p>
+<p>可以在服务端获取到客户端访问的ip和端口号（如果客户端访问服务器，会捕捉到客户端的ip和端口号信息）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//获得客户端的ip地址和端口号</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"请求我的客户端的地址是"</span>,req.socket.remoteAddress,req.socket.remotePort)</span><br><span class="line"><span class="keyword">var</span> url=req.url</span><br><span class="line"><span class="keyword">if</span>(url===<span class="string">"/"</span>)&#123;</span><br><span class="line">    res.end(<span class="string">"index Page"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//绑定端口号，启动服务</span></span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"服务器启动成功"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="八，响应内容类型Content-Type"><a href="#八，响应内容类型Content-Type" class="headerlink" title="八，响应内容类型Content-Type"></a>八，响应内容类型Content-Type</h2><p>在服务端发送的数据其实是<code>utf8</code>编码的内容，但是浏览器不知道你是<code>utf8</code>编码的内容，浏览器在不知道服务器响应内容的编码的情况下会按照当前操作系统的默认编码去解析，默认编码是<code>GBK</code>，解决方法是正确的告诉浏览器发送的内容是什么编码的。在<code>http</code>协议中，<code>Content-Type</code>就是用来告知我给你发送的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">request,response</span>)</span>&#123;</span><br><span class="line">response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain;charset=utf8"</span>)</span><br><span class="line">response.end(<span class="string">"你好啊，node.js"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"server is running..."</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>text/plain</code>是设置普通文本的编码，而<code>text/html</code>是设置<code>html</code>文本的编码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">request,response</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> url=request.url</span><br><span class="line"><span class="keyword">if</span>(url===<span class="string">"/plain"</span>)&#123;</span><br><span class="line"> response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain;charset=utf8"</span>)</span><br><span class="line"> response.end(<span class="string">"你好啊，node.js"</span>)</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(url===<span class="string">"/html"</span>)&#123;</span><br><span class="line">    response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/html;charset=utf8"</span>)</span><br><span class="line">    response.end(<span class="string">"&lt;h2&gt;标题&lt;/h2&gt;&lt;a href='#'&gt;百度链接&lt;/a&gt;"</span>)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"server is running..."</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><font color="red"><strong>除了Content-Type可以用来指定编码，也可以在HTML页面用过meta元数据<code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code>来声明当前文本的编码格式，浏览器也会识别它。</strong></font></p>
+<h3 id="1，响应html类型"><a href="#1，响应html类型" class="headerlink" title="1，响应html类型"></a>1，响应html类型</h3><p>向浏览器响应<code>html</code>页面，先建一个<code>html</code>页面，然后服务器响应时把<code>html</code>页面引进来。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> url=req.url</span><br><span class="line"><span class="keyword">if</span>(url=<span class="string">"/"</span>)&#123;</span><br><span class="line">    <span class="comment">//响应发送的是在文件中的内容</span></span><br><span class="line">fs.readFile(<span class="string">"./file/resource/index.html"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        res.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain;charset=utf8"</span>)</span><br><span class="line">        res.end(<span class="string">"文件读取失败"</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//data默认是二进制数据，可以通过toString方法转为咱们能识别的字符串</span></span><br><span class="line">        <span class="comment">//res.end()支持两种数据类型，一种是二进制，一种是字符串</span></span><br><span class="line">        res.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/html;charset=utf8"</span>)</span><br><span class="line">        res.end(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"server is running..."</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2，响应图片类型"><a href="#2，响应图片类型" class="headerlink" title="2，响应图片类型"></a>2，响应图片类型</h3><p>图片就不需要指定编码了，因为我们常说的编码一般指的是字符编码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http=<span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="keyword">var</span> server=http.createServer()</span><br><span class="line">server.on(<span class="string">"request"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> url=req.url</span><br><span class="line"><span class="keyword">if</span>(url=<span class="string">"/jpg"</span>)&#123;</span><br><span class="line">fs.readFile(<span class="string">"./file/resource/test.jpg"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        res.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain;charset=utf8"</span>)</span><br><span class="line">        res.end(<span class="string">"文件读取失败"</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"image/jpeg"</span>)</span><br><span class="line">        res.end(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">server.listen(<span class="number">3000</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"server is running..."</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3，读取目录"><a href="#3，读取目录" class="headerlink" title="3，读取目录"></a>3，读取目录</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//想得到对应路径的文件目录中的文件名</span></span><br><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line">fs.readdir(<span class="string">"D:/work"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"目录不存在"</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20190807161446244.png" alt="在这里插入图片描述"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> content=<span class="string">''</span></span><br><span class="line"><span class="keyword">var</span> arr=[<span class="string">'小明'</span>,<span class="string">"小红"</span>,<span class="string">"小亮"</span>]</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    content=<span class="string">`&lt;tr&gt;&lt;td&gt;<span class="subst">$&#123;item&#125;</span>&lt;/td&gt;&lt;/tr&gt;`</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="九，Node中使用模板引擎"><a href="#九，Node中使用模板引擎" class="headerlink" title="九，Node中使用模板引擎"></a>九，Node中使用模板引擎</h2><p><code>art-template</code></p>
+<p><code>art-template</code>不仅可以在浏览器中使用，也可以在node中使用。</p>
+<p>安装：</p>
+<p>想要在某一个文件夹中安装<code>art-template</code>模板引擎的话，就需要在终端切换到对应文件夹的目录之后输入命令</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install art-template --save</span><br></pre></td></tr></table></figure>
+
+<p>会在对应文件目录下生成一个新的目录<code>node_modules</code>，这个新目录不要动它。该命令在哪执行就会把包下载到哪里，默认会下载到node_modules目录中。</p>
+<h3 id="在浏览器中使用art-template模板引擎"><a href="#在浏览器中使用art-template模板引擎" class="headerlink" title="在浏览器中使用art-template模板引擎"></a>在浏览器中使用art-template模板引擎</h3><p>强调：模板引擎不关心你的字符串内容，只关心自己能认识的模板标记语法。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>11-在浏览器中使用art-template<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 在浏览器中需要引用template-web.js文件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/art-template/lib/template-web.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"tpl"</span>&gt;</span></span><br><span class="line"><span class="handlebars"><span class="xml">    hello </span><span class="template-variable">&#123;&#123;name&#125;&#125;</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> ret=template(<span class="string">"tpl"</span>,&#123;</span></span><br><span class="line"><span class="actionscript">        name:<span class="string">"JACK"</span>       </span></span><br><span class="line">    &#125;)</span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(ret)</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">node.js</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/node-js%E5%9F%BA%E7%A1%80/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Mysql创建存储过程、索引和触发器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/Mysql%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E3%80%81%E7%B4%A2%E5%BC%95%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8/">Mysql创建存储过程、索引和触发器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/Mysql%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E3%80%81%E7%B4%A2%E5%BC%95%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2019-11-08T08:42:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 存储过程</span></span><br><span class="line"><span class="comment">-- 存储过程的语法</span></span><br><span class="line"><span class="comment">-- 指定</span></span><br><span class="line"><span class="comment">-- (需要先指定结尾的符号  delimiter #  是#号结尾，编译时遇到中间的分号时语句不结束，当遇到#号结束)</span></span><br><span class="line">delimiter //</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> 存储过程名（参数）</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	<span class="keyword">sql</span>语句...</span><br><span class="line"><span class="keyword">end</span>//</span><br><span class="line">delimiter;</span><br><span class="line"><span class="comment">-- 调用存储过程的语法</span></span><br><span class="line"><span class="keyword">call</span> 存储过程名（实参）</span><br><span class="line"><span class="comment">-- 带参数的存储过程</span></span><br><span class="line"><span class="keyword">in</span> <span class="keyword">out</span> inout</span><br><span class="line"><span class="keyword">in</span>类型 ：<span class="keyword">in</span>可以省略不写，默认就是<span class="keyword">in</span>类型</span><br><span class="line">	例：给存储过程一个<span class="keyword">id</span>，根据<span class="keyword">id</span>查询某个人的地址信息</span><br><span class="line">delimiter //</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">PROCEDURE</span> pro_c_getAddressById(<span class="keyword">in</span> ids <span class="built_in">INT</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">select</span> * <span class="keyword">from</span> address <span class="keyword">where</span> <span class="keyword">id</span>=ids;</span><br><span class="line"><span class="keyword">END</span>//</span><br><span class="line">delimiter;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 执行带参数的存储过程</span></span><br><span class="line"><span class="keyword">call</span> pro_c_getAddressById(<span class="number">1</span>);</span><br><span class="line"><span class="comment">-- 创建多个入参的存储过程</span></span><br><span class="line">delimiter //</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">PROCEDURE</span> pro_d(<span class="keyword">in</span> <span class="keyword">class</span> <span class="built_in">int</span>,<span class="keyword">in</span> <span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>))</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">select</span> * <span class="keyword">from</span> t_student <span class="keyword">where</span> sclass=<span class="keyword">class</span> <span class="keyword">and</span> sename=<span class="keyword">name</span>;</span><br><span class="line"><span class="keyword">END</span>//</span><br><span class="line">delimiter;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 调用out出参的存储过程</span></span><br><span class="line"><span class="comment">-- 调用out存储过程前，需要先定义一个变量：set @变量名=值。</span></span><br><span class="line">delimiter //</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">PROCEDURE</span> pro_out_test(<span class="keyword">in</span> <span class="keyword">sid</span> <span class="built_in">int</span>,<span class="keyword">out</span> slocation <span class="built_in">VARCHAR</span>(<span class="number">50</span>))</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">select</span> location <span class="keyword">from</span> address <span class="keyword">where</span> <span class="keyword">id</span>=<span class="keyword">sid</span>;</span><br><span class="line"><span class="keyword">END</span>//</span><br><span class="line">delimiter;</span><br><span class="line"><span class="comment">-- 创建一个变量(初始值可以是任意值)</span></span><br><span class="line"><span class="keyword">set</span> @n=<span class="string">'abc'</span>;</span><br><span class="line"><span class="comment">-- 调用out出参的存储过程</span></span><br><span class="line"><span class="keyword">call</span> pro_out_test(<span class="number">1</span>,@n);</span><br><span class="line"><span class="comment">-- 查询出参</span></span><br><span class="line"><span class="keyword">select</span> @n;</span><br></pre></td></tr></table></figure>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 索引</span></span><br><span class="line"><span class="comment">-- 每张表都有一个主键索引，所以通过主键查询数据是最快的，其他字段如果这个字段上面没有放索引，则通过它查询数据的时候，系统需要扫描每一行。</span></span><br><span class="line"><span class="comment">-- 创建索引：</span></span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">index</span> i_a <span class="keyword">on</span> 表名（字段名）;</span><br><span class="line"><span class="comment">-- 查看一张表中的索引</span></span><br><span class="line">	<span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> 表名;</span><br><span class="line"><span class="comment">-- 索引可以提高查询的速度，但并不是索引越多越好，索引多了会降低添加和删除的速度。</span></span><br><span class="line"><span class="comment">-- 唯一性索引（索引列的所有值都只能出现一次，即必须是唯一的）</span></span><br><span class="line"><span class="comment">-- 创建唯一索引</span></span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">unique</span> <span class="keyword">index</span> 索引名字 <span class="keyword">on</span> 表名;</span><br></pre></td></tr></table></figure>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 触发器</span></span><br><span class="line"><span class="comment">-- 当某个增删改的sql语句执行时，会触发我们以前保存的某条sql语句，类似于监听，可以去监听某个表是否被增删改了，如果被增删改了就执行之前定义的sql语句。</span></span><br><span class="line"><span class="comment">-- 一个表有增删改，它最多有6个触发器：添加前、添加后、修改前、修改后、删除前、删除后</span></span><br><span class="line">语法：</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">trigger</span> 触发器名 <span class="keyword">after</span>|<span class="keyword">before</span> <span class="keyword">delete</span>|<span class="keyword">update</span>|<span class="keyword">insert</span> <span class="keyword">on</span></span><br><span class="line">	表名 <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line">	<span class="keyword">sql</span>语句（只能是增删改的语句）;</span><br><span class="line">	</span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line">	<span class="comment">-- 创建一个触发器</span></span><br><span class="line">	<span class="comment">-- 说明（当stu表被插入任何一条数据之后，执行触发器规定的sql语句，即修改address表的一个字段加1，如果是一个sql语句直接写，如果是两条或者以上，则要begin 和 end 进行包裹）</span></span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">trigger</span> tri_stu1 <span class="keyword">after</span> <span class="keyword">INSERT</span> <span class="keyword">on</span> stu <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line">	<span class="keyword">begin</span></span><br><span class="line">	<span class="keyword">update</span> address <span class="keyword">set</span> moren = moren + <span class="number">1</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">update</span> address <span class="keyword">set</span> moren = moren + <span class="number">1</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">-- 去修改，进行测试</span></span><br><span class="line">	<span class="keyword">insert</span> <span class="keyword">into</span> stu <span class="keyword">VALUES</span>(<span class="number">6</span>,<span class="string">'东方不败'</span>,<span class="number">100</span>,<span class="string">'传说'</span>,<span class="keyword">NOW</span>());</span><br><span class="line">	</span><br><span class="line">	<span class="comment">-- 查看触发器</span></span><br><span class="line">	<span class="keyword">show</span> <span class="keyword">triggers</span>;</span><br><span class="line">	<span class="comment">-- 删除触发器</span></span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">trigger</span> tri_stu1;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/Mysql%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E3%80%81%E7%B4%A2%E5%BC%95%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-HttpClient远程调用另一个项目的接口查询数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/HttpClient%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%8F%A6%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/">HttpClient远程调用另一个项目的接口查询数据</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/HttpClient%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%8F%A6%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/" class="archive-article-date">
+  	<time datetime="2019-11-08T08:40:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><font color="red">比如讲，现在有一个B项目，它有一个接口查询的是学生信息，然后A项目想要访问B项目的这个接口并查询学生信息，使用<code>HttpClient</code>可以实现，了解了一下<code>WebService</code>，好像它更适合跨项目远程调用接口，不过不太会用，这里就使用<code>HttpClient</code>实现。</font></p>
+<p>首先要加入<code>HttpClient的jar</code><br>然后写方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 远程调用接口测试</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@RequestMapping</span>(<span class="string">"/jsonTest"</span>)</span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> JSONObject <span class="title">doHttpGet</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="comment">// 需要访问的接口路径</span></span><br><span class="line">       String url=<span class="string">"https://jsonview.com/example.json"</span>;</span><br><span class="line">       <span class="comment">// 配置请求信息（请求时间）</span></span><br><span class="line">       RequestConfig rc = RequestConfig.custom().setSocketTimeout(<span class="number">5000</span>).setConnectTimeout(<span class="number">5000</span>).build();</span><br><span class="line">       <span class="comment">// 获取使用DefaultHttpClient对象</span></span><br><span class="line">       CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">       <span class="comment">// 返回结果</span></span><br><span class="line">       String result = <span class="keyword">null</span>;</span><br><span class="line">       <span class="keyword">if</span>(url!=<span class="keyword">null</span>)&#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="comment">// 创建HttpGet对象，将URL通过构造方法传入HttpGet对象</span></span><br><span class="line">               HttpGet httpGet=<span class="keyword">new</span> HttpGet(url);</span><br><span class="line">               <span class="comment">// 将配置好请求信息附加到http请求中</span></span><br><span class="line">               httpGet.setConfig(rc);</span><br><span class="line">               <span class="comment">// 执行DefaultHttpClient对象的execute方法发送GET请求，通过CloseableHttpResponse接口的实例，可以获取服务器返回的信息</span></span><br><span class="line">               CloseableHttpResponse response = httpclient.execute(httpGet);</span><br><span class="line">               <span class="keyword">try</span> &#123;</span><br><span class="line">                   <span class="comment">// 得到返回对象</span></span><br><span class="line">                   HttpEntity entity = response.getEntity();</span><br><span class="line">                   <span class="keyword">if</span>(entity!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                       <span class="comment">// 获取返回结果</span></span><br><span class="line">                       result = EntityUtils.toString(entity);</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line">               &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">               &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">                   <span class="comment">// 关闭到客户端的连接</span></span><br><span class="line">                   response.close();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">               <span class="keyword">try</span> &#123;</span><br><span class="line">                   <span class="comment">// 关闭http请求</span></span><br><span class="line">                   httpclient.close();</span><br><span class="line">               &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//将得到的字符串转换成json对象(请求的本来就是把json格式数据以字符串的格式输出了)</span></span><br><span class="line">       JSONObject jsonObject= JSON.parseObject(result);</span><br><span class="line">       <span class="comment">//返回json格式</span></span><br><span class="line">       <span class="keyword">return</span> jsonObject;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>就可以拿到数据了，这里只是测试数据。<br><img src="https://img-blog.csdnimg.cn/20191016102723998.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">httpclient</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/HttpClient%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%8F%A6%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-GitHub和Idea关联进行项目的版本控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/GitHub%E5%92%8CIdea%E5%85%B3%E8%81%94%E8%BF%9B%E8%A1%8C%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">GitHub和Idea关联进行项目的版本控制</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/GitHub%E5%92%8CIdea%E5%85%B3%E8%81%94%E8%BF%9B%E8%A1%8C%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2019-11-08T08:36:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先安装好<code>git</code>，然后在<code>idea</code>中打开一个要进行版本控制的项目。<br><code>File---Settings---Version Control---Git</code>，添加<code>git.exe</code>的路径，然后点击<code>Test</code>测试是否成功。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191026115401490.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>然后再<code>File---Settings---Version Control---GitHub</code>中添加<code>github</code>用户<br><img src="https://img-blog.csdnimg.cn/20191026115547193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>下一步，<code>VCS --- import into Version Control --- Share Project onGitHub</code><br><img src="https://img-blog.csdnimg.cn/20191026115717320.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>输入远程仓库名称和本地仓库名称以及描述（这是新建的仓库名称，不是已经存在的仓库，所以名字自定义）<br><img src="https://img-blog.csdnimg.cn/20191026115936734.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>然后就把项目推送到了<code>github</code>中的一个新建的远程仓库里<br><img src="https://img-blog.csdnimg.cn/20191026120115432.png" alt="在这里插入图片描述"></p>
+<p>这时候就可以进行版本控制了！<br>比如说，刚才把这个<code>java</code>文件删了，然后在版本控制中进行提交。<br><img src="https://img-blog.csdnimg.cn/2019102612044387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20191026120459988.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20191026120530642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>提交之后只是提交到了本地库，还需要<code>push</code>推送到远程库。<br>这是从远程仓库把代码更新到本地库（更新项目）<br><img src="https://img-blog.csdnimg.cn/20191026120647473.png" alt="在这里插入图片描述"></p>
+<p>点击<code>push</code>进行推送到远程库<br><img src="https://img-blog.csdnimg.cn/201910261207597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>push`之后，远程仓库就没有这个被删除的文件了。<br>关于分支的问题我还不能够很理解，等理解了之后再补充吧！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color2">github</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/GitHub%E5%92%8CIdea%E5%85%B3%E8%81%94%E8%BF%9B%E8%A1%8C%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Hexo博客教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -336,6 +1010,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
               </li>
              
@@ -368,11 +1046,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color4">socket编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">java爬虫</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
               </li>
              
               <li class="article-tag-list-item">
