@@ -413,19 +413,19 @@
 
 
   
-    <article id="post-springboot实现分页" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-FastDFS文件服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/08/springboot%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5/">springboot实现分页</a>
+      <a class="article-title" href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/">FastDFS文件服务器的准备以及springboot上传文件到服务器</a>
     </h1>
   
 
         
-        <a href="/2019/11/08/springboot%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5/" class="archive-article-date">
+        <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
   	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
 </a>
         
@@ -433,22 +433,144 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这里项目是springboot，mybatis，thymeleaf，实现我自制的商城项目后台页面的分页功能。<br><a href="https://blog.csdn.net/weixin_44001965/article/details/92578485" target="_blank" rel="noopener">参考我之前总结的分页，简单的处理一下就可以了</a><br><strong>上代码</strong><br>首先写一个超链接跳转到controller层的方法</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/demo/page"</span> <span class="attr">target</span>=<span class="string">"iframe"</span>&gt;</span>商品管理<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="一，前言"><a href="#一，前言" class="headerlink" title="一，前言"></a>一，前言</h1><p>（1）FastDFS是什么</p>
+<p>FastDFS 是用 c 语言编写的一款开源的分布式文件系统。FastDFS 为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用 FastDFS很容易搭建一套高性能的文件服务器集群提供文件上传、下载等服务。</p>
+<p>（2）FastDFS结构</p>
+<p>FastDFS 架构包括 Tracker server 和 Storage server。客户端请求 Tracker server 进行文件上传、下载，通过 Tracker server 调度最终由 Storage server 完成文件上传和下载。</p>
+<p>Tracker server 作用是负载均衡和调度，通过 Tracker server 在文件上传时可以根据一些策略找到 Storage server 提供文件上传服务。可以将 tracker 称为追踪服务器或调度服务器。</p>
+<p>Storage server 作用是文件存储，客户端上传的文件最终存储在 Storage 服务器上，Storageserver 没有实现自己的文件系统而是利用操作系统 的文件系统来管理文件。可以将storage称为存储服务器。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190423132649388.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDczMzE4NQ==,size_16,color_FFFFFF,t_70" alt="图片加载失败"></p>
+<h1 id="二，搭建FastDFS文件服务器"><a href="#二，搭建FastDFS文件服务器" class="headerlink" title="二，搭建FastDFS文件服务器"></a>二，搭建FastDFS文件服务器</h1><p>1，首先需要安装需要的依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc-c++</span><br><span class="line">yum -y install libevent</span><br></pre></td></tr></table></figure>
 
-<p>然后写后台controller层代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 后台商品页面分页</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/page"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">page</span><span class="params">(String pageNumber,Model model)</span></span>&#123;</span><br><span class="line">    String spPage=pageNumber;</span><br><span class="line">    <span class="comment">//设置每页条数</span></span><br><span class="line">    <span class="keyword">int</span> pageSize=<span class="number">5</span>;</span><br><span class="line">    <span class="comment">//页数</span></span><br><span class="line">    <span class="keyword">int</span> pageNo=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(spPage==<span class="keyword">null</span>)&#123;</span><br><span class="line">    pageNo=<span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        pageNo = Integer.valueOf(spPage);</span><br><span class="line">        <span class="keyword">if</span> (pageNo &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            pageNo = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//设置最大页数</span></span><br><span class="line">    <span class="keyword">int</span> totalCount=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> count=selectService.getCount(phone);</span><br><span class="line">    <span class="keyword">if</span>(count&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        totalCount=count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> maxPage=totalCount%pageSize==<span class="number">0</span>?totalCount/pageSize:totalCount/pageSize+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(pageNo&gt;maxPage)&#123;</span><br><span class="line">        pageNo=maxPage;</span><br><span class="line">    &#125;</span><br><span class="line">    tempPageNo=(pageNo-<span class="number">1</span>)*pageSize;</span><br><span class="line">            <span class="comment">//计算总数量</span></span><br><span class="line">        <span class="comment">//分页查询</span></span><br><span class="line">        Map map=<span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"pageNo"</span>,tempPageNo);</span><br><span class="line">        map.put(<span class="string">"pageSize"</span>,pageSize);</span><br><span class="line">        map.put(<span class="string">"phone"</span>,phone);</span><br><span class="line">        List&lt;Map&gt; list=selectService.pageList(map);</span><br><span class="line">        <span class="comment">//最后把信息放入model转发到页面把信息带过去</span></span><br><span class="line">        model.addAttribute(<span class="string">"list"</span>,list);</span><br><span class="line">        model.addAttribute(<span class="string">"pageNo"</span>,pageNo);</span><br><span class="line">        model.addAttribute(<span class="string">"totalCount"</span>,totalCount);</span><br><span class="line">        model.addAttribute(<span class="string">"maxPage"</span>,maxPage);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"back/shangpin"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2，然后使用<code>xftp</code>把需要的压缩包上传到<code>Linux</code>服务器，在<code>/usr/local</code>文件夹中新建一个<code>fastdfs</code>文件夹。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a><img src="https://img-blog.csdnimg.cn/20191031115913260.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></h1><p>3，解压<code>libfastcommon</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf libfastcommonV1.0.7.tar.gz</span><br></pre></td></tr></table></figure>
 
-<p>Mapper层的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 商品查询总条数</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Select</span>(value = <span class="string">"select count(*) as cou from shangpin group by sellerAccount having sellerAccount&gt;=1 and sellerAccount=#&#123;phone&#125;;"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">(String phone)</span></span>;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 商品分页查询</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Select</span>(value = <span class="string">"select * from shangpin where sellerAccount=#&#123;phone&#125; limit #&#123;pageNo&#125;,#&#123;pageSize&#125;"</span>)</span><br><span class="line">   <span class="function">List&lt;Map&gt; <span class="title">pageList</span><span class="params">(Map map)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>4，然后进行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fastdfs]# ls</span><br><span class="line">fastdfs-nginx-module_v1.16.tar.gz  FastDFS_v5.05.tar.gz  libfastcommon-1.0.7  libfastcommonV1.0.7.tar.gz  nginx-1.8.1.tar.gz</span><br><span class="line">[root@localhost fastdfs]# cd libfastcommon-1.0.7</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ls</span><br><span class="line">HISTORY  INSTALL  libfastcommon.spec  make.sh  README  src</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ./make.sh</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ./make.sh install</span><br></pre></td></tr></table></figure>
 
-<p>需要注意的是，使用的是thymeleaf，则在最后把信息放入的容器只能是model。最后把所有的信息都转发到商品管理页面。</p>
-<p>商品管理html页面简单写一下，其他没关系的都省略了，只干挑头的。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/demo/page?pageNumber=1&#125;"</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;'/demo/page?pageNumber='+$&#123;pageNo-1&#125;&#125;"</span>&gt;</span>上一页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;'/demo/page?pageNumber='+$&#123;pageNo+1&#125;&#125;"</span>&gt;</span>下一页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;'/demo/page?pageNumber='+$&#123;maxPage&#125;&#125;"</span>&gt;</span>尾页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>libfastcommon</code>安装好之后会自动将库文件拷贝至<code>usr/lib64</code>下，由于<code>FastDFS</code>程序引用<code>/usr/lib</code>目录，所以需要把<code>/usr/lib64</code>下的库文件拷贝至<code>/usr/lib</code>下。</p>
+<p>拷贝命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib64</span><br><span class="line">cp libfastcommon.so /usr/lib</span><br></pre></td></tr></table></figure>
 
-<p>然后分页就完成了</p>
-<p><img src="https://img-blog.csdnimg.cn/20190620153619537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>但是上面的只是一个页面，如果是多个页面的话，代码就会重复，因此我想找时间再把上面的分页封装起来，以后使用时可以直接调用即可。</p>
+<p>查看<code>/usr/lib</code>目录下是否存在该文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lib64]# find /usr/lib -name libfastcommon.so</span><br><span class="line">/usr/lib/libfastcommon.so</span><br></pre></td></tr></table></figure>
+
+<p>5，开始安装<code>FastDFS</code></p>
+<p>进到<code>/usr/local/fastdfs</code>目录中进行解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf FastDFS_v5.05.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fastdfs]# ls</span><br><span class="line">FastDFS  fastdfs-nginx-module_v1.16.tar.gz  FastDFS_v5.05.tar.gz  libfastcommon-1.0.7  libfastcommonV1.0.7.tar.gz  nginx-1.8.1.tar.gz</span><br><span class="line">[root@localhost fastdfs]# cd FastDFS</span><br><span class="line">[root@localhost FastDFS]# ls</span><br><span class="line">client  common  conf  COPYING-3_0.txt  fastdfs.spec  HISTORY  init.d  INSTALL  make.sh  php_client  README.md  restart.sh  stop.sh  storage  test  tracker</span><br><span class="line">[root@localhost FastDFS]# ./make.sh</span><br><span class="line">[root@localhost FastDFS]# ./make.sh install</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后将安装目录下的<code>conf</code>下的文件拷贝到<code>/etc/fdfs</code>下。（nginx需要）</p>
+<p><code>conf</code>文件目录在<code>/usr/local/fastdfs/FastDFS/conf</code>，进到这个<code>conf</code>目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp * /etc/fdfs/  拷贝全部文件到fdfs目录下</span><br></pre></td></tr></table></figure>
+<p>6，安装<code>tracker</code>服务（跟踪服务）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost conf]# cd /usr/local/fastdfs/FastDFS/tracker/</span><br><span class="line">[root@localhost tracker]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/tracker   这个路径设置为base_path路径（下图）</span><br><span class="line"># 编辑tracker.conf配置文件</span><br><span class="line">[root@localhost tracker]# vim /etc/fdfs/tracker.conf</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>base_path</code>路径为</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031115934531.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-j1wJMvxW-1572494243007)(D:\文件笔记\image\1572441918745.png)]"></p>
+<p>保存退出，然后启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动</span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf</span><br><span class="line"># 重启的话是restart</span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart</span><br></pre></td></tr></table></figure>
+
+<p>7，安装<code>storage</code>服务（存储服务）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost storage]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/storage  这个路径设置为base_path路径（下图）</span><br><span class="line">[root@localhost storage]# vim /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>base_path</code>路径</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031115959442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
+
+<p>8，到此为止，两个服务都安装完成了，现在测试是否安装成功。</p>
+<p>将<code>/usr/local/fastdfs/FastDFS/client</code>里面的<code>libfdfsclient.so</code>拷贝到<code>/usr/lib</code>下，<font color="red">这一步非常重要</font>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/fastdfs/FastDFS/client/</span><br><span class="line">cp libfdfsclient.so /usr/lib</span><br></pre></td></tr></table></figure>
+
+<p>修改配置文件</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120015873.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-tTEpChXG-1572494243009)(D:\文件笔记\image\1572443620894.png)]"></p>
+<p>新建一个在<code>root</code>根目录创建一个<code>html</code>文件，内容为<code>hi,fastdfs!</code>。</p>
+<p>测试上传</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_test /etc/fdfs/client.conf upload /root/hi.html</span><br></pre></td></tr></table></figure>
+
+<p>出现下面的情况就是安装成功了，并且文件上传成功。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120029345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wkFWaHlm-1572494243010)(D:\文件笔记\image\1572444079589.png)]"></p>
+<p>文件存在了哪里呢？这里</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost 00]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/storage/data/00/00</span><br><span class="line">[root@localhost 00]# ll</span><br><span class="line">total 16</span><br><span class="line">-rw-r--r--. 1 root root 12 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34_big.html</span><br><span class="line">-rw-r--r--. 1 root root 49 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34_big.html-m</span><br><span class="line">-rw-r--r--. 1 root root 12 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34.html</span><br><span class="line">-rw-r--r--. 1 root root 49 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34.html-m</span><br><span class="line">[root@localhost 00]#</span><br></pre></td></tr></table></figure>
+
+<p>其实到这一步，这个上传的文件的路径已经出来了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.186.129/group1/M00/00/00/wKi6gV25lreAJiwIAAAADP8d-tA34_big.html</span><br></pre></td></tr></table></figure>
+
+<p>但是在浏览器中还不能够直接访问文件。</p>
+<h1 id="三，安装nginx及插件实现资源的访问"><a href="#三，安装nginx及插件实现资源的访问" class="headerlink" title="三，安装nginx及插件实现资源的访问"></a>三，安装nginx及插件实现资源的访问</h1><p>为什么需要<code>nginx</code>呢？</p>
+<p>因为<code>FastDFS</code>本身并不具有处理<code>http</code>协议的能力，而客户端正是通过<code>http</code>协议访问的，因此在浏览器中不能够直接访问文件就讲得通了。</p>
+<p>如何处理？</p>
+<p>说白了，需要<code>nginx</code>服务器作为中间件，因为<code>nginx</code>具有处理<code>http</code>协议的能力，然后安装<code>nginx+fastDFS</code>的插件，目的是建立<code>nginx</code>和<code>FastDFS</code>服务器的联系以供访问。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120059348.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">1，安装<code>nginx</code>及<code>nginx</code>插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++ (前面已经安装过)</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+
+<p>2，进到<code>/usr/local/fastdfs</code>目录下，解压<code>nginx-fastDFS</code>插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf fastdfs-nginx-module_v1.16.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>3，进到<code>/usr/local/fastdfs/fastdfs-nginx-module/src</code>下，修改<code>config</code>配置文件</p>
+<p>把路径上的<code>local</code>全部去掉，并保存退出。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120117497.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-CPSnf4Lk-1572494243011)(D:\文件笔记\image\1572484739277.png)]"></p>
+<p>4，把<code>/usr/local/fastdfs/fastdfs-nginx-module/src</code>下的<code>mod_fastdfs.conf</code>文件复制到<code>/etc/fdfs</code>目录下，并编辑该文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@192 src]# cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line">[root@192 src]# vim /etc/fdfs/mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20191031120132831.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>5，安装<code>nginx</code></p>
+<p>进到<code>/usr/local/fastdfs</code>压缩包目录，解压<code>nginx</code>压缩包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf nginx-1.8.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>关联<code>nginx</code>和<code>nginx</code>的插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@192 fastdfs]# cd nginx-1.8.1/</span><br><span class="line"># 关联操作</span><br><span class="line">[root@192 nginx-1.8.1]# ./configure --add-module=/usr/local/fastdfs/fastdfs-nginx-module/src</span><br><span class="line">[root@192 nginx-1.8.1]# make  编译</span><br><span class="line">[root@192 nginx-1.8.1]# make install  安装</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>nginx</code>被安装到了<code>/usr/local</code>目录下</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120147788.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-OTdTvIax-1572494243013)(D:\文件笔记\image\1572486117626.png)]"></p>
+<p>到<code>/usr/local/nginx/conf</code>目录下，修改<code>nginx</code>的配置文件<code>nginx.conf</code>，保存退出。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019103112015843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-SpO9V1NB-1572494243013)(D:\文件笔记\image\1572486540981.png)]"></p>
+<p>启动<code>nginx</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@192 sbin]# pwd</span><br><span class="line">/usr/local/nginx/sbin</span><br><span class="line">[root@192 sbin]# ./nginx</span><br></pre></td></tr></table></figure>
+
+<p>然后现在就可以在浏览器访问刚才那个文件的路径了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120211719.png" alt="在这里插入图片描述"></p>
+<h1 id="四，springboot访问FastDFS实现文件上传"><a href="#四，springboot访问FastDFS实现文件上传" class="headerlink" title="四，springboot访问FastDFS实现文件上传"></a>四，springboot访问FastDFS实现文件上传</h1><p>1，添加依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.tobato<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastdfs-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.26.1-RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2，在启动类上添加注解引入配置文件类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Import</span>(FdfsClientConfig<span class="class">.<span class="keyword">class</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>3，在<code>application.properties</code>加入<code>FastDFS</code>的相关配置</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 超时时间</span></span><br><span class="line"><span class="meta">fdfs.so-timeout</span>=<span class="string">1500</span></span><br><span class="line"><span class="comment"># 连接的超时时间</span></span><br><span class="line"><span class="meta">fdfs.connect-timeout</span>=<span class="string">600</span></span><br><span class="line"><span class="comment"># 连接池</span></span><br><span class="line"><span class="meta">fdfs.pool.jmx-enabled</span>=<span class="string">false</span></span><br><span class="line"><span class="comment"># 缩略图尺寸</span></span><br><span class="line"><span class="meta">fdfs.thumb-image.height</span>=<span class="string">100</span></span><br><span class="line"><span class="meta">fdfs.thumb-image.width</span>=<span class="string">100</span></span><br><span class="line"><span class="comment"># tracker服务跟踪器的地址</span></span><br><span class="line"><span class="meta">fdfs.tracker-list</span>=<span class="string">192.168.186.129:22122</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里插一句，提前先把linux的防火墙设置为22122端口和23000端口放行，否则后续的测试会因为连不上跟踪器报错。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">FastFileStorageClient fastFileStorageClient;<span class="comment">//直接引入</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/fastdfs"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">fastdfs</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</span><br><span class="line">    File file=<span class="keyword">new</span> File(<span class="string">"D://文件笔记//image//1571884758247.png"</span>);</span><br><span class="line">    <span class="comment">//文件名</span></span><br><span class="line">    String fileName=file.getName();</span><br><span class="line">    <span class="comment">//后缀名</span></span><br><span class="line">    String extName=fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//创建流</span></span><br><span class="line">    FileInputStream fileInputStream=<span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">    <span class="comment">//四个参数（输入流，文件大小，后缀名，null）,返回一个路径</span></span><br><span class="line">    StorePath storePath = fastFileStorageClient.uploadFile(fileInputStream, file.length(), extName, <span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">//不同路径</span></span><br><span class="line">    System.out.println(storePath.getFullPath());</span><br><span class="line">    System.out.println(storePath.getPath());</span><br><span class="line">    System.out.println(storePath.getGroup());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"图片上传成功，并调皮的给您返回一个路径"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分别看浏览器和控制台</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120230293.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>然后在浏览器输入访问路径（nginx的ip地址和端口加上<code>storePath.getFullPath()</code>的路径），例如</p>
+<blockquote>
+<p><a href="http://192.168.186.129/group1/M00/00/00/wKi6gV26SV6ALJu6AAB5lQx82SU564.png" target="_blank" rel="noopener">http://192.168.186.129:80/group1/M00/00/00/wKi6gV26SV6ALJu6AAB5lQx82SU564.png</a></p>
+</blockquote>
+<p>然后就可以访问刚才上传的图片了</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120249669.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="五，改造成业务代码"><a href="#五，改造成业务代码" class="headerlink" title="五，改造成业务代码"></a>五，改造成业务代码</h1><p><code>html</code>表单项</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/demo/fastdfs"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">	fastDFS测试：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"test"</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"测试上传"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>controller</code>上传业务代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">  FastFileStorageClient fastFileStorageClient;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *fastDFS服务器测试文件上传</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@RequestMapping</span>(<span class="string">"/fastdfs"</span>)</span><br><span class="line">  <span class="meta">@ResponseBody</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">fastdfs</span><span class="params">(@RequestParam(value = <span class="string">"test"</span>)</span> MultipartFile test) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//文件名</span></span><br><span class="line">      String fileName=test.getOriginalFilename();</span><br><span class="line">      <span class="comment">//后缀名</span></span><br><span class="line">      String extName=fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">      <span class="comment">//四个参数（输入流，文件大小，后缀名，null）,返回一个路径</span></span><br><span class="line">      StorePath storePath = fastFileStorageClient.uploadFile(test.getInputStream(),test.getSize(), extName, <span class="keyword">null</span>);</span><br><span class="line">      <span class="comment">//不同路径</span></span><br><span class="line">      System.out.println(storePath.getFullPath());</span><br><span class="line">      System.out.println(storePath.getPath());</span><br><span class="line">      System.out.println(storePath.getGroup());</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"图片上传成功，并调皮的给您返回一个路径"</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制台打印</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120303566.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-FjUqMhh8-1572494243015)(D:\文件笔记\image\1572491669585.png)]"></p>
+<p>把第一条路径，也就是<code>storePath.getFullPath()</code>这样得到的路径拼接到<code>nginx</code>的ip地址和端口后面，在浏览器进行访问，可以访问到上传的图片。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120315118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mFT2LoC2-1572494243016)(D:\文件笔记\image\1572491793124.png)]"></p>
+<p><font color="red">说明：如果上传的是一个文件，这里比如上传一个<code>docx</code>格式的<code>word</code>文档，那么上传成功之后返回的那个路径，<code>group1/M00/00/00/wKi6gV26VG2AG36RAAeqJLEbOEY03.docx</code>，拼接路径之后<code>http://192.168.186.129/group1/M00/00/00/wKi6gV26VG2AG36RAAeqJLEbOEY03.docx</code>，在浏览器直接访问这个路径的话会直接把这个<code>word</code>文档下载下来，图片的话就只是查看。</font></p>
+<p><font color="blue">原因是什么？是因为浏览器的缘故，如果文件格式可以被浏览器解析的话，浏览器会展示该文件，不会下载，解析不了的文件才可以下载，为什么是这样我也不太清楚。</font></p>
+<p><img src="https://img-blog.csdnimg.cn/20191031120328794.png" alt="在这里插入图片描述"></p>
+<p><code>FastDFS</code>服务器和<code>nginx</code>的部署以及<code>springboot</code>项目上传文件到<code>FastDFS</code>服务器圆满结束！</p>
 
       
 
@@ -462,7 +584,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">springboot</a>
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">fastDFS服务器</a>
         		</li>
       		
 		</ul>
@@ -472,7 +594,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/08/springboot%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/">展开全文 >></a>
         </p>
       
 
@@ -721,6 +843,95 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/11/08/POI%E5%AF%BC%E5%87%BAExcel%E8%A1%A8%E6%A0%BC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-POI解析Excel表格" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/">POI解析Excel表格</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/" class="archive-article-date">
+  	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>Apache POI</code>是<code>Apache</code>软件基金会的开放源码函式库，<code>POI</code>提供<code>API</code>给<code>Java</code>程序对<code>Microsoft Office</code>格式档案读和写的功能。</p>
+<p>这里实现<code>poi</code>解析<code>Excel</code>表格的例子，导入<code>Excel</code>，</p>
+<h3 id="准备食材"><a href="#准备食材" class="headerlink" title="准备食材"></a>准备食材</h3><h4 id="第一道菜"><a href="#第一道菜" class="headerlink" title="第一道菜"></a>第一道菜</h4><p><img src="https://img-blog.csdnimg.cn/20191011151620141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="第二道菜"><a href="#第二道菜" class="headerlink" title="第二道菜"></a>第二道菜</h4><p><img src="https://img-blog.csdnimg.cn/20191011151821418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="下锅炸至两面金黄"><a href="#下锅炸至两面金黄" class="headerlink" title="下锅炸至两面金黄"></a>下锅炸至两面金黄</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ftx.poi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.text.DecimalFormat;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.poi.hssf.usermodel.HSSFDataFormat;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.hssf.usermodel.HSSFDateUtil;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.hssf.usermodel.HSSFWorkbook;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.Cell;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.Row;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.Sheet;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.Workbook;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.xssf.usermodel.XSSFWorkbook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ParseExcel</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解析文件的方法</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@param</span> inputStream文件输入流 ，要解析的Excel文件输入流</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@param</span> suffix 后缀名，xls或xlsx，代码决定使用什么方式解析Excel</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@param</span> startRow 从第几行开始读取数据</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@return</span> List&lt;String[]&gt; 集合中的一个元素对应一行解析的数据</span></span><br><span class="line"><span class="comment"> * 		元素为字符串数组类型，数组中的每一个元素对应一列数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IOException </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> List&lt;String[]&gt; parseExcel(InputStream inputStream,String suffix,<span class="keyword">int</span> startRow) <span class="keyword">throws</span> IOException&#123;</span><br><span class="line">		<span class="comment">//定义Excel对象变量</span></span><br><span class="line">		Workbook workbook=<span class="keyword">null</span>;</span><br><span class="line">		<span class="comment">//判断后缀 决定使用的解析方式，决定如何创建具体的对象</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="string">"xls"</span>.equals(suffix)) &#123;</span><br><span class="line">			<span class="comment">//2003版的解析方式</span></span><br><span class="line">			workbook=<span class="keyword">new</span> HSSFWorkbook(inputStream);</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"xlsx"</span>.equals(suffix)) &#123;</span><br><span class="line">			<span class="comment">//2007</span></span><br><span class="line">			workbook=<span class="keyword">new</span> XSSFWorkbook(inputStream);</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//未知内容</span></span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//获取工作表，Excel分为若干个表，sheet</span></span><br><span class="line">		Sheet sheet = workbook.getSheetAt(<span class="number">0</span>);<span class="comment">//得到第一个表格sheet</span></span><br><span class="line">		<span class="keyword">if</span>(sheet==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//获取表格中最后一行的行号</span></span><br><span class="line">		<span class="keyword">int</span> lastRowNum = sheet.getLastRowNum();</span><br><span class="line">		<span class="comment">//最后一行的行号大于startRow</span></span><br><span class="line">		<span class="keyword">if</span>(lastRowNum&lt;=startRow) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		List&lt;String[]&gt; result=<span class="keyword">new</span> ArrayList&lt;String[]&gt;();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//定义行变量和单元格变量</span></span><br><span class="line">		Row row=<span class="keyword">null</span>;</span><br><span class="line">		Cell cell=<span class="keyword">null</span>;</span><br><span class="line">		<span class="comment">//循环读取</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> rowNum = startRow; rowNum &lt;= lastRowNum; rowNum++) &#123;</span><br><span class="line">			row=sheet.getRow(rowNum);</span><br><span class="line">			<span class="comment">//获取当前行的第一列和最后一列的标记</span></span><br><span class="line">			<span class="keyword">short</span> firstCellNum = row.getFirstCellNum();</span><br><span class="line">			<span class="keyword">short</span> lastCellNum = row.getLastCellNum();</span><br><span class="line">			<span class="keyword">if</span>(lastCellNum!=<span class="number">0</span>) &#123;</span><br><span class="line">				String[] rowArray=<span class="keyword">new</span> String[lastCellNum];</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> cellNum=firstCellNum;cellNum&lt;lastCellNum;cellNum++) &#123;</span><br><span class="line">					<span class="comment">//拿到单元格的值</span></span><br><span class="line">					cell=row.getCell(cellNum);</span><br><span class="line">					<span class="comment">//判断单元格是否有数据</span></span><br><span class="line">					<span class="keyword">if</span>(cell==<span class="keyword">null</span>) &#123;</span><br><span class="line">						rowArray[cellNum]=<span class="keyword">null</span>;</span><br><span class="line">					&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">						rowArray[cellNum]=parseCell(cell);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				result.add(rowArray);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 解析单元格数据（返回字符串）</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">parseCell</span><span class="params">(Cell cell)</span> </span>&#123;</span><br><span class="line">	String cellStr=<span class="keyword">null</span>;</span><br><span class="line">	<span class="comment">//判断单元格的类型</span></span><br><span class="line">	<span class="keyword">switch</span> (cell.getCellType()) &#123;</span><br><span class="line">	<span class="keyword">case</span> STRING :</span><br><span class="line">		<span class="comment">//字符串类型单元格</span></span><br><span class="line">		cellStr=cell.getRichStringCellValue().toString();</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> BLANK :</span><br><span class="line">		<span class="comment">//空数据</span></span><br><span class="line">		cellStr=<span class="string">""</span>;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> NUMERIC :</span><br><span class="line">		<span class="comment">//数字类型  包含日期、时间、数字</span></span><br><span class="line">		<span class="comment">//判断日期【年月日2016-12-20  | 时分10:20】类型</span></span><br><span class="line">		<span class="keyword">if</span>(HSSFDateUtil.isCellDateFormatted(cell)) &#123;</span><br><span class="line">			<span class="comment">//判断具体类型，是日期还是时间</span></span><br><span class="line">			SimpleDateFormat sdf=<span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">if</span>(cell.getCellStyle().getDataFormat()==HSSFDataFormat.getBuiltinFormat(<span class="string">"h:mm"</span>)) &#123;</span><br><span class="line">				<span class="comment">//时间</span></span><br><span class="line">				sdf=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"HH:mm"</span>);</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">//日期</span></span><br><span class="line">				sdf=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			Date temp = cell.getDateCellValue();</span><br><span class="line">			cellStr=sdf.format(temp);</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//数字</span></span><br><span class="line">			<span class="keyword">double</span> temp=cell.getNumericCellValue();</span><br><span class="line">			<span class="comment">//数字格式化工具</span></span><br><span class="line">			DecimalFormat format=<span class="keyword">new</span> DecimalFormat();</span><br><span class="line">			<span class="comment">//查看单元格中的具体样式类型</span></span><br><span class="line">			String formatStr=cell.getCellStyle().getDataFormatString();</span><br><span class="line">			<span class="keyword">if</span>(formatStr.equals(<span class="string">"General"</span>)) &#123;</span><br><span class="line">				<span class="comment">/**</span></span><br><span class="line"><span class="comment">				 * 定义格式化正则</span></span><br><span class="line"><span class="comment">				 * 保留一位小数 #.#</span></span><br><span class="line"><span class="comment">				 * 保留两位小数#.##</span></span><br><span class="line"><span class="comment">				 */</span></span><br><span class="line">				format.applyPattern(<span class="string">"#"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			cellStr=format.format(temp);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		cellStr=<span class="string">""</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cellStr;</span><br><span class="line">&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="吃一口嘎嘣脆"><a href="#吃一口嘎嘣脆" class="headerlink" title="吃一口嘎嘣脆"></a>吃一口嘎嘣脆</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		ParseExcel parser=<span class="keyword">new</span> ParseExcel();</span><br><span class="line">		InputStream inputStream=<span class="keyword">new</span> FileInputStream(<span class="string">"D:\\工作内容\\poiTestTwo.xls"</span>);</span><br><span class="line">		String suffix=<span class="string">"xls"</span>;</span><br><span class="line">		<span class="keyword">int</span> startRow=<span class="number">1</span>;</span><br><span class="line">		List&lt;String[]&gt; result = parser.parseExcel(inputStream, suffix, startRow);</span><br><span class="line">		<span class="keyword">for</span>(String[] i:result) &#123;</span><br><span class="line">			<span class="comment">//Arrays.toString("字符串数组")  打印字符串数组，直接打印字符串数组会打印出数组的地址</span></span><br><span class="line">			System.out.println(Arrays.toString(i));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行测试类，解析出了<code>Excel</code>表格的内容。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191011153654592.png" alt="在这里插入图片描述"></p>
+<p>说明：上面的<code>poi</code>只能是解析03和07版本的<code>Excel</code>，如果不是这个版本的<code>Excel</code>的话需要另存为03或07版本然后再进行解析，否则会报错找不到对应的jar包。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191011154014998.png" alt="在这里插入图片描述"></p>
+<p>现在只是把<code>Excel</code>表格的内容解析成了字符串数组的形式，如果导入到数据库的话还需要再对其字符串数组进行处理。</p>
+<p>思路提示：实现在页面点击按钮<code>导入Excel表格</code>进行导入的功能，使用<code>&lt;input type=&quot;file&quot; /&gt;</code>表单提交，在<code>controller</code>中接收到的就是<code>File</code>对象,就不用像上面的测试类中写死的样子了。<br>根据<code>suffix</code>判断表格文件的版本（获取后缀参考图片上传）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">(@RequestParam(value = <span class="string">"pic"</span>)</span> MultipartFile pic,@RequestParam Map param,Model model) <span class="keyword">throws</span> ParseException </span>&#123;</span><br><span class="line">   String fileName=pic.getOriginalFilename();<span class="comment">//得到文件名</span></span><br><span class="line">   String suffixName=fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>));<span class="comment">//得到后缀名</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">POI编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/">展开全文 >></a>
         </p>
       
 
@@ -1092,217 +1303,6 @@
 
 
   
-    <article id="post-FastDFS文件服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/">FastDFS文件服务器的准备以及springboot上传文件到服务器</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2019-11-08T09:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一，前言"><a href="#一，前言" class="headerlink" title="一，前言"></a>一，前言</h1><p>（1）FastDFS是什么</p>
-<p>FastDFS 是用 c 语言编写的一款开源的分布式文件系统。FastDFS 为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用 FastDFS很容易搭建一套高性能的文件服务器集群提供文件上传、下载等服务。</p>
-<p>（2）FastDFS结构</p>
-<p>FastDFS 架构包括 Tracker server 和 Storage server。客户端请求 Tracker server 进行文件上传、下载，通过 Tracker server 调度最终由 Storage server 完成文件上传和下载。</p>
-<p>Tracker server 作用是负载均衡和调度，通过 Tracker server 在文件上传时可以根据一些策略找到 Storage server 提供文件上传服务。可以将 tracker 称为追踪服务器或调度服务器。</p>
-<p>Storage server 作用是文件存储，客户端上传的文件最终存储在 Storage 服务器上，Storageserver 没有实现自己的文件系统而是利用操作系统 的文件系统来管理文件。可以将storage称为存储服务器。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190423132649388.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDczMzE4NQ==,size_16,color_FFFFFF,t_70" alt="图片加载失败"></p>
-<h1 id="二，搭建FastDFS文件服务器"><a href="#二，搭建FastDFS文件服务器" class="headerlink" title="二，搭建FastDFS文件服务器"></a>二，搭建FastDFS文件服务器</h1><p>1，首先需要安装需要的依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc-c++</span><br><span class="line">yum -y install libevent</span><br></pre></td></tr></table></figure>
-
-<p>2，然后使用<code>xftp</code>把需要的压缩包上传到<code>Linux</code>服务器，在<code>/usr/local</code>文件夹中新建一个<code>fastdfs</code>文件夹。</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a><img src="https://img-blog.csdnimg.cn/20191031115913260.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></h1><p>3，解压<code>libfastcommon</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf libfastcommonV1.0.7.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>4，然后进行安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fastdfs]# ls</span><br><span class="line">fastdfs-nginx-module_v1.16.tar.gz  FastDFS_v5.05.tar.gz  libfastcommon-1.0.7  libfastcommonV1.0.7.tar.gz  nginx-1.8.1.tar.gz</span><br><span class="line">[root@localhost fastdfs]# cd libfastcommon-1.0.7</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ls</span><br><span class="line">HISTORY  INSTALL  libfastcommon.spec  make.sh  README  src</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ./make.sh</span><br><span class="line">[root@localhost libfastcommon-1.0.7]# ./make.sh install</span><br></pre></td></tr></table></figure>
-
-<p><code>libfastcommon</code>安装好之后会自动将库文件拷贝至<code>usr/lib64</code>下，由于<code>FastDFS</code>程序引用<code>/usr/lib</code>目录，所以需要把<code>/usr/lib64</code>下的库文件拷贝至<code>/usr/lib</code>下。</p>
-<p>拷贝命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib64</span><br><span class="line">cp libfastcommon.so /usr/lib</span><br></pre></td></tr></table></figure>
-
-<p>查看<code>/usr/lib</code>目录下是否存在该文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lib64]# find /usr/lib -name libfastcommon.so</span><br><span class="line">/usr/lib/libfastcommon.so</span><br></pre></td></tr></table></figure>
-
-<p>5，开始安装<code>FastDFS</code></p>
-<p>进到<code>/usr/local/fastdfs</code>目录中进行解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf FastDFS_v5.05.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fastdfs]# ls</span><br><span class="line">FastDFS  fastdfs-nginx-module_v1.16.tar.gz  FastDFS_v5.05.tar.gz  libfastcommon-1.0.7  libfastcommonV1.0.7.tar.gz  nginx-1.8.1.tar.gz</span><br><span class="line">[root@localhost fastdfs]# cd FastDFS</span><br><span class="line">[root@localhost FastDFS]# ls</span><br><span class="line">client  common  conf  COPYING-3_0.txt  fastdfs.spec  HISTORY  init.d  INSTALL  make.sh  php_client  README.md  restart.sh  stop.sh  storage  test  tracker</span><br><span class="line">[root@localhost FastDFS]# ./make.sh</span><br><span class="line">[root@localhost FastDFS]# ./make.sh install</span><br></pre></td></tr></table></figure>
-
-<p>安装成功后将安装目录下的<code>conf</code>下的文件拷贝到<code>/etc/fdfs</code>下。（nginx需要）</p>
-<p><code>conf</code>文件目录在<code>/usr/local/fastdfs/FastDFS/conf</code>，进到这个<code>conf</code>目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp * /etc/fdfs/  拷贝全部文件到fdfs目录下</span><br></pre></td></tr></table></figure>
-<p>6，安装<code>tracker</code>服务（跟踪服务）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost conf]# cd /usr/local/fastdfs/FastDFS/tracker/</span><br><span class="line">[root@localhost tracker]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/tracker   这个路径设置为base_path路径（下图）</span><br><span class="line"># 编辑tracker.conf配置文件</span><br><span class="line">[root@localhost tracker]# vim /etc/fdfs/tracker.conf</span><br></pre></td></tr></table></figure>
-
-<p>修改<code>base_path</code>路径为</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031115934531.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-j1wJMvxW-1572494243007)(D:\文件笔记\image\1572441918745.png)]"></p>
-<p>保存退出，然后启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动</span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf</span><br><span class="line"># 重启的话是restart</span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart</span><br></pre></td></tr></table></figure>
-
-<p>7，安装<code>storage</code>服务（存储服务）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost storage]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/storage  这个路径设置为base_path路径（下图）</span><br><span class="line">[root@localhost storage]# vim /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
-
-<p>修改<code>base_path</code>路径</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031115959442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
-
-<p>8，到此为止，两个服务都安装完成了，现在测试是否安装成功。</p>
-<p>将<code>/usr/local/fastdfs/FastDFS/client</code>里面的<code>libfdfsclient.so</code>拷贝到<code>/usr/lib</code>下，<font color="red">这一步非常重要</font>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/fastdfs/FastDFS/client/</span><br><span class="line">cp libfdfsclient.so /usr/lib</span><br></pre></td></tr></table></figure>
-
-<p>修改配置文件</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120015873.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-tTEpChXG-1572494243009)(D:\文件笔记\image\1572443620894.png)]"></p>
-<p>新建一个在<code>root</code>根目录创建一个<code>html</code>文件，内容为<code>hi,fastdfs!</code>。</p>
-<p>测试上传</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_test /etc/fdfs/client.conf upload /root/hi.html</span><br></pre></td></tr></table></figure>
-
-<p>出现下面的情况就是安装成功了，并且文件上传成功。</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120029345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wkFWaHlm-1572494243010)(D:\文件笔记\image\1572444079589.png)]"></p>
-<p>文件存在了哪里呢？这里</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost 00]# pwd</span><br><span class="line">/usr/local/fastdfs/FastDFS/storage/data/00/00</span><br><span class="line">[root@localhost 00]# ll</span><br><span class="line">total 16</span><br><span class="line">-rw-r--r--. 1 root root 12 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34_big.html</span><br><span class="line">-rw-r--r--. 1 root root 49 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34_big.html-m</span><br><span class="line">-rw-r--r--. 1 root root 12 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34.html</span><br><span class="line">-rw-r--r--. 1 root root 49 Oct 30 09:57 wKi6gV25lreAJiwIAAAADP8d-tA34.html-m</span><br><span class="line">[root@localhost 00]#</span><br></pre></td></tr></table></figure>
-
-<p>其实到这一步，这个上传的文件的路径已经出来了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.186.129/group1/M00/00/00/wKi6gV25lreAJiwIAAAADP8d-tA34_big.html</span><br></pre></td></tr></table></figure>
-
-<p>但是在浏览器中还不能够直接访问文件。</p>
-<h1 id="三，安装nginx及插件实现资源的访问"><a href="#三，安装nginx及插件实现资源的访问" class="headerlink" title="三，安装nginx及插件实现资源的访问"></a>三，安装nginx及插件实现资源的访问</h1><p>为什么需要<code>nginx</code>呢？</p>
-<p>因为<code>FastDFS</code>本身并不具有处理<code>http</code>协议的能力，而客户端正是通过<code>http</code>协议访问的，因此在浏览器中不能够直接访问文件就讲得通了。</p>
-<p>如何处理？</p>
-<p>说白了，需要<code>nginx</code>服务器作为中间件，因为<code>nginx</code>具有处理<code>http</code>协议的能力，然后安装<code>nginx+fastDFS</code>的插件，目的是建立<code>nginx</code>和<code>FastDFS</code>服务器的联系以供访问。</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120059348.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">1，安装<code>nginx</code>及<code>nginx</code>插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++ (前面已经安装过)</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
-
-<p>2，进到<code>/usr/local/fastdfs</code>目录下，解压<code>nginx-fastDFS</code>插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf fastdfs-nginx-module_v1.16.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>3，进到<code>/usr/local/fastdfs/fastdfs-nginx-module/src</code>下，修改<code>config</code>配置文件</p>
-<p>把路径上的<code>local</code>全部去掉，并保存退出。</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120117497.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-CPSnf4Lk-1572494243011)(D:\文件笔记\image\1572484739277.png)]"></p>
-<p>4，把<code>/usr/local/fastdfs/fastdfs-nginx-module/src</code>下的<code>mod_fastdfs.conf</code>文件复制到<code>/etc/fdfs</code>目录下，并编辑该文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@192 src]# cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line">[root@192 src]# vim /etc/fdfs/mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20191031120132831.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>5，安装<code>nginx</code></p>
-<p>进到<code>/usr/local/fastdfs</code>压缩包目录，解压<code>nginx</code>压缩包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf nginx-1.8.1.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>关联<code>nginx</code>和<code>nginx</code>的插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@192 fastdfs]# cd nginx-1.8.1/</span><br><span class="line"># 关联操作</span><br><span class="line">[root@192 nginx-1.8.1]# ./configure --add-module=/usr/local/fastdfs/fastdfs-nginx-module/src</span><br><span class="line">[root@192 nginx-1.8.1]# make  编译</span><br><span class="line">[root@192 nginx-1.8.1]# make install  安装</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>nginx</code>被安装到了<code>/usr/local</code>目录下</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120147788.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-OTdTvIax-1572494243013)(D:\文件笔记\image\1572486117626.png)]"></p>
-<p>到<code>/usr/local/nginx/conf</code>目录下，修改<code>nginx</code>的配置文件<code>nginx.conf</code>，保存退出。</p>
-<p><img src="https://img-blog.csdnimg.cn/2019103112015843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-SpO9V1NB-1572494243013)(D:\文件笔记\image\1572486540981.png)]"></p>
-<p>启动<code>nginx</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@192 sbin]# pwd</span><br><span class="line">/usr/local/nginx/sbin</span><br><span class="line">[root@192 sbin]# ./nginx</span><br></pre></td></tr></table></figure>
-
-<p>然后现在就可以在浏览器访问刚才那个文件的路径了。</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120211719.png" alt="在这里插入图片描述"></p>
-<h1 id="四，springboot访问FastDFS实现文件上传"><a href="#四，springboot访问FastDFS实现文件上传" class="headerlink" title="四，springboot访问FastDFS实现文件上传"></a>四，springboot访问FastDFS实现文件上传</h1><p>1，添加依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.tobato<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastdfs-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.26.1-RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>2，在启动类上添加注解引入配置文件类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Import</span>(FdfsClientConfig<span class="class">.<span class="keyword">class</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>3，在<code>application.properties</code>加入<code>FastDFS</code>的相关配置</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 超时时间</span></span><br><span class="line"><span class="meta">fdfs.so-timeout</span>=<span class="string">1500</span></span><br><span class="line"><span class="comment"># 连接的超时时间</span></span><br><span class="line"><span class="meta">fdfs.connect-timeout</span>=<span class="string">600</span></span><br><span class="line"><span class="comment"># 连接池</span></span><br><span class="line"><span class="meta">fdfs.pool.jmx-enabled</span>=<span class="string">false</span></span><br><span class="line"><span class="comment"># 缩略图尺寸</span></span><br><span class="line"><span class="meta">fdfs.thumb-image.height</span>=<span class="string">100</span></span><br><span class="line"><span class="meta">fdfs.thumb-image.width</span>=<span class="string">100</span></span><br><span class="line"><span class="comment"># tracker服务跟踪器的地址</span></span><br><span class="line"><span class="meta">fdfs.tracker-list</span>=<span class="string">192.168.186.129:22122</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里插一句，提前先把linux的防火墙设置为22122端口和23000端口放行，否则后续的测试会因为连不上跟踪器报错。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">FastFileStorageClient fastFileStorageClient;<span class="comment">//直接引入</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/fastdfs"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">fastdfs</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</span><br><span class="line">    File file=<span class="keyword">new</span> File(<span class="string">"D://文件笔记//image//1571884758247.png"</span>);</span><br><span class="line">    <span class="comment">//文件名</span></span><br><span class="line">    String fileName=file.getName();</span><br><span class="line">    <span class="comment">//后缀名</span></span><br><span class="line">    String extName=fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//创建流</span></span><br><span class="line">    FileInputStream fileInputStream=<span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">    <span class="comment">//四个参数（输入流，文件大小，后缀名，null）,返回一个路径</span></span><br><span class="line">    StorePath storePath = fastFileStorageClient.uploadFile(fileInputStream, file.length(), extName, <span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">//不同路径</span></span><br><span class="line">    System.out.println(storePath.getFullPath());</span><br><span class="line">    System.out.println(storePath.getPath());</span><br><span class="line">    System.out.println(storePath.getGroup());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"图片上传成功，并调皮的给您返回一个路径"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>分别看浏览器和控制台</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120230293.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>然后在浏览器输入访问路径（nginx的ip地址和端口加上<code>storePath.getFullPath()</code>的路径），例如</p>
-<blockquote>
-<p><a href="http://192.168.186.129/group1/M00/00/00/wKi6gV26SV6ALJu6AAB5lQx82SU564.png" target="_blank" rel="noopener">http://192.168.186.129:80/group1/M00/00/00/wKi6gV26SV6ALJu6AAB5lQx82SU564.png</a></p>
-</blockquote>
-<p>然后就可以访问刚才上传的图片了</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120249669.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h1 id="五，改造成业务代码"><a href="#五，改造成业务代码" class="headerlink" title="五，改造成业务代码"></a>五，改造成业务代码</h1><p><code>html</code>表单项</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/demo/fastdfs"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">	fastDFS测试：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"test"</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"测试上传"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>controller</code>上传业务代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">  FastFileStorageClient fastFileStorageClient;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *fastDFS服务器测试文件上传</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@RequestMapping</span>(<span class="string">"/fastdfs"</span>)</span><br><span class="line">  <span class="meta">@ResponseBody</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">fastdfs</span><span class="params">(@RequestParam(value = <span class="string">"test"</span>)</span> MultipartFile test) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//文件名</span></span><br><span class="line">      String fileName=test.getOriginalFilename();</span><br><span class="line">      <span class="comment">//后缀名</span></span><br><span class="line">      String extName=fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">      <span class="comment">//四个参数（输入流，文件大小，后缀名，null）,返回一个路径</span></span><br><span class="line">      StorePath storePath = fastFileStorageClient.uploadFile(test.getInputStream(),test.getSize(), extName, <span class="keyword">null</span>);</span><br><span class="line">      <span class="comment">//不同路径</span></span><br><span class="line">      System.out.println(storePath.getFullPath());</span><br><span class="line">      System.out.println(storePath.getPath());</span><br><span class="line">      System.out.println(storePath.getGroup());</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"图片上传成功，并调皮的给您返回一个路径"</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>控制台打印</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120303566.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-FjUqMhh8-1572494243015)(D:\文件笔记\image\1572491669585.png)]"></p>
-<p>把第一条路径，也就是<code>storePath.getFullPath()</code>这样得到的路径拼接到<code>nginx</code>的ip地址和端口后面，在浏览器进行访问，可以访问到上传的图片。</p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120315118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mFT2LoC2-1572494243016)(D:\文件笔记\image\1572491793124.png)]"></p>
-<p><font color="red">说明：如果上传的是一个文件，这里比如上传一个<code>docx</code>格式的<code>word</code>文档，那么上传成功之后返回的那个路径，<code>group1/M00/00/00/wKi6gV26VG2AG36RAAeqJLEbOEY03.docx</code>，拼接路径之后<code>http://192.168.186.129/group1/M00/00/00/wKi6gV26VG2AG36RAAeqJLEbOEY03.docx</code>，在浏览器直接访问这个路径的话会直接把这个<code>word</code>文档下载下来，图片的话就只是查看。</font></p>
-<p><font color="blue">原因是什么？是因为浏览器的缘故，如果文件格式可以被浏览器解析的话，浏览器会展示该文件，不会下载，解析不了的文件才可以下载，为什么是这样我也不太清楚。</font></p>
-<p><img src="https://img-blog.csdnimg.cn/20191031120328794.png" alt="在这里插入图片描述"></p>
-<p><code>FastDFS</code>服务器和<code>nginx</code>的部署以及<code>springboot</code>项目上传文件到<code>FastDFS</code>服务器圆满结束！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">fastDFS服务器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-动手实现一个企业级的权限分配demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1638,11 +1638,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">github</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1650,11 +1650,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">github</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1666,11 +1666,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1679,10 +1683,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1726,11 +1726,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
