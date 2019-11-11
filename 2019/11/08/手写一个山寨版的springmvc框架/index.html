@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>手写一个山寨版的springmvc框架 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先贴出来一张从网上copy下来的springmvc工作原理图分析：其实springmvc只不过是把servlet进行了封装和处理，下面就开始手写一个简易版的springmvc框架。另外，客户端发送一个请求到前端控制器DispatcherServlet，所谓的前端控制器只是封装后的一个servlet，这个servlet接收到请求后在初始化init()方法中要做下面几件事情。  扫描所有的类 反射实">
+  <meta name="description" content="首先贴出来一张从网上copy下来的springmvc工作原理图">
 <meta name="keywords" content="springmvc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="手写一个山寨版的springmvc框架">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%B1%B1%E5%AF%A8%E7%89%88%E7%9A%84springmvc%E6%A1%86%E6%9E%B6&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="首先贴出来一张从网上copy下来的springmvc工作原理图分析：其实springmvc只不过是把servlet进行了封装和处理，下面就开始手写一个简易版的springmvc框架。另外，客户端发送一个请求到前端控制器DispatcherServlet，所谓的前端控制器只是封装后的一个servlet，这个servlet接收到请求后在初始化init()方法中要做下面几件事情。  扫描所有的类 反射实">
+<meta property="og:description" content="首先贴出来一张从网上copy下来的springmvc工作原理图">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191023131607290.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191023132056982.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191023134609346.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191023134728304.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T09:21:47.835Z">
+<meta property="og:updated_time" content="2019-11-11T05:31:56.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191023131607290.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -178,7 +178,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先贴出来一张从网上copy下来的<code>springmvc</code>工作原理图<br><img src="https://img-blog.csdnimg.cn/20191023131607290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>分析：其实<code>springmvc</code>只不过是把<code>servlet</code>进行了封装和处理，下面就开始手写一个简易版的<code>springmvc</code>框架。另外，客户端发送一个请求到前端控制器<code>DispatcherServlet</code>，所谓的前端控制器只是封装后的一个<code>servlet</code>，这个<code>servlet</code>接收到请求后在初始化<code>init()</code>方法中要做下面几件事情。</p>
+        <p>首先贴出来一张从网上copy下来的<code>springmvc</code>工作原理图</p>
+<a id="more"></a>
+
+<p><img src="https://img-blog.csdnimg.cn/20191023131607290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>分析：其实<code>springmvc</code>只不过是把<code>servlet</code>进行了封装和处理，下面就开始手写一个简易版的<code>springmvc</code>框架。另外，客户端发送一个请求到前端控制器<code>DispatcherServlet</code>，所谓的前端控制器只是封装后的一个<code>servlet</code>，这个<code>servlet</code>接收到请求后在初始化<code>init()</code>方法中要做下面几件事情。</p>
 <ol>
 <li>扫描所有的类</li>
 <li>反射实例化controller、service类，放入ioc容器</li>
@@ -326,8 +329,8 @@
     </a>
   
   
-    <a href="/2019/11/08/%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E5%88%86%E9%85%8D%EF%BC%88%E6%B2%A1%E6%9C%89%E6%AF%94%E8%BF%99%E8%AE%B2%E7%9A%84%E6%9B%B4%E7%BB%86%E7%9A%84%E4%BA%86%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">角色权限分配</div>
+    <a href="/2019/11/08/mysql%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mysql定时任务</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -457,15 +460,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,10 +484,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -493,11 +492,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,11 +528,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,11 +540,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

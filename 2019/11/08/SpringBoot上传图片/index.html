@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>springboot上传图片 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="浅谈我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！在springboot2.×版本以后，上传时就不需要任何配置了，什么配置文件也不需要，啥也不讲了，上来就是干！ 下面是我自己做个一个商城项目上传图片的demo首先是数据库表 这个项目使用的是springboo">
+  <meta name="description" content="浅谈我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！">
 <meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot上传图片">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;SpringBoot%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="浅谈我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！在springboot2.×版本以后，上传时就不需要任何配置了，什么配置文件也不需要，啥也不讲了，上来就是干！ 下面是我自己做个一个商城项目上传图片的demo首先是数据库表 这个项目使用的是springboo">
+<meta property="og:description" content="浅谈我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190619155004874.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190619160654594.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T09:25:02.955Z">
+<meta property="og:updated_time" content="2019-11-11T05:32:55.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190619155004874.png">
   
@@ -176,7 +176,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>浅谈</strong><br>我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！<br>在springboot2.×版本以后，上传时就不需要任何配置了，什么配置文件也不需要，啥也不讲了，上来就是干！</p>
+        <p><strong>浅谈</strong><br>我一直都觉得上传图片好复杂，除了本地上传，还有局域网上传，公网上传乱七八糟的，不仅看不懂，还不想学，因为老是觉得本地上传没啥大用处，直到今天，我才看透，什么本地不本地的，统统都是一个套路！</p>
+<a id="more"></a>
+
+<p>在springboot2.×版本以后，上传时就不需要任何配置了，什么配置文件也不需要，啥也不讲了，上来就是干！</p>
 <p>下面是我自己做个一个商城项目上传图片的demo<br>首先是数据库表<br><img src="https://img-blog.csdnimg.cn/20190619155004874.png" alt="在这里插入图片描述"></p>
 <p><strong>这个项目使用的是springboot，mybatis，thymeleaf</strong><br>前台html页面代码</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/demo/upload"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">			上架的商品名称：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			商品尺寸：<span class="tag">&lt;<span class="name">select</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">name</span>=<span class="string">"size"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"M"</span>&gt;</span>M<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"L"</span>&gt;</span>L<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"XL"</span>&gt;</span>XL<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"XXL"</span>&gt;</span>XXL<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			商品价格：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"price"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			上架商品数量：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"number"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			商品颜色：<span class="tag">&lt;<span class="name">select</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">name</span>=<span class="string">"color"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"蓝色"</span>&gt;</span>蓝色<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"白色"</span>&gt;</span>白色<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"黑色"</span>&gt;</span>黑色<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"灰色"</span>&gt;</span>灰色<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			商品类型：<span class="tag">&lt;<span class="name">select</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">name</span>=<span class="string">"kind"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"男装"</span>&gt;</span>男装<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"女装"</span>&gt;</span>女装<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"童装"</span>&gt;</span>童装<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"时尚包包"</span>&gt;</span>时尚包包<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			原价：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"preprice"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			商品图片：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"pic"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			上架日期：<span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"input"</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">name</span>=<span class="string">"time"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"确认上架"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -298,18 +301,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/08/Shiro%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%8B%A6%E6%88%AA/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          shiro权限认证拦截
+          POI解析Excel表格
         
       </div>
     </a>
   
   
-    <a href="/2019/11/08/POI%E8%A7%A3%E6%9E%90Excel%E8%A1%A8%E6%A0%BC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">POI解析Excel表格</div>
+    <a href="/2019/11/08/Java%E7%88%AC%E8%99%AB%E7%9A%84%E5%BA%95%E5%B1%82%E5%8F%8A%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%EF%BC%88%E5%8F%AF%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E7%88%AC%E5%8F%96%E4%BA%AC%E4%B8%9C%E5%AE%98%E7%BD%91%E7%9A%84%E5%95%86%E5%93%81%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E5%B9%B6%E4%BF%9D%E5%AD%98%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java爬虫的底层及实现过程</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -439,15 +442,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -463,10 +466,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -475,11 +474,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,11 +510,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -519,11 +522,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

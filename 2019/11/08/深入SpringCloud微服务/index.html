@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>深入springCloud微服务 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringCloud一，写一个小例子，引出springcloud微服务新建一个项目microservice，maven项目，这个项目是父项目，所以只建一个java project即可。  在name标签上边加上配置，声明该项目为springboot项目 12345678910111213&amp;lt;modules&amp;gt;  &amp;lt;module&amp;gt;provider-user&amp;lt;&#x2F;module">
+  <meta name="description" content="SpringCloud一，写一个小例子，引出springcloud微服务新建一个项目microservice，maven项目，这个项目是父项目，所以只建一个java project即可。">
 <meta name="keywords" content="springcloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入springCloud微服务">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E6%B7%B1%E5%85%A5SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="SpringCloud一，写一个小例子，引出springcloud微服务新建一个项目microservice，maven项目，这个项目是父项目，所以只建一个java project即可。  在name标签上边加上配置，声明该项目为springboot项目 12345678910111213&amp;lt;modules&amp;gt;  &amp;lt;module&amp;gt;provider-user&amp;lt;&#x2F;module">
+<meta property="og:description" content="SpringCloud一，写一个小例子，引出springcloud微服务新建一个项目microservice，maven项目，这个项目是父项目，所以只建一个java project即可。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190915165028930.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190915165126226.png">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190915165305990.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9pbWcubXVrZXdhbmcuY29tLzViNGYxYmZkMDAwMTEzZmExMjAwMDY0NC5qcGc?x-oss-process=image&#x2F;format,png">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190915165430257.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T09:21:11.166Z">
+<meta property="og:updated_time" content="2019-11-11T05:31:45.985Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190915165028930.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -185,6 +185,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="SpringCloud"><a href="#SpringCloud" class="headerlink" title="SpringCloud"></a>SpringCloud</h1><h2 id="一，写一个小例子，引出springcloud微服务"><a href="#一，写一个小例子，引出springcloud微服务" class="headerlink" title="一，写一个小例子，引出springcloud微服务"></a>一，写一个小例子，引出springcloud微服务</h2><p>新建一个项目<code>microservice</code>，maven项目，这个项目是父项目，所以只建一个<code>java project</code>即可。</p>
+<a id="more"></a>
+
 <p><img src="https://img-blog.csdnimg.cn/20190915165028930.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败(img-vlXkD4MP-1568537333557)(D:\文件笔记\image\1568018765301.png)]"></p>
 <p>在<code>name</code>标签上边加上配置，声明该项目为<code>springboot</code>项目</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module</span>&gt;</span>provider-user<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module</span>&gt;</span>consumer-order<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--将当前项目声明为springboot项目--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>microserviceTwo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- FIXME change it to the project's website --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">url</span>&gt;</span>http://www.example.com<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -546,18 +548,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/08/%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E5%88%86%E9%85%8D%EF%BC%88%E6%B2%A1%E6%9C%89%E6%AF%94%E8%BF%99%E8%AE%B2%E7%9A%84%E6%9B%B4%E7%BB%86%E7%9A%84%E4%BA%86%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          角色权限分配
+          FastDFS文件服务器的准备以及springboot上传文件到服务器
         
       </div>
     </a>
   
   
-    <a href="/2019/11/08/springboot%E6%8D%95%E8%8E%B7%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%92%8C%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot捕获全局异常和配置多数据源</div>
+    <a href="/2019/11/08/%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E5%88%86%E9%85%8D%EF%BC%88%E6%B2%A1%E6%9C%89%E6%AF%94%E8%BF%99%E8%AE%B2%E7%9A%84%E6%9B%B4%E7%BB%86%E7%9A%84%E4%BA%86%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">角色权限分配</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -687,15 +689,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -711,10 +713,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -723,11 +721,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -755,11 +757,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -767,11 +769,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

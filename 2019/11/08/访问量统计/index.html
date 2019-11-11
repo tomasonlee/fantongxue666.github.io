@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>访问量统计 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个项目中所有的资源被访问都要对访问量进行累加！创建一个int类型的变量，用来保存访问量，然后把它保存到ServletContext的域中，这样可以保存所有的Servlet都可以访问到！最初时，ServletContext中没有保存访问量相关的属性；当本站第一次被访问时，创建一个变量，设置值为1，保存到ServletContext中；当以后的访问时，就可以从ServletContext中获取这个变">
+  <meta name="description" content="一个项目中所有的资源被访问都要对访问量进行累加！">
 <meta name="keywords" content="访问量统计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="访问量统计">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="一个项目中所有的资源被访问都要对访问量进行累加！创建一个int类型的变量，用来保存访问量，然后把它保存到ServletContext的域中，这样可以保存所有的Servlet都可以访问到！最初时，ServletContext中没有保存访问量相关的属性；当本站第一次被访问时，创建一个变量，设置值为1，保存到ServletContext中；当以后的访问时，就可以从ServletContext中获取这个变">
+<meta property="og:description" content="一个项目中所有的资源被访问都要对访问量进行累加！">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190617110701517.png">
-<meta property="og:updated_time" content="2019-11-08T09:01:00.279Z">
+<meta property="og:updated_time" content="2019-11-11T05:30:20.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190617110701517.png">
   
@@ -175,7 +175,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一个项目中所有的资源被访问都要对访问量进行累加！<br>创建一个<code>int</code>类型的变量，用来保存访问量，然后把它保存到<code>ServletContext</code>的域中，这样可以保存所有的<code>Servlet</code>都可以访问到！<br>最初时，<code>ServletContext</code>中没有保存访问量相关的属性；<br>当本站第一次被访问时，创建一个变量，设置值为1，保存到<code>ServletContext</code>中；<br>当以后的访问时，就可以从ServletContext中获取这个变量，然后在基础之上加1.</p>
+        <p>一个项目中所有的资源被访问都要对访问量进行累加！</p>
+<a id="more"></a>
+
+<p>创建一个<code>int</code>类型的变量，用来保存访问量，然后把它保存到<code>ServletContext</code>的域中，这样可以保存所有的<code>Servlet</code>都可以访问到！<br>最初时，<code>ServletContext</code>中没有保存访问量相关的属性；<br>当本站第一次被访问时，创建一个变量，设置值为1，保存到<code>ServletContext</code>中；<br>当以后的访问时，就可以从ServletContext中获取这个变量，然后在基础之上加1.</p>
 <p>获取<code>ServletContext</code>对象，查看是否存在名为<code>count</code>的属性，如果存在，说明不是第一次访问，如果不存在，说明是第一次访问。<br>        第一次访问：调用<code>ServletContext</code>的<code>setAttribute()</code>传递一个属性，名为<code>count</code>，值为1；<br>        第2~n次访问：调用<code>ServletContext</code>的<code>getAttribute()</code>方法获取原来的访问量，给访问量加1，再调用<code>ServletContext</code>的<code>setAttribute()</code>方法完成设置。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aservlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request,  HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">                <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">           <span class="comment">//获取ServletContext对象</span></span><br><span class="line">           <span class="comment">//从对象中获取名为count的属性</span></span><br><span class="line">           <span class="comment">//如果存在，给访问量+1，然后再保存回去</span></span><br><span class="line">           <span class="comment">//如果不存在，说明时第一次访问，向ServletContext中保存count的属性，值为1</span></span><br><span class="line">           ServletContext app=<span class="keyword">this</span>.getServletContext();</span><br><span class="line">           Integer count=(Integer) app.getAttribute(<span class="string">"count"</span>);</span><br><span class="line">           <span class="keyword">if</span>(count==<span class="keyword">null</span>)&#123;</span><br><span class="line">                app.setAttribute(<span class="string">"count"</span>, <span class="number">1</span>);</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                app.setAttribute(<span class="string">"count"</span>, count+<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">/**</span></span><br><span class="line"><span class="comment">            * 向浏览器输出,需要使用响应对象</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">           PrintWriter pw=response.getWriter();</span><br><span class="line">           pw.print(count);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后在浏览器访问该servlet，每访问一次会加一。<br><img src="https://img-blog.csdnimg.cn/20190617110701517.png" alt="在这里插入图片描述"></p>
@@ -424,15 +427,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -448,10 +451,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -460,11 +459,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,11 +495,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,11 +507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

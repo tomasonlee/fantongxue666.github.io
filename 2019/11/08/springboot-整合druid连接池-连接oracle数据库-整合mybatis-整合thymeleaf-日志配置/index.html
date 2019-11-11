@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>springboot---整合druid连接池---连接oracle数据库---整合mybatis---整合thymeleaf---日志配置 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在新建的springboot项目pom文件中新添druid连接池的依赖123456&amp;lt;!-- druid数据库连接池 --&amp;gt;   &amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.alibaba&amp;lt;&#x2F;groupId&amp;gt;    &amp;lt;artifactId&amp;gt;druid-spring-boot-starter&amp;lt;&#x2F;artifactId&amp;gt;">
+  <meta name="description" content="在新建的springboot项目pom文件中新添druid连接池的依赖">
 <meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot---整合druid连接池---连接oracle数据库---整合mybatis---整合thymeleaf---日志配置">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;springboot-%E6%95%B4%E5%90%88druid%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%BF%9E%E6%8E%A5oracle%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B4%E5%90%88mybatis-%E6%95%B4%E5%90%88thymeleaf-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="在新建的springboot项目pom文件中新添druid连接池的依赖123456&amp;lt;!-- druid数据库连接池 --&amp;gt;   &amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.alibaba&amp;lt;&#x2F;groupId&amp;gt;    &amp;lt;artifactId&amp;gt;druid-spring-boot-starter&amp;lt;&#x2F;artifactId&amp;gt;">
+<meta property="og:description" content="在新建的springboot项目pom文件中新添druid连接池的依赖">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-08T09:03:06.634Z">
+<meta property="og:updated_time" content="2019-11-11T05:30:29.172Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
@@ -173,7 +173,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="在新建的springboot项目pom文件中新添druid连接池的依赖"><a href="#在新建的springboot项目pom文件中新添druid连接池的依赖" class="headerlink" title="在新建的springboot项目pom文件中新添druid连接池的依赖"></a>在新建的springboot项目pom文件中新添druid连接池的依赖</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- druid数据库连接池 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="在新建的springboot项目pom文件中新添druid连接池的依赖"><a href="#在新建的springboot项目pom文件中新添druid连接池的依赖" class="headerlink" title="在新建的springboot项目pom文件中新添druid连接池的依赖"></a>在新建的springboot项目pom文件中新添druid连接池的依赖</h1><a id="more"></a>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- druid数据库连接池 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h1 id="在application-properties配置文件中添加配置"><a href="#在application-properties配置文件中添加配置" class="headerlink" title="在application.properties配置文件中添加配置"></a>在application.properties配置文件中添加配置</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#spring.datasource.druid.driver-class-name=oracle.jdbc.driver.OracleDriver  可配可不配，阿里的数据库连接池会通过url自动搜寻</span></span><br><span class="line"><span class="string">spring.datasource.druid.url=jdbc:oracle:thin:@localhost:1521:orcl</span></span><br><span class="line"><span class="string">spring.datasource.druid.username=scott</span></span><br><span class="line"><span class="string">spring.datasource.druid.password=tiger</span></span><br><span class="line"><span class="string">spring.datasource.druid.initial-size=5</span></span><br><span class="line"><span class="string">spring.datasource.druid.max-active=20</span></span><br><span class="line"><span class="string">spring.datasource.druid.min-idle=10</span></span><br><span class="line"><span class="string">spring.datasource.druid.max-wait=10</span></span><br><span class="line"><span class="comment">#是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。</span></span><br><span class="line"><span class="comment">#在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。</span></span><br><span class="line"><span class="comment">#spring.datasource.druid.pool-prepared-statements=true</span></span><br><span class="line"><span class="comment">#配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒</span></span><br><span class="line"><span class="string">spring.datasource.druid.time-between-eviction-runs-millis=60000</span></span><br><span class="line"><span class="comment">#配置一个连接在池中最小生存的时间，单位是毫秒</span></span><br><span class="line"><span class="string">spring.datasource.druid.min-evictable-idle-time-millis=300000</span></span><br><span class="line"><span class="comment">#配置扩展插件:监控统计用的filter:stat  日志用的filter:log4j  防御sql注入的filter:wall</span></span><br><span class="line"><span class="comment">#spring.datasource.druid.filters=stat,wall</span></span><br><span class="line"><span class="comment">#spring.datasource.druid.filter.stat.log-slow-sql=true</span></span><br><span class="line"><span class="comment">#spring.datasource.druid.filter.stat.slow-sql-millis=2000</span></span><br></pre></td></tr></table></figure>
 <h1 id="配置静态文件目录和模板文件目录"><a href="#配置静态文件目录和模板文件目录" class="headerlink" title="配置静态文件目录和模板文件目录"></a>配置静态文件目录和模板文件目录</h1><p><strong>创建文件夹</strong></p>
 <p> 静态文件目录：src\main\resources\static<br>模板文件目录：src\main\resources\templates</p>
@@ -429,15 +431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -453,10 +455,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -465,11 +463,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,11 +499,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -509,11 +511,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

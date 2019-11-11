@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>WebSocket实现多人在线聊天功能 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="WebSocket是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的TCP和UDP不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是WebSocket不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。下面实现的一个多人的在线聊天室，前台聊天框是在网上找的模板，该聊天室具有的功能如下  当一个客户端进入之后，其他客户端会看到">
+  <meta name="description" content="WebSocket是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的TCP和UDP不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是WebSocket不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。">
 <meta name="keywords" content="websocket">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WebSocket实现多人在线聊天功能">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;WebSocket%E5%AE%9E%E7%8E%B0%E5%A4%9A%E4%BA%BA%E5%9C%A8%E7%BA%BF%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="WebSocket是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的TCP和UDP不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是WebSocket不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。下面实现的一个多人的在线聊天室，前台聊天框是在网上找的模板，该聊天室具有的功能如下  当一个客户端进入之后，其他客户端会看到">
+<meta property="og:description" content="WebSocket是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的TCP和UDP不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是WebSocket不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190913211128728.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T08:34:21.645Z">
+<meta property="og:updated_time" content="2019-11-11T05:25:41.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190913211128728.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -175,7 +175,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><code>WebSocket</code>是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的<code>TCP</code>和<code>UDP</code>不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是<code>WebSocket</code>不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。<br>下面实现的一个多人的在线聊天室，前台聊天框是在网上找的模板，该聊天室具有的功能如下</p>
+        <p><code>WebSocket</code>是现在最流行的实现多人在线聊或者私聊的技术，它可以实现客户端到客户端的通信，和以往的<code>TCP</code>和<code>UDP</code>不一样，它俩是客户端到服务端的通信，而且服务端不能直接给客户端发送消息，但是<code>WebSocket</code>不仅可以客户端和客户端之间通信，服务端也可以直接发送消息给客户端。</p>
+<a id="more"></a>
+
+<p>下面实现的一个多人的在线聊天室，前台聊天框是在网上找的模板，该聊天室具有的功能如下</p>
 <ol>
 <li>当一个客户端进入之后，其他客户端会看到系统消息提示（某某某进入了聊天室）</li>
 <li>客户端发送消息，每个客户端都可以收到消息</li>
@@ -436,15 +439,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,10 +463,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -472,11 +471,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,11 +507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,11 +519,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

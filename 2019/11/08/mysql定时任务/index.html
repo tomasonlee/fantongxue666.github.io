@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>mysql定时任务 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql定时操作首先查看mysql数据库的定时策略是否开启了 12	show variables like &amp;apos;%event_sche%&amp;apos;; 显示的event_scheduler为OFF时用以下命令开启 1set global event_scheduler=1; 注意：以上的改法在数据库重启后将会恢复为原来状态，要想数据库重启后也可以让event_scheduler开启，则需">
+  <meta name="description" content="mysql定时操作首先查看mysql数据库的定时策略是否开启了">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql定时任务">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;mysql%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="mysql定时操作首先查看mysql数据库的定时策略是否开启了 12	show variables like &amp;apos;%event_sche%&amp;apos;; 显示的event_scheduler为OFF时用以下命令开启 1set global event_scheduler=1; 注意：以上的改法在数据库重启后将会恢复为原来状态，要想数据库重启后也可以让event_scheduler开启，则需">
+<meta property="og:description" content="mysql定时操作首先查看mysql数据库的定时策略是否开启了">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-08T09:10:48.607Z">
+<meta property="og:updated_time" content="2019-11-11T05:23:35.926Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
@@ -174,6 +174,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>mysql定时操作</strong><br>首先查看mysql数据库的定时策略是否开启了</p>
+<a id="more"></a>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">show variables like &apos;%event_sche%&apos;;</span><br></pre></td></tr></table></figure>
 <p>显示的event_scheduler为OFF时用以下命令开启</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global event_scheduler=1;</span><br></pre></td></tr></table></figure>
@@ -298,9 +300,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/11/08/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%B1%B1%E5%AF%A8%E7%89%88%E7%9A%84springmvc%E6%A1%86%E6%9E%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          手写一个山寨版的springmvc框架
+        
+      </div>
+    </a>
   
-    <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">FastDFS文件服务器的准备以及springboot上传文件到服务器</div>
+  
+    <a href="/2019/11/08/nginx%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%AE%8C%E7%BB%93%E7%AF%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx配置反向代理和负载均衡完结篇</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -430,15 +441,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -454,10 +465,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -466,11 +473,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -498,11 +509,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,11 +521,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

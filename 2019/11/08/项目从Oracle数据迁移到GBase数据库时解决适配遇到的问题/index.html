@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>项目从Oracle数据迁移到GBase数据库时解决适配遇到的问题 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一，oracle中nvl()函数NVL（表达式1，表达式2）如果表达式1为空值，NVL返回值为表达式2的值，否则返回表达式1的值。该函数的目的是把一个空值（null）转换成一个实际的值。其表达式的值可以是数字型、字符型和日期型。但是表达式1和表达式2的数据类型必须为同一个类型。 二，oracle数据库中sql语句中with as 的用法相当于建了个e临时表 12with e as (select">
+  <meta name="description" content="一，oracle中nvl()函数NVL（表达式1，表达式2）">
 <meta name="keywords" content="gbase">
 <meta property="og:type" content="article">
 <meta property="og:title" content="项目从Oracle数据迁移到GBase数据库时解决适配遇到的问题">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E9%A1%B9%E7%9B%AE%E4%BB%8EOracle%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%88%B0GBase%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%B6%E8%A7%A3%E5%86%B3%E9%80%82%E9%85%8D%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="一，oracle中nvl()函数NVL（表达式1，表达式2）如果表达式1为空值，NVL返回值为表达式2的值，否则返回表达式1的值。该函数的目的是把一个空值（null）转换成一个实际的值。其表达式的值可以是数字型、字符型和日期型。但是表达式1和表达式2的数据类型必须为同一个类型。 二，oracle数据库中sql语句中with as 的用法相当于建了个e临时表 12with e as (select">
+<meta property="og:description" content="一，oracle中nvl()函数NVL（表达式1，表达式2）">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190803182745123.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190903194559187.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T08:53:39.318Z">
+<meta property="og:updated_time" content="2019-11-11T05:29:12.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190803182745123.png">
   
@@ -176,7 +176,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一，oracle中nvl-函数"><a href="#一，oracle中nvl-函数" class="headerlink" title="一，oracle中nvl()函数"></a>一，oracle中nvl()函数</h1><p>NVL（表达式1，表达式2）<br>如果表达式1为空值，NVL返回值为表达式2的值，否则返回表达式1的值。该函数的目的是把一个空值（null）转换成一个实际的值。其表达式的值可以是数字型、字符型和日期型。但是表达式1和表达式2的数据类型必须为同一个类型。</p>
+        <h1 id="一，oracle中nvl-函数"><a href="#一，oracle中nvl-函数" class="headerlink" title="一，oracle中nvl()函数"></a>一，oracle中nvl()函数</h1><p>NVL（表达式1，表达式2）</p>
+<a id="more"></a>
+
+<p>如果表达式1为空值，NVL返回值为表达式2的值，否则返回表达式1的值。该函数的目的是把一个空值（null）转换成一个实际的值。其表达式的值可以是数字型、字符型和日期型。但是表达式1和表达式2的数据类型必须为同一个类型。</p>
 <h1 id="二，oracle数据库中sql语句中with-as-的用法"><a href="#二，oracle数据库中sql语句中with-as-的用法" class="headerlink" title="二，oracle数据库中sql语句中with as 的用法"></a>二，oracle数据库中sql语句中with as 的用法</h1><p>相当于建了个e临时表</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> e <span class="keyword">as</span> (<span class="keyword">select</span> * <span class="keyword">from</span> scott.emp e <span class="keyword">where</span> e.empno=<span class="number">7499</span>)</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> e;</span><br></pre></td></tr></table></figure>
 
@@ -487,15 +490,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -511,10 +514,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -523,11 +522,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,11 +558,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,11 +570,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

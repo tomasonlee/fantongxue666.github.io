@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title> jQuery实现轮播图 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。先展示一下轮播图的终结版截图轮播图需要实现的功能就不再细讲了，直接看代码吧，仔细看，不要感觉轮播图好难，代码好多就懒得看了，其实很简单。 html代码 12345678910111213141516171819&amp;lt;div class=&quot;pic&quot;&amp;gt;			&amp;lt;img src=&quot;img&#x2F;微信截图_2">
+  <meta name="description" content="轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。先展示一下轮播图的终结版截图">
 <meta name="keywords" content="jquery">
 <meta property="og:type" content="article">
 <meta property="og:title" content=" jQuery实现轮播图">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;jQuery%E5%AE%9E%E7%8E%B0%E8%BD%AE%E6%92%AD%E5%9B%BE&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。先展示一下轮播图的终结版截图轮播图需要实现的功能就不再细讲了，直接看代码吧，仔细看，不要感觉轮播图好难，代码好多就懒得看了，其实很简单。 html代码 12345678910111213141516171819&amp;lt;div class=&quot;pic&quot;&amp;gt;			&amp;lt;img src=&quot;img&#x2F;微信截图_2">
+<meta property="og:description" content="轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。先展示一下轮播图的终结版截图">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190705133608343.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-08T08:54:59.152Z">
+<meta property="og:updated_time" content="2019-11-11T05:29:27.192Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20190705133608343.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -175,7 +175,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。<br>先展示一下轮播图的终结版截图<br><img src="https://img-blog.csdnimg.cn/20190705133608343.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>轮播图需要实现的功能就不再细讲了，直接看代码吧，仔细看，不要感觉轮播图好难，代码好多就懒得看了，其实很简单。</p>
+        <p>轮播图虽然在网上有很多插件可以用，但是自己亲手做一个又有何不可？就使用jquery就OK了。<br>先展示一下轮播图的终结版截图</p>
+<a id="more"></a>
+
+<p><img src="https://img-blog.csdnimg.cn/20190705133608343.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>轮播图需要实现的功能就不再细讲了，直接看代码吧，仔细看，不要感觉轮播图好难，代码好多就懒得看了，其实很简单。</p>
 <p>html代码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"pic"</span>&gt;</span><br><span class="line">			&lt;img src=<span class="string">"img/微信截图_20190705084205.png"</span>/&gt;</span><br><span class="line">			&lt;img src=<span class="string">"img/微信截图_20190705084220.png"</span>/&gt;</span><br><span class="line">			&lt;img src=<span class="string">"img/微信截图_20190705100148.png"</span>/&gt;</span><br><span class="line">			&lt;img src=<span class="string">"img/微信截图_20190705100208.png"</span>/&gt;</span><br><span class="line">			</span><br><span class="line">			&lt;div id=<span class="string">"left"</span>&gt;</span><br><span class="line">			&lt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;div id=<span class="string">"right"</span>&gt;</span><br><span class="line">			&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">			&lt;ul id=<span class="string">"ulObj"</span>&gt;</span><br><span class="line">				&lt;li&gt;&lt;/li&gt;</span><br><span class="line">				&lt;li&gt;&lt;/li&gt;</span><br><span class="line">				&lt;li&gt;&lt;/li&gt;</span><br><span class="line">				&lt;li&gt;&lt;/li&gt;</span><br><span class="line">			&lt;/ul&gt;</span><br><span class="line">		&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <p>css样式代码</p>
@@ -428,15 +431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -452,10 +455,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -464,11 +463,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -496,11 +499,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -508,11 +511,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">

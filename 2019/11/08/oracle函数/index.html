@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>oracle函数 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1，case when用法从表中根据时间点不同查询出活动的状态。 12345678select t.*,(case when (t.start_date &amp;lt;= sysdate and t.end_date &amp;gt;= sysdate)then &amp;apos;报名中&amp;apos;          when  t.fw_date_z &amp;lt; sysdate then &amp;apos;已结束&amp;apos;          when (t.f">
+  <meta name="description" content="1，case when用法从表中根据时间点不同查询出活动的状态。">
 <meta name="keywords" content="oracle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="oracle函数">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;08&#x2F;oracle%E5%87%BD%E6%95%B0&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="1，case when用法从表中根据时间点不同查询出活动的状态。 12345678select t.*,(case when (t.start_date &amp;lt;= sysdate and t.end_date &amp;gt;= sysdate)then &amp;apos;报名中&amp;apos;          when  t.fw_date_z &amp;lt; sysdate then &amp;apos;已结束&amp;apos;          when (t.f">
+<meta property="og:description" content="1，case when用法从表中根据时间点不同查询出活动的状态。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-08T08:52:34.080Z">
+<meta property="og:updated_time" content="2019-11-11T05:29:02.943Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
@@ -174,6 +174,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="1，case-when用法"><a href="#1，case-when用法" class="headerlink" title="1，case when用法"></a>1，case when用法</h1><p>从表中根据时间点不同查询出活动的状态。</p>
+<a id="more"></a>
+
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.*,(<span class="keyword">case</span> <span class="keyword">when</span> (t.start_date &lt;= <span class="keyword">sysdate</span> <span class="keyword">and</span> t.end_date &gt;= <span class="keyword">sysdate</span>)<span class="keyword">then</span> <span class="string">'报名中'</span></span><br><span class="line">          <span class="keyword">when</span>  t.fw_date_z &lt; <span class="keyword">sysdate</span> <span class="keyword">then</span> <span class="string">'已结束'</span></span><br><span class="line">          <span class="keyword">when</span> (t.fw_date &lt;= <span class="keyword">sysdate</span> <span class="keyword">and</span> t.fw_date_z &gt;= <span class="keyword">sysdate</span>)<span class="keyword">then</span> <span class="string">'进行中'</span></span><br><span class="line">          <span class="keyword">when</span> (t.fw_date_z <span class="keyword">is</span> <span class="literal">null</span> <span class="keyword">and</span> t.fw_date &lt; <span class="keyword">sysdate</span>) <span class="keyword">then</span> <span class="string">'已结束'</span></span><br><span class="line">          <span class="keyword">else</span> <span class="string">'进行中'</span> <span class="keyword">end</span>)<span class="keyword">as</span> hdzt,</span><br><span class="line">        (<span class="keyword">select</span> b.fczs_id <span class="keyword">from</span> zyfw_fczs b <span class="keyword">where</span> b.zyfw_id = t.zyfw_id <span class="keyword">and</span> <span class="keyword">rownum</span>=<span class="number">1</span>) <span class="keyword">as</span> fczs_id</span><br><span class="line">        <span class="keyword">from</span> zyfw_main t,zyfw_zyz a</span><br><span class="line">          <span class="keyword">where</span> t.zyfw_id=a.zyfw_id  <span class="keyword">and</span> t.status=<span class="string">'2'</span>;</span><br></pre></td></tr></table></figure>
 <h1 id="2，trunc函数的用法"><a href="#2，trunc函数的用法" class="headerlink" title="2，trunc函数的用法"></a>2，trunc函数的用法</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span><span class="number">-1</span>) <span class="keyword">from</span> dual t;<span class="comment">--昨天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>+<span class="number">1</span>) <span class="keyword">from</span> dual t;<span class="comment">--明天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'yy'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'year'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'yyyy'</span>) <span class="keyword">from</span> dual;<span class="comment">--当年第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'q'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间所在的季度的第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'mm'</span>) <span class="keyword">from</span> dual;<span class="comment">--当月第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'month'</span>) <span class="keyword">from</span> dual;<span class="comment">--当月第一天</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'d'</span>) <span class="keyword">from</span> dual;<span class="comment">--返回本周的第一天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>,<span class="string">'day'</span>) <span class="keyword">from</span> dual;<span class="comment">--返回本周的第一天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'iw'</span>) <span class="keyword">from</span> dual;<span class="comment">--本周第二天（周日为第一天）</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'hh'</span>) <span class="keyword">from</span> dual; <span class="comment">--当前时间，精确到小时</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'hh24'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间。精确到小时</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="keyword">sysdate</span>, <span class="string">'mi'</span>) <span class="keyword">from</span> dual;<span class="comment">--当前时间。精确到分钟 没有精确到秒的精度</span></span><br></pre></td></tr></table></figure>
 <h1 id="3，substr函数"><a href="#3，substr函数" class="headerlink" title="3，substr函数"></a>3，substr函数</h1><p>substr函数格式   (俗称：字符截取函数)<br>　　格式1： substr(string string, int a, int b);<br>　　格式2：substr(string string, int a) ;<br>解释：<br>    格式1：<br>        1、string 需要截取的字符串<br>        2、a 截取字符串的开始位置（注：当a等于0或1时，都是从第一位开始截取）<br>        3、b 要截取的字符串的长度<br>    格式2：<br>        1、string 需要截取的字符串<br>        2、a 可以理解为从第a个字符开始截取后面所有的字符串。</p>
@@ -598,15 +600,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -622,10 +624,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
@@ -634,11 +632,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -666,11 +668,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -678,11 +680,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
