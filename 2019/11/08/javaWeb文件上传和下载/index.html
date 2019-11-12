@@ -65,15 +65,15 @@
 		<nav class="header-smart-menu">
     		
     			
-    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)" target="_blank" rel="noopener">所有文章</a>
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="#">所有文章</a>
     			
             
     			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)" target="_blank" rel="noopener">友链</a>
+    			<a q-on="click: openSlider(e, 'friends')" href="#">友链</a>
     			
             
     			
-    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)" target="_blank" rel="noopener">关于我</a>
+    			<a q-on="click: openSlider(e, 'aboutme')" href="#">关于我</a>
     			
             
 		</nav>
@@ -186,27 +186,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">NewsDao</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取新闻列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Select</span>(value = <span class="string">"select * from tb_news"</span>)</span><br><span class="line">    <span class="function">List&lt;Map&gt; <span class="title">getList</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新闻添加</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> map</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Insert</span>(value = <span class="string">"insert into tb_news values(seq_news_id.nextval,#&#123;title&#125;,#&#123;content&#125;,#&#123;type&#125;,0,#&#123;picPath&#125;)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(Map map)</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新闻删除</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Delete</span>(value = <span class="string">"delete from tb_news where newsid=#&#123;newsid&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id获取新闻信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Select</span>(value = <span class="string">"select * from tb_news where newsid=#&#123;newsid&#125;"</span>)</span><br><span class="line">    <span class="function">List&lt;Map&gt; <span class="title">getListById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更改新闻信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Update</span>(value = <span class="string">"update tb_news set title=#&#123;title&#125;,content=#&#123;content&#125;,typeid=#&#123;typeid&#125;,picpath=#&#123;picPath&#125; where newsid=#&#123;newsid&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">update</span><span class="params">(Map map)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢兄弟萌的支持<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -424,11 +403,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">github</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -436,7 +415,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">github</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -496,15 +475,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
