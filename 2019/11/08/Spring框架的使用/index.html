@@ -194,11 +194,11 @@
       
         <h1 id="一，spring框架需要的jar包（必备jar包）"><a href="#一，spring框架需要的jar包（必备jar包）" class="headerlink" title="一，spring框架需要的jar包（必备jar包）"></a>一，spring框架需要的jar包（必备jar包）</h1><a id="more"></a>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821151810113.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821151810113.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt></p>
 <h1 id="二，创建一个项目（感受一下bean的存在）"><a href="#二，创建一个项目（感受一下bean的存在）" class="headerlink" title="二，创建一个项目（感受一下bean的存在）"></a>二，创建一个项目（感受一下bean的存在）</h1><p>在src文件夹中新建一个配置文件applicationContext.xml文件，至于上面的配置就去官网上面查吧，文件内容中配置了bean就可以在java代码中使用。</p>
 <p>applicationContext.xml文件的位置一般都放在src下面。</p>
 <p><font color="red"><strong>注意：文件名是定死的，不能变。</strong></font></p>
-<p><img src="https://img-blog.csdnimg.cn/20190821151831721.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821151831721.png" alt></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span></span><br><span class="line">    xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">    xmlns:p=<span class="string">"http://www.springframework.org/schema/p"</span></span><br><span class="line">    xsi:schemaLocation=<span class="string">"http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;</span><br><span class="line">    &lt;!-- 注册bean：下面的注册，相当于在代码中写的  --&gt;</span><br><span class="line">   &lt;!--  ISomeService someservice=<span class="keyword">new</span> SomeServiceImpl(); --&gt;</span><br><span class="line">    &lt;bean id="someService" class="com.qianlong.test.SomeServiceImpl"&gt;&lt;/bean&gt;  </span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
 
 
@@ -253,7 +253,7 @@
 <ul>
 <li><p>singleton，单例模式，即在整个spring容器中，使用singleton定义的bean是单例的，只有一个实例。<font color="red">bean默认是单例模式。</font></p>
 </li>
-<li><p>prototype，原型模式，每次使用getBean方法获取的同一个<bean />实例都是一个新的实例</p>
+<li><p>prototype，原型模式，每次使用getBean方法获取的同一个<bean>实例都是一个新的实例</bean></p>
 </li>
 <li><p>request，对于每次HTTP请求，都将产生一个不同的bean实例。</p>
 </li>
@@ -276,7 +276,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	ISomeService service=(ISomeService) ac.getBean(<span class="string">"someService"</span>);</span><br><span class="line">	System.out.println(service);</span><br></pre></td></tr></table></figure>
 
 <p>打印结果会先打印bean后处理器的方法，然后再打印service对象。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821151905357.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821151905357.png" alt></p>
 <h1 id="六，定制Bean的生命周期初末"><a href="#六，定制Bean的生命周期初末" class="headerlink" title="六，定制Bean的生命周期初末"></a>六，定制Bean的生命周期初末</h1><p>可以为bean定制初始化后的生命行为，也可以为bean定制销毁前的生命行为。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeServiceImpl</span> <span class="keyword">implements</span> <span class="title">ISomeService</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSome</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.print(<span class="string">"hello"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beanInit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"bean刚被初始化"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"bean要被销毁了"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -286,7 +286,7 @@
 <p>使用容器创建bean并关闭容器，写测试类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	ISomeService service=(ISomeService) ac.getBean(<span class="string">"someService"</span>);</span><br><span class="line">	service.doSome();</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 若要看到销毁方法的执行，需要两个条件</span></span><br><span class="line"><span class="comment">	 * bean需要是singleton单例的</span></span><br><span class="line"><span class="comment">	 * 手工将容器关闭</span></span><br><span class="line"><span class="comment">	 * ApplicationContext没有close方法，但是它的实现类ClassPathXmlApplicationContext有close方法</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	((ClassPathXmlApplicationContext)ac).close();</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821151921469.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821151921469.png" alt></p>
 <h1 id="七，基于XML的DI"><a href="#七，基于XML的DI" class="headerlink" title="七，基于XML的DI"></a>七，基于XML的DI</h1><h2 id="设值注入"><a href="#设值注入" class="headerlink" title="设值注入"></a>设值注入</h2><p>写一个实体类，然后再xml文件中写入信息，最后使用容器创建该实体对象并且打印，会打印出xml写入的信息。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -324,12 +324,12 @@
 <p>测试类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	Student student=(Student) ac.getBean(<span class="string">"student"</span>);</span><br><span class="line">	System.out.println(student);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821152016494.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152016494.png" alt></p>
 <p>p命名空间设值注入的支持是</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821152032476.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152032476.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt></p>
 <h2 id="c命名空间设值注入"><a href="#c命名空间设值注入" class="headerlink" title="c命名空间设值注入"></a>c命名空间设值注入</h2><p>和上面的p命名空间一样的道理，在applicationContext.xml文件中引入c命名空间的支持就可以了，然后和p命名空间同样的使用方式。这里省略不讲了。</p>
 <p>c命名空间设值注入支持</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821152047363.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152047363.png" alt></p>
 <h1 id="八，基于注解的注入"><a href="#八，基于注解的注入" class="headerlink" title="八，基于注解的注入"></a>八，基于注解的注入</h1><p>基于注解的注入需要aop  jar包底层的支持，在applicationContext.xml文件的约束中需要添加context约束。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.springframework.org/schema/context</span><br><span class="line">http://www.springframework.org/schema/context/spring-context.xsd</span><br></pre></td></tr></table></figure>
 
@@ -343,7 +343,7 @@
 <p>然后进行测试</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	Student student=(Student) ac.getBean(<span class="string">"myStudent"</span>);</span><br><span class="line">	System.out.println(student);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821152104387.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152104387.png" alt></p>
 <h2 id="使用-Resource为域属性自动注入"><a href="#使用-Resource为域属性自动注入" class="headerlink" title="使用@Resource为域属性自动注入"></a>使用@Resource为域属性自动注入</h2><p>student类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span>(<span class="string">"myStudent"</span>)	<span class="comment">//表明当前类为组件，容器创建的这个组件名称为myStudent，相当于bean的id属性</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"张三"</span>)	<span class="comment">//为name属性赋值</span></span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"23"</span>)</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">	<span class="meta">@Resource</span></span><br><span class="line">	<span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -354,7 +354,7 @@
 <p>直接测试</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	Student student=(Student) ac.getBean(<span class="string">"myStudent"</span>);</span><br><span class="line">	System.out.println(student);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821152119962.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152119962.png" alt></p>
 <h2 id="使用-Autowired为域属性自动注入"><a href="#使用-Autowired为域属性自动注入" class="headerlink" title="使用@Autowired为域属性自动注入"></a>使用@Autowired为域属性自动注入</h2><p>把上面的@Resource注解换成@Autowired也可以达到上述的效果。</p>
 <h2 id="JavaConfig注解"><a href="#JavaConfig注解" class="headerlink" title="JavaConfig注解"></a>JavaConfig注解</h2><p>写一个student实体类，这里需要加上带参构造器，xml包扫描。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name, Integer age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
@@ -377,7 +377,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	SomeService target=<span class="keyword">new</span> SomeServiceImpl();</span><br><span class="line">	<span class="comment">//代理模式实现交叉业务逻辑切入到主业务中</span></span><br><span class="line">	SomeService proxy=(SomeService) Proxy.newProxyInstance(</span><br><span class="line">			target.getClass().getClassLoader(), target.getClass().getInterfaces(),</span><br><span class="line">			<span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">				<span class="comment">//交叉业务逻辑是在invoke方法里完成的</span></span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">					System.out.println(<span class="string">"开启事务"</span>);</span><br><span class="line">					Object result=method.invoke(target, args);</span><br><span class="line">					System.out.println(<span class="string">"开启日志"</span>);</span><br><span class="line">					<span class="keyword">return</span> result;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">	proxy.doSecond();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行结果</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821152143565.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152143565.png" alt></p>
 <h2 id="aop的使用"><a href="#aop的使用" class="headerlink" title="aop的使用"></a>aop的使用</h2><h3 id="前置通知MethodBeforeAdvice"><a href="#前置通知MethodBeforeAdvice" class="headerlink" title="前置通知MethodBeforeAdvice"></a>前置通知MethodBeforeAdvice</h3><p>定义前置通知，需要实现MethodBeforeAdvice接口，该接口中有一个方法before()，会在目标方法执行之前执行。</p>
 <p>和上面一样，准备好接口和实现类。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SomeService</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">doSome</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">String <span class="title">doSecond</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -394,14 +394,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	<span class="comment">//这里是得到代理类的bean</span></span><br><span class="line">	SomeService service=(SomeService) ac.getBean(<span class="string">"serviceProxy"</span>);</span><br><span class="line">	service.doSome();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>打印结果</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821152159521.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152159521.png" alt></p>
 <h3 id="后置通知AfterReturningAdvice"><a href="#后置通知AfterReturningAdvice" class="headerlink" title="后置通知AfterReturningAdvice"></a>后置通知AfterReturningAdvice</h3><p>定义后置通知，需要实现接口AfterReturningAdvice，该接口中有一个方法afterReturning()，会在目标方法执行之后执行。</p>
 <p>这里和前置通知的操作一样，只不过替换了目标对象为后置通知的类。测试类写法相同，测试结果如下</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//后置通知	虽然可以获取到目标方法的返回值，但是不能改变</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAfterReturningAdvice</span> <span class="keyword">implements</span> <span class="title">AfterReturningAdvice</span> </span>&#123;</span><br><span class="line">    <span class="comment">//arg0：目标方法返回值</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterReturning</span><span class="params">(Object arg0, Method arg1, Object[] arg2, Object arg3)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"目标方法执行之后执行"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">		<span class="comment">&lt;!-- 目标对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"someService"</span> <span class="attr">class</span>=<span class="string">"com.qianlong.test.SomeServiceImpl"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>   </span><br><span class="line">	<span class="comment">&lt;!-- 通知：前置通知     注册到bean中，id属性值是自己起的名字--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"afterAdvice"</span> <span class="attr">class</span>=<span class="string">"com.qianlong.test.MyAfterReturningAdvice"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br><span class="line">  <span class="comment">&lt;!-- 代理对象的生成：注意这里的ProxyFactoryBean不是代理类，而是代理对象生成器 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"serviceProxy"</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.ProxyFactoryBean"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"target"</span> <span class="attr">ref</span>=<span class="string">"someService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"interfaces"</span> <span class="attr">value</span>=<span class="string">"com.qianlong.test.SomeService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"interceptorNames"</span> <span class="attr">value</span>=<span class="string">"afterAdvice"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/20190821152211519.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152211519.png" alt></p>
 <h3 id="环绕通知MethodInterceptor"><a href="#环绕通知MethodInterceptor" class="headerlink" title="环绕通知MethodInterceptor"></a>环绕通知MethodInterceptor</h3><p>定义环绕通知，需要实现接口MethodInterceptor。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMethodInterceptor</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(MethodInvocation invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"目标方法执行之前"</span>);</span><br><span class="line">		<span class="comment">//调用目标方法</span></span><br><span class="line">		Object result=invocation.proceed();</span><br><span class="line">		System.out.println(<span class="string">"目标方法执行之后"</span>);</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -412,7 +412,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext ac=<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">	<span class="comment">//这里是得到代理类的bean</span></span><br><span class="line">	SomeService service=(SomeService) ac.getBean(<span class="string">"serviceProxy"</span>);</span><br><span class="line">	service.doSome();</span><br></pre></td></tr></table></figure>
 
 <p>运行结果</p>
-<p><img src="https://img-blog.csdnimg.cn/20190821152223777.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20190821152223777.png" alt></p>
 <h1 id="十，AspectJ对aop的实现"><a href="#十，AspectJ对aop的实现" class="headerlink" title="十，AspectJ对aop的实现"></a>十，AspectJ对aop的实现</h1><h2 id="AspectJ的切入点表达式"><a href="#AspectJ的切入点表达式" class="headerlink" title="AspectJ的切入点表达式"></a>AspectJ的切入点表达式</h2><p>学习时间有限，以后有时间再进行补充。</p>
 
       
@@ -651,7 +651,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -659,19 +659,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">httpclient</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -707,6 +707,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">SSO单点登录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color4">socket编程</a>
               </li>
              
@@ -723,11 +727,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
               </li>
              
               <li class="article-tag-list-item">
