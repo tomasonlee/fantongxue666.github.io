@@ -5,26 +5,26 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="fantongxue666.github.io">
+  <link rel="dns-prefetch" href="https://fantongxue666.github.io">
   <title>SSO单点登录详细教程 | 樊同学的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一，什么是单点登录？官方介绍：单点登录，简称为SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录，包括单点登录与单点注销两部分。">
+  <meta name="description" content="单点登录的实现！">
 <meta name="keywords" content="SSO单点登录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSO单点登录详细教程">
-<meta property="og:url" content="fantongxue666.github.io&#x2F;2019&#x2F;11&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;fantongxue666.github.io&#x2F;2019&#x2F;11&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95&#x2F;index.html">
 <meta property="og:site_name" content="樊同学的博客">
-<meta property="og:description" content="一，什么是单点登录？官方介绍：单点登录，简称为SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录，包括单点登录与单点注销两部分。">
+<meta property="og:description" content="单点登录的实现！">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574311887287.png">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312168312.png">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312326846.png">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312761667.png">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574313084782.png">
-<meta property="og:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574313170533.png">
-<meta property="og:updated_time" content="2019-11-21T06:14:06.311Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174516854.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174536499.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174545195.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174552631.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174559974.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;2019112117460518.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-11-21T09:51:41.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="&#x2F;21&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B&#x2F;SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574311887287.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174516854.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
   
@@ -163,7 +163,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SSO单点登录详细教程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-SSO单点登录" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -175,7 +175,7 @@
   
 
         
-        <a href="/2019/11/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" class="archive-article-date">
+        <a href="/2019/11/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" class="archive-article-date">
   	<time datetime="2019-11-21T06:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-21</time>
 </a>
         
@@ -183,16 +183,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一，什么是单点登录？"><a href="#一，什么是单点登录？" class="headerlink" title="一，什么是单点登录？"></a>一，什么是单点登录？</h1><p>官方介绍：单点登录，简称为<code>SSO</code>，是目前比较流行的企业业务整合的解决方案之一。<code>SSO</code>的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录，包括单点登录与单点注销两部分。</p>
+        <p>单点登录的实现！</p>
 <a id="more"></a>
 
+<h1 id="一，什么是单点登录？"><a href="#一，什么是单点登录？" class="headerlink" title="一，什么是单点登录？"></a>一，什么是单点登录？</h1><p>官方介绍：单点登录，简称为<code>SSO</code>，是目前比较流行的企业业务整合的解决方案之一。<code>SSO</code>的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。是指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录，包括单点登录与单点注销两部分。</p>
 <h2 id="1，单点登录实现的原理"><a href="#1，单点登录实现的原理" class="headerlink" title="1，单点登录实现的原理"></a>1，单点登录实现的原理</h2><p>以单个客户端访问单个服务端来讲，以下图为例！</p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574311887287.png" alt="1574311887287"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191121174516854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="2，会话机制"><a href="#2，会话机制" class="headerlink" title="2，会话机制"></a>2，会话机制</h2><p>1.浏览器在第一次访问<code>Tomcat</code>服务器的时候，<code>Tomcat</code>服务器会在服务端创建<code>session</code>对象,并存储到<code>map</code>中，<code>key</code>是<code>session</code>的<code>id</code>，<code>value</code>是session对象本身。</p>
 <p>2.在响应的时候会把<code>session</code>的<code>id</code>通过<code>cookie</code>的方式写到客户端浏览器中。</p>
 <p>3.浏览器会在本地的目录中把<code>session</code>的<code>id</code>写入到本地的<code>cookie</code>中。</p>
 <p>4.在后续的请求中,都会读取本地的<code>cookie</code>中的内容,并在请求的时候带上对应的<code>cookie</code>。</p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312168312.png" alt="1574312168312"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191121174536499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>有了会话机制，登录状态就好明白了，我们假设浏览器第一次请求服务器需要输入用户名与密码验证身份，服务器拿到用户名密码去数据库比对，正确的话说明当前持有这个会话的用户是合法用户，应该将这个会话标记为“已授权”或者“已登录”等等之类的状态，既然是会话的状态，自然要保存在会话对象中，<code>Tomcat</code>在会话对象中设置登录状态如下:</p>
  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">session.setAttribute(<span class="string">"isLogin"</span>, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 
@@ -200,7 +201,7 @@
  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">session.getAttribute(<span class="string">"isLogin"</span>);</span><br></pre></td></tr></table></figure>
 
 <p>实现了登录状态的浏览器请求服务器模型如下图描述</p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312326846.png" alt="1574312326846"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191121174545195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>每次请求受保护资源时都会检查会话对象中的登录状态，只有<code>isLogin=true</code>的会话才能访问，登录机制因此而实现。</p>
 <h2 id="3，多系统的复杂性"><a href="#3，多系统的复杂性" class="headerlink" title="3，多系统的复杂性"></a>3，多系统的复杂性</h2><p>随着公司的发展，公司内部使用的系统越来越多，但是对于使用系统的员工来说不是个好事情。</p>
 <pre><code>1.每个系统都需要记住对应的账号和密码，很多员工都是每个系统的账户和密码都一样的。
@@ -210,14 +211,14 @@
 3.如果不使用了,还需要分别在三个系统中依次的注销。</code></pre><p>有没有这样的功能：我只需要登录一次，公司里面所有的系统都可以使用，只需要注销一次,所有的系统都退出登录了，</p>
 <p>如果能实现这样的功能就非常好了！</p>
 <p>单系统登录解决方案的核心是<code>cookie</code>，<code>cookie</code>携带会话<code>id</code>在浏览器与服务器之间维护会话状态。但<code>cookie</code>是有限制的，这个限制就是<code>cookie</code>的域（通常对应网站的域名），浏览器发送<code>http</code>请求时会自动携带与该域匹配的<code>cookie</code>，而不是所有<code>cookie</code>。<font color="red">什么意思呢？就是每个域名下面都有属于自己的<code>cookie</code>域，如果是多个系统，那么就会有多个域名，而这些下面的<code>cookie</code>不能实现共享，只能各玩各的。</font></p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574312761667.png" alt="1574312761667"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191121174552631.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>既然这样，为什么不将web应用群中所有子系统的域名统一在一个顶级域名下，例如<code>*.baidu.com</code>，然后将它们的<code>cookie</code>域设置为<code>baidu.com</code>，这种做法理论上是可以的，甚至早期很多多系统登录就采用这种同域名共享<code>cookie</code>的方式。</p>
 <p>然而，可行并不代表好，共享<code>cookie</code>的方式存在众多局限。首先，应用群域名得统一；其次，应用群各系统使用的技术（至少是web服务器）要相同，不然<code>cookie</code>的<code>key</code>值（<code>tomcat</code>为<code>JSESSIONID</code>）不同，无法维持会话，共享<code>cookie</code>的方式是无法实现跨语言技术平台登录的，比如<code>java</code>、<code>php</code>、<code>.net</code>系统之间；第三，<code>cookie</code>本身不安全。</p>
 <p>因此，我们需要一种全新的登录方式来实现多系统应用群的登录，这就是单点登录！</p>
 <h2 id="4，单点登录的实现过程"><a href="#4，单点登录的实现过程" class="headerlink" title="4，单点登录的实现过程"></a>4，单点登录的实现过程</h2><p>相比于单系统登录，<code>sso</code>需要一个独立的认证中心，只有认证中心能接受用户的用户名密码等安全信息，其他系统不提供登录入口，只接受认证中心的间接授权。间接授权通过令牌实现，<code>sso</code>认证中心验证用户的用户名密码没问题，创建授权令牌，在接下来的跳转过程中，授权令牌作为参数发送给各个子系统，子系统拿到令牌，即得到了授权，可以借此创建局部会话，局部会话登录方式与单系统的登录方式相同。这个过程，也就是单点登录的原理，用下图说明。</p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574313084782.png" alt="1574313084782"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191121174559974.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="5，单点注销的实现过程"><a href="#5，单点注销的实现过程" class="headerlink" title="5，单点注销的实现过程"></a>5，单点注销的实现过程</h2><p>单点登录自然也要单点注销，在一个子系统中注销，所有子系统的会话都将被销毁，用下面的图来说明。</p>
-<p><img src="/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%5C1574313170533.png" alt="1574313170533"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019112117460518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h1 id="二，Http间的通信"><a href="#二，Http间的通信" class="headerlink" title="二，Http间的通信"></a>二，Http间的通信</h1><p><code>sso</code>认证中心与<code>sso</code>客户端通信方式有多种，这里以简单好用的<code>HttpURLConnection</code>为例，<code>webService</code>、<code>rpc</code>、<code>restful
 api</code>都可以。</p>
 <h2 id="1，HttpUrlConnection的简单实用"><a href="#1，HttpUrlConnection的简单实用" class="headerlink" title="1，HttpUrlConnection的简单实用"></a>1，HttpUrlConnection的简单实用</h2><p>在<code>JDK</code>的<code>java.net</code>包中已经提供了访问<code>HTTP</code>协议的基本功能的类：<code>HttpURLConnection</code>。</p>
@@ -227,11 +228,11 @@ api</code>都可以。</p>
 <p>1.拦截客户端的请求判断是否有局部的<code>session</code></p>
 <p> 2.1如果有局部的<code>session</code>，放行请求</p>
 <p> 2.2如果没有局部session</p>
-<pre><code>   2.2.1请求中有携带`token`参数
+<pre><code>   2.2.1请求中有携带token参数
 
-             2.2.1.1如果有，使用`HttpURLConnection`发送请求校验token是否有效
+             2.2.1.1如果有，使用HttpURLConnection发送请求校验token是否有效
 
-                           2.2.1.1.1如果`token`有效，建立局部的`session`
+                           2.2.1.1.1如果token有效，建立局部的session
 
 2.2.1.1.2如果`token`无效，重定向到统一认证中心页面进行登陆
 
@@ -240,34 +241,34 @@ api</code>都可以。</p>
   2.2.2请求中没有携带`token`参数，重定向到统一认证中心页面进行登陆</code></pre></blockquote>
 <h2 id="2，服务端操作"><a href="#2，服务端操作" class="headerlink" title="2，服务端操作"></a>2，服务端操作</h2><blockquote>
 <p>1.检测客户端在服务端是否已经登录了(<code>checkLogin</code>方法)</p>
-<pre><code>1.1获取`session`中的`token`
+<pre><code>1.1获取session中的token
 
- 1.2如果`token`不为空，说明服务端已经登录过了，此时重定向到客户端的地址，并把`token`带上
+ 1.2如果token不为空，说明服务端已经登录过了，此时重定向到客户端的地址，并把token带上
 
- 1.3如果`token`为空，跳转到统一认证中心的的登录页面，并把`redirectUrl`放入到`request`域中</code></pre><p>2.统一认证中心的登录方法(<code>login</code>方法)</p>
+ 1.3如果token为空，跳转到统一认证中心的的登录页面，并把redirectUrl放入到request域中</code></pre><p>2.统一认证中心的登录方法(<code>login</code>方法)</p>
 <pre><code>2.1判断用户提交的账号密码是否正确
 
 2.2如果正确
 
-        2.2.1创建`token`(可以使用`UUID`，保证唯一就可以)
+        2.2.1创建token(可以使用UUID，保证唯一就可以)
 
-        2.2.2把`token`放入到`session`中
+        2.2.2把token放入到session中
 
-        2.2.3这个`token`要知道有哪些客户端登陆了，创建`Map&lt;String,List&lt;String[]&gt; clientMap；`(为单点注销做准备)
+        2.2.3这个token要知道有哪些客户端登陆了，创建Map&lt;String,List&lt;String[]&gt; clientMap；(为单点注销做准备)
 
-   `SSOUtil.clientMap.put(token,new ArrayList())；`(把这些数据放入到数据库中也是可以的，我们就做比较简单的，模拟一下)
+   SSOUtil.clientMap.put(token,new ArrayList())；(把这些数据放入到数据库中也是可以的，我们就做比较简单的，模拟一下)
 
-        2.2.4转发到`redirectUrl`地址，把`token`带上
+        2.2.4转发到redirectUrl地址，把token带上
 
 2.3如果错误</code></pre><p>转发到<code>login.jsp</code>，还需要把<code>redirectUrl</code>参数放入到<code>request</code>域中</p>
 <p>3.统一认证中心认证<code>token</code>方法(<code>verify</code>方法)，返回值为<code>String</code>，贴<code>@ResponseBody</code></p>
-<pre><code>3.1如果`SSOUtil.clientMap.get(token)`有数据`clientList`，说明`token`是有效的
+<pre><code>3.1如果SSOUtil.clientMap.get(token)有数据clientList，说明token是有效的
 
-        3.1.1`clientList`把客户端传入的客户端登出地址(`clientLogOutUrl`)和会话ID(`jsessionid`)保存到集合中
+        3.1.1clientList把客户端传入的客户端登出地址(clientLogOutUrl)和会话ID(jsessionid)保存到集合中
 
-        3.1.2返回`true`字符串
+        3.1.2返回true字符串
 
-3.1如果`SSOUtil.clientMap.get(token)为null`，说明`token`是无效的,返回`false`字符串</code></pre></blockquote>
+3.1如果SSOUtil.clientMap.get(token)为null，说明token是无效的,返回false字符串</code></pre></blockquote>
 <h1 id="四，单点注销的实现步骤（语言描述）"><a href="#四，单点注销的实现步骤（语言描述）" class="headerlink" title="四，单点注销的实现步骤（语言描述）"></a>四，单点注销的实现步骤（语言描述）</h1><h2 id="1，客户端操作-1"><a href="#1，客户端操作-1" class="headerlink" title="1，客户端操作"></a>1，客户端操作</h2><blockquote>
 <p>在登陆的按钮链接写上统一认证中心的登出方法即可.</p>
 </blockquote>
@@ -276,11 +277,11 @@ api</code>都可以。</p>
 <h2 id="2，服务端操作-1"><a href="#2，服务端操作-1" class="headerlink" title="2，服务端操作"></a>2，服务端操作</h2><blockquote>
 <p>  1，编写<code>logOut</code>方法,调用<code>session.invalidate()</code></p>
 <p>  2，创建<code>session</code>的监听器,在<code>session</code>的监听器的销毁方法写如下逻辑</p>
-<pre><code>2.1，获取`session`中的`token`
+<pre><code>2.1，获取session中的token
 
-2.2，根据`token`在`SSOUtil.clientMap`获取所有客户端的登出地址和会话id
+2.2，根据token在SSOUtil.clientMap获取所有客户端的登出地址和会话id
 
-2.3，通过`HttpUtil`选项调用客户端的登出方法</code></pre><p>  3，将<code>session</code>监听器注册到<code>web.xml</code>中</p>
+2.3，通过HttpUtil选项调用客户端的登出方法</code></pre><p>  3，将<code>session</code>监听器注册到<code>web.xml</code>中</p>
 </blockquote>
 <h1 id="五，手写单点登录的实现"><a href="#五，手写单点登录的实现" class="headerlink" title="五，手写单点登录的实现"></a>五，手写单点登录的实现</h1>
       
@@ -351,7 +352,7 @@ api</code>都可以。</p>
     <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http:fantongxue666.github.io/2019/11/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://fantongxue666.github.io/2019/11/21/SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -506,6 +507,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">github</a>
               </li>
              
@@ -514,11 +519,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,11 +527,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,7 +543,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">thymeleaf</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,10 +552,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">文件上传</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -566,11 +567,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color4">socket编程</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">SSO单点登录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">SSO单点登录</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color4">socket编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -586,19 +587,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
