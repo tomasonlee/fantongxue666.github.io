@@ -28,7 +28,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191122230437167.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191122230440795.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191122230449899.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-11-24T06:04:04.377Z">
+<meta property="og:updated_time" content="2019-11-25T08:53:25.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191121174516854.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -217,7 +217,7 @@
 <h2 id="2，多系统的复杂性"><a href="#2，多系统的复杂性" class="headerlink" title="2，多系统的复杂性"></a>2，多系统的复杂性</h2><p>随着公司的发展，公司内部使用的系统越来越多，但是对于使用系统的员工来说不是个好事情。</p>
 <pre><code>1.每个系统都需要记住对应的账号和密码，很多员工都是每个系统的账户和密码都一样的。
 
-2.如果同时要使用`CRM`系统，`WMS`系统，`OA`系统，用户需要登录三次。
+2.如果同时要使用CRM系统，WMS系统，OA系统，用户需要登录三次。
 
 3.如果不使用了,还需要分别在三个系统中依次的注销。</code></pre><p>有没有这样的功能：我只需要登录一次，公司里面所有的系统都可以使用，只需要注销一次,所有的系统都退出登录了，</p>
 <p>如果能实现这样的功能就非常好了！</p>
@@ -245,11 +245,11 @@ api</code>都可以。</p>
 
                            2.2.1.1.1如果token有效，建立局部的session
 
-2.2.1.1.2如果`token`无效，重定向到统一认证中心页面进行登陆
+2.2.1.1.2如果token无效，重定向到统一认证中心页面进行登陆
 
              2.2.1.2如果没有，重定向到统一认证中心页面进行登陆
 
-  2.2.2请求中没有携带`token`参数，重定向到统一认证中心页面进行登陆</code></pre></blockquote>
+  2.2.2请求中没有携带token参数，重定向到统一认证中心页面进行登陆</code></pre></blockquote>
 <h2 id="2，服务端操作"><a href="#2，服务端操作" class="headerlink" title="2，服务端操作"></a>2，服务端操作</h2><blockquote>
 <p>1.检测客户端在服务端是否已经登录了(<code>checkLogin</code>方法)</p>
 <pre><code>1.1获取session中的token
