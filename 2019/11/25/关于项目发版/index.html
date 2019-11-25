@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="樊同学的博客">
 <meta property="og:description" content="项目发版的话，分为jar包和war包的形式。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-25T10:54:43.143Z">
+<meta property="og:updated_time" content="2019-11-25T10:59:14.583Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
@@ -195,8 +195,15 @@
 </blockquote>
 <p><font color="blue"><code>jar</code>打包命令锦囊</font></p>
 <blockquote>
-<p>java -jar test.jar                                         ##当前ssh窗口被锁定，可按CTRL + C打断程序运行，或直接关闭窗口，程序退出<br>java -jar test.jar &amp;                                     ##当前ssh窗口不被锁定，但是当窗口关闭时，程序中止运行。<br>nohup java -jar test.jar &amp;                        ##nohup意思是不挂断运行命令,当账户退出或终端关闭时,程序仍然运行。当用                                                                          nohup 命令执行作业时，缺省情况下该作业的所有输出被重定向到nohup.out的                                                                                   文件中，除非另外指定了输出文件。</p>
-<p>nohup java -jar test.war &gt; test.log &amp;     ##将输出打印到test.log文件中，不打印到屏幕上，若不指定文件，则默认打印到                                                                        nohup.out文件中<br>ps -ef|grep test.jar<br>ps -ef|grep java                                        ##查看当前运行的jar包程序进程号<br>kill -9 24204                                               ##杀掉jar包正在运行的进程（如果发版的话，先杀掉之前在后台运行的jar包，然后                                                                          启动现在的jar包）</p>
+<p> ##当前ssh窗口被锁定，可按CTRL + C打断程序运行，或直接关闭窗口，程序退出</p>
+<p>java -jar test.jar    </p>
+<p> ##当前ssh窗口不被锁定，但是当窗口关闭时，程序中止运行。<br>java -jar test.jar &amp;     </p>
+<p>##nohup意思是不挂断运行命令,当账户退出或终端关闭时,程序仍然运行。当用nohup 命令执行作业时，缺省情况下该作业的所有输出被重定向到nohup.out的文件中，除非另外指定了输出文件。<br>nohup java -jar test.jar &amp;          </p>
+<p>##将输出打印到test.log文件中，不打印到屏幕上，若不指定文件，则默认打印到nohup.out文件中              </p>
+<p>nohup java -jar test.war &gt; test.log &amp;     </p>
+<p> ##查看当前运行的jar包程序进程号</p>
+<p>ps -ef|grep test.jar<br>ps -ef|grep java            </p>
+<p>##杀掉jar包正在运行的进程（如果发版的话，先杀掉之前在后台运行的jar包，然后启动现在的jar包）<br>kill -9 24204                                               </p>
 </blockquote>
 
       
