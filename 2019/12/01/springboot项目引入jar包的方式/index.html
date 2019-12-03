@@ -19,7 +19,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191201111351111.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191201111402132.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191201111411904.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-12-03T02:42:33.212Z">
+<meta property="og:updated_time" content="2019-12-03T03:45:55.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191201111351111.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
@@ -192,7 +192,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><font color="#FF0 0FF">1，把该jar包引入到springboot项目的方式</font></p>
+        <p>1，把该jar包引入到springboot项目的方式</p>
 <a id="more"></a>
 
 <p>在<code>src</code>目录下新建一个<code>lib</code>目录，把<code>jar</code>包粘贴到该目录下，然后直接在<code>pom.xml</code>文件中加入以下依赖指向本地的该<code>jar</code>包位置即可。</p>
@@ -200,7 +200,7 @@
 
 <p>这样就可以使用该<code>jar</code>包了。<code>basedir</code>是自带变量，指的是当前项目的绝对路径，三围自己随便写。</p>
 <p>不过这样的话，如果项目打包，这个<code>jar</code>是打不进去的，如果想被打进去，还得在<code>pom.xml</code>文件中加入其他内容，这里不做解释。</p>
-<p><font color="#FF0 0FF">2，maven打包方式引入jar包的方式</font></p>
+<p>2，maven打包方式引入jar包的方式</p>
 <p>这里做一个示例，以<code>Sdk4J.jar</code>为例。</p>
 <p>下载之后解压，得到的是一个官方的<code>demo</code>实例，咱需要的就是<code>Sdk4J.jar</code>包。</p>
 <p><img src="https://img-blog.csdnimg.cn/20191201111351111.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
