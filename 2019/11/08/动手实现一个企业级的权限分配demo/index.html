@@ -6,14 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://fantongxue666.github.io">
-  <title>动手实现一个企业级的权限分配demo | 樊同学的博客</title>
+  <title>动手实现一个企业级的权限分配demo | 刻苦的樊同学</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="之前分析过一波权限分配，这里动手实现的思路部分参考之前的文章 角色权限分配（没有比这讲的更细了），之前分析的权限是在一个小型的酒店系统总结的，它里面使用的权限树是easyUI的Tree插件，这里我实现的是原生js操作的树，没有使用插件，所以js部分很繁琐，但是也没关系，重要的是练习对吧？">
 <meta name="keywords" content="权限">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动手实现一个企业级的权限分配demo">
 <meta property="og:url" content="https:&#x2F;&#x2F;fantongxue666.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E4%BC%81%E4%B8%9A%E7%BA%A7%E7%9A%84%E6%9D%83%E9%99%90%E5%88%86%E9%85%8Ddemo&#x2F;index.html">
-<meta property="og:site_name" content="樊同学的博客">
+<meta property="og:site_name" content="刻苦的樊同学">
 <meta property="og:description" content="之前分析过一波权限分配，这里动手实现的思路部分参考之前的文章 角色权限分配（没有比这讲的更细了），之前分析的权限是在一个小型的酒店系统总结的，它里面使用的权限树是easyUI的Tree插件，这里我实现的是原生js操作的树，没有使用插件，所以js部分很繁琐，但是也没关系，重要的是练习对吧？">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191019153517980.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
@@ -30,7 +30,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20191019153517980.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
   
-    <link rel="alternative" href="/atom.xml" title="樊同学的博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="刻苦的樊同学" type="application/atom+xml">
   
   
     <link rel="icon" href="/img/bitbug_favicon.ico">
@@ -104,6 +104,8 @@
 		        
 					<a class="zhihu" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
+					<a class="mail" href="https://blog.csdn.net/weixin_44001965" target="_blank" rel="noopener" title="mail"><i class="icon-mail"></i></a>
+		        
 			</div>
 		</nav>
 	</header>		
@@ -146,6 +148,8 @@
 						<a class="rss" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
 						<a class="zhihu" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" href="https://blog.csdn.net/weixin_44001965" target="_blank" rel="noopener" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
