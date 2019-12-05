@@ -63,6 +63,8 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
+				<li><a href="/categories">文章分类</a></li>
+	        
 				<li><a href="/test-html">博主小窝</a></li>
 	        
 				<li><a href="/zlxz">资料下载</a></li>
@@ -133,6 +135,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -155,13 +159,15 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
+					<li style="width: 20%"><a href="/archives/index.html">归档</a></li>
 		        
-					<li style="width: 25%"><a href="/test-html">博主小窝</a></li>
+					<li style="width: 20%"><a href="/categories">文章分类</a></li>
 		        
-					<li style="width: 25%"><a href="/zlxz">资料下载</a></li>
+					<li style="width: 20%"><a href="/test-html">博主小窝</a></li>
+		        
+					<li style="width: 20%"><a href="/zlxz">资料下载</a></li>
 		        
 				</ul>
 			</nav>
@@ -215,6 +221,37 @@
 <h1 id="6-发送验证码按钮时间倒计时代码"><a href="#6-发送验证码按钮时间倒计时代码" class="headerlink" title="　6.发送验证码按钮时间倒计时代码"></a>　6.发送验证码按钮时间倒计时代码</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> time = <span class="number">60</span>;</span><br><span class="line"><span class="keyword">var</span> t = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#sendss"</span>).prop(<span class="string">"disabled"</span>, <span class="literal">true</span>);</span><br><span class="line">    $(<span class="string">"#sendss"</span>).val((time--)+<span class="string">"秒后重新发送"</span>);</span><br><span class="line">    <span class="keyword">if</span> (time == <span class="number">0</span>) &#123;</span><br><span class="line">        $(<span class="string">"#sendss"</span>).prop(<span class="string">"disabled"</span>, <span class="literal">false</span>);</span><br><span class="line">        $(<span class="string">"#sendss"</span>).val(<span class="string">"发送验证码"</span>);</span><br><span class="line">        clearInterval(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢兄弟萌的支持<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/20191205131316449.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/2019120513132736.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -295,11 +332,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/08/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/08/%E6%B7%B1%E5%85%A5SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          FastDFS文件服务器的准备以及springboot上传文件到服务器
+          深入springCloud微服务
         
       </div>
     </a>
@@ -502,11 +539,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,7 +547,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -530,15 +563,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -566,7 +603,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -586,18 +623,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">文件上传和下载</a>
               </li>
              
@@ -606,15 +631,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
               </li>
              
               <li class="article-tag-list-item">

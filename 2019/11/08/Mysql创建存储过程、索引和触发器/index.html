@@ -63,6 +63,8 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
+				<li><a href="/categories">文章分类</a></li>
+	        
 				<li><a href="/test-html">博主小窝</a></li>
 	        
 				<li><a href="/zlxz">资料下载</a></li>
@@ -133,6 +135,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -155,13 +159,15 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
+					<li style="width: 20%"><a href="/archives/index.html">归档</a></li>
 		        
-					<li style="width: 25%"><a href="/test-html">博主小窝</a></li>
+					<li style="width: 20%"><a href="/categories">文章分类</a></li>
 		        
-					<li style="width: 25%"><a href="/zlxz">资料下载</a></li>
+					<li style="width: 20%"><a href="/test-html">博主小窝</a></li>
+		        
+					<li style="width: 20%"><a href="/zlxz">资料下载</a></li>
 		        
 				</ul>
 			</nav>
@@ -213,6 +219,37 @@
 <h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 触发器</span></span><br><span class="line"><span class="comment">-- 当某个增删改的sql语句执行时，会触发我们以前保存的某条sql语句，类似于监听，可以去监听某个表是否被增删改了，如果被增删改了就执行之前定义的sql语句。</span></span><br><span class="line"><span class="comment">-- 一个表有增删改，它最多有6个触发器：添加前、添加后、修改前、修改后、删除前、删除后</span></span><br><span class="line">语法：</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">trigger</span> 触发器名 <span class="keyword">after</span>|<span class="keyword">before</span> <span class="keyword">delete</span>|<span class="keyword">update</span>|<span class="keyword">insert</span> <span class="keyword">on</span></span><br><span class="line">	表名 <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line">	<span class="keyword">sql</span>语句（只能是增删改的语句）;</span><br><span class="line">	</span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line">	<span class="comment">-- 创建一个触发器</span></span><br><span class="line">	<span class="comment">-- 说明（当stu表被插入任何一条数据之后，执行触发器规定的sql语句，即修改address表的一个字段加1，如果是一个sql语句直接写，如果是两条或者以上，则要begin 和 end 进行包裹）</span></span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">trigger</span> tri_stu1 <span class="keyword">after</span> <span class="keyword">INSERT</span> <span class="keyword">on</span> stu <span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line">	<span class="keyword">begin</span></span><br><span class="line">	<span class="keyword">update</span> address <span class="keyword">set</span> moren = moren + <span class="number">1</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">update</span> address <span class="keyword">set</span> moren = moren + <span class="number">1</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">-- 去修改，进行测试</span></span><br><span class="line">	<span class="keyword">insert</span> <span class="keyword">into</span> stu <span class="keyword">VALUES</span>(<span class="number">6</span>,<span class="string">'东方不败'</span>,<span class="number">100</span>,<span class="string">'传说'</span>,<span class="keyword">NOW</span>());</span><br><span class="line">	</span><br><span class="line">	<span class="comment">-- 查看触发器</span></span><br><span class="line">	<span class="keyword">show</span> <span class="keyword">triggers</span>;</span><br><span class="line">	<span class="comment">-- 删除触发器</span></span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">trigger</span> tri_stu1;</span><br></pre></td></tr></table></figure>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢兄弟萌的支持<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/20191205131316449.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/2019120513132736.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -500,11 +537,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,7 +545,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -528,15 +561,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -564,7 +601,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -584,18 +621,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">文件上传和下载</a>
               </li>
              
@@ -604,15 +629,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
               </li>
              
               <li class="article-tag-list-item">

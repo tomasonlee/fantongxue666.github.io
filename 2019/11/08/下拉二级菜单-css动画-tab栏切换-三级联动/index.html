@@ -65,6 +65,8 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
+				<li><a href="/categories">文章分类</a></li>
+	        
 				<li><a href="/test-html">博主小窝</a></li>
 	        
 				<li><a href="/zlxz">资料下载</a></li>
@@ -135,6 +137,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -157,13 +161,15 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
+					<li style="width: 20%"><a href="/archives/index.html">归档</a></li>
 		        
-					<li style="width: 25%"><a href="/test-html">博主小窝</a></li>
+					<li style="width: 20%"><a href="/categories">文章分类</a></li>
 		        
-					<li style="width: 25%"><a href="/zlxz">资料下载</a></li>
+					<li style="width: 20%"><a href="/test-html">博主小窝</a></li>
+		        
+					<li style="width: 20%"><a href="/zlxz">资料下载</a></li>
 		        
 				</ul>
 			</nav>
@@ -226,6 +232,37 @@
 <h1 id="三级联动"><a href="#三级联动" class="headerlink" title="三级联动"></a>三级联动</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    $.post(</span></span><br><span class="line"><span class="actionscript">    <span class="string">"city/first"</span>,</span></span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span><span class="params">(data)</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> tempArr=<span class="string">""</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">if</span>(data!=<span class="string">""</span>)&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;data.length;i++)&#123;</span></span><br><span class="line"><span class="actionscript">    tempArr+=<span class="string">"&lt;option value='"</span>+data[i].code+<span class="string">"'&gt;"</span>+data[i].name+<span class="string">"&lt;/option&gt;"</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    $(<span class="string">"#province"</span>).append(tempArr);</span></span><br><span class="line">    &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"><span class="actionscript">    <span class="string">"json"</span></span></span><br><span class="line">    );</span><br><span class="line"><span class="javascript">$(<span class="string">"#province"</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> pId=$(<span class="keyword">this</span>).val();</span></span><br><span class="line">    getCitys(pId);</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="javascript">    $(<span class="string">"#city"</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> cId=$(<span class="keyword">this</span>).val();</span></span><br><span class="line">    getAreas(cId);</span><br><span class="line">    &#125;);</span><br><span class="line">    getCitys(110000);</span><br><span class="line">    getAreas(110100);</span><br><span class="line">&#125;);   </span><br><span class="line"><span class="actionscript"><span class="comment">//-----------------------------------</span></span></span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span> <span class="title">getCitys</span><span class="params">(pId)</span></span>&#123;</span></span><br><span class="line"><span class="javascript">    $.post(</span></span><br><span class="line"><span class="actionscript">    <span class="string">"city/second"</span>,</span></span><br><span class="line">    &#123;provinceId:pId&#125;,</span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span><span class="params">(data)</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> tempArr=<span class="string">""</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">if</span>(data!=<span class="string">""</span>)&#123;</span></span><br><span class="line"><span class="javascript">    $(<span class="string">"#city"</span>).empty();</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;data.length;i++)&#123;</span></span><br><span class="line"><span class="actionscript">    tempArr+=<span class="string">"&lt;option value='"</span>+data[i].code+<span class="string">"'&gt;"</span>+data[i].name+<span class="string">"&lt;/option&gt;"</span>;   </span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    $(<span class="string">"#city"</span>).append(tempArr);</span></span><br><span class="line">    getCitys(data[0].code);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"><span class="actionscript">    <span class="string">"json"</span></span></span><br><span class="line">    );</span><br><span class="line">    &#125;</span><br><span class="line"><span class="actionscript"><span class="comment">//-----------------------------</span></span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">getAreas</span><span class="params">(cId)</span></span>&#123;</span></span><br><span class="line"><span class="javascript">$.post(</span></span><br><span class="line"><span class="actionscript"><span class="string">"city/third"</span>,</span></span><br><span class="line">&#123;cityId:cId&#125;,</span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span><span class="params">(data)</span></span>&#123;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> tempArr=<span class="string">""</span>;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">if</span>(data!=<span class="string">""</span>)&#123;</span></span><br><span class="line"><span class="javascript">$(<span class="string">"#area"</span>).empty();</span></span><br><span class="line"><span class="actionscript"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;data.length;i++)&#123;</span></span><br><span class="line"><span class="actionscript">tempArr+=<span class="string">"&lt;option value='"</span>+data[i].code+<span class="string">"'&gt;"</span>+data[i].name+<span class="string">"&lt;/option&gt;"</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript">$(<span class="string">"#area"</span>).append(tempArr);</span></span><br><span class="line">getAreas(data[0].code);</span><br><span class="line">&#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="actionscript"><span class="string">"json"</span></span></span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">center</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>选择省：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"province"</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>选择市：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"city"</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>选择区：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"area"</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">center</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢兄弟萌的支持<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/20191205131316449.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="https://img-blog.csdnimg.cn/2019120513132736.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDAwMTk2NQ==,size_16,color_FFFFFF,t_70">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -513,11 +550,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,7 +558,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">POI编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -541,15 +574,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">websocket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">jquery</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">c3p0连接池</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -577,7 +614,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">fastDFS服务器</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,18 +634,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">文件上传和下载</a>
               </li>
              
@@ -617,15 +642,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">oracle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">第三方接口</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">gbase</a>
               </li>
              
               <li class="article-tag-list-item">
