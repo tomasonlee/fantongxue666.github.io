@@ -57,10 +57,20 @@
 
 <body>
   <div id="container" q-class="show:isCtnShow">
+  <a class="fork" href="https://github.com/you" target="_blank" rel="noopener"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_orange_ff7600.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+  <style>
+    .fork{display:none;}
+    .fork{position:fixed;
+             z-index:999;
+             top:0;
+             right:.5em
+    }
+    @media(min-width:768px){.fork{display:inline;}}
+</style>
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
     <div class="left-col" q-class="show:isShow">
       
-<div class="overlay" style="background: url(https://img-blog.csdnimg.cn/20191209091921246.gif)"></div>
+<div class="overlay" style="background: #4d4d4d"></div>
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
@@ -171,7 +181,7 @@
     <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
       
 <nav id="mobile-nav">
-  	<div class="overlay js-overlay" style="background: url(https://img-blog.csdnimg.cn/20191209091921246.gif)"></div>
+  	<div class="overlay js-overlay" style="background: #4d4d4d"></div>
 	<div class="btnctn js-mobile-btnctn">
   		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
 	</div>
@@ -236,7 +246,6 @@
 </nav>
 
       <div id="wrapper" class="body-wrap">
-	  	<a style="position:absolute;top:0px;right:0px;z-index:1;" href="https://github.com/fantongxue666" target="_blank" rel="noopener"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_orange_ff7600.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
 
         <div class="menu-l">
           <div class="canvas-wrap">
